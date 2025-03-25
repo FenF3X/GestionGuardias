@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 01-12-2024 a las 12:13:05
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 25-03-2025 a las 13:38:45
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -83,6 +83,21 @@ INSERT INTO `aules` (`codi`, `aula`) VALUES
 ('D15', 'D15'),
 ('PATI', 'PATI'),
 ('SALAACT', 'SALAACT');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ausencias`
+--
+
+CREATE TABLE `ausencias` (
+  `id` int(11) NOT NULL,
+  `nif_profe` varchar(10) NOT NULL,
+  `fecha` date NOT NULL,
+  `hora_inicio` time NOT NULL,
+  `hora_fin` time NOT NULL,
+  `justificada` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -2884,6 +2899,41 @@ INSERT INTO `plantilles_horari` (`codi`, `descripcio_cas`, `descripcio_val`) VAL
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `registro_guardias`
+--
+
+CREATE TABLE `registro_guardias` (
+  `id` int(11) NOT NULL,
+  `horario_grupo` varchar(255) NOT NULL,
+  `fecha` date NOT NULL,
+  `docente_ausente` varchar(10) NOT NULL,
+  `docente_guardia` varchar(10) NOT NULL,
+  `aula` varchar(10) NOT NULL,
+  `grupo` varchar(10) NOT NULL,
+  `contenido` varchar(10) NOT NULL,
+  `sesion_orden` varchar(2) NOT NULL,
+  `dia_semana` char(1) NOT NULL,
+  `hora_inicio` time NOT NULL,
+  `hora_fin` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `registro_jornada`
+--
+
+CREATE TABLE `registro_jornada` (
+  `id` int(11) NOT NULL,
+  `nif_profe` varchar(10) NOT NULL,
+  `fecha` date NOT NULL,
+  `hora_inicio` time NOT NULL,
+  `hora_fin` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `sessions_horari`
 --
 
@@ -2987,6 +3037,19 @@ INSERT INTO `sessions_horari` (`id`, `plantilla`, `dia_setmana`, `sessio_orde`, 
 (84, '366781135', 'V', '12', '20:00', '20:50'),
 (85, '366781135', 'V', '13', '20:50', '21:40');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `nif_profe` varchar(10) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `rol` enum('admin','profesor') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+
 --
 -- Índices para tablas volcadas
 --
@@ -2996,6 +3059,12 @@ INSERT INTO `sessions_horari` (`id`, `plantilla`, `dia_setmana`, `sessio_orde`, 
 --
 ALTER TABLE `aules`
   ADD PRIMARY KEY (`codi`);
+
+--
+-- Indices de la tabla `ausencias`
+--
+ALTER TABLE `ausencias`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `continguts`
@@ -3040,14 +3109,38 @@ ALTER TABLE `plantilles_horari`
   ADD PRIMARY KEY (`codi`);
 
 --
+-- Indices de la tabla `registro_guardias`
+--
+ALTER TABLE `registro_guardias`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `registro_jornada`
+--
+ALTER TABLE `registro_jornada`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `sessions_horari`
 --
 ALTER TABLE `sessions_horari`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `ausencias`
+--
+ALTER TABLE `ausencias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `horari_grup`
@@ -3062,10 +3155,28 @@ ALTER TABLE `horari_ocupacions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=640;
 
 --
+-- AUTO_INCREMENT de la tabla `registro_guardias`
+--
+ALTER TABLE `registro_guardias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `registro_jornada`
+--
+ALTER TABLE `registro_jornada`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `sessions_horari`
 --
 ALTER TABLE `sessions_horari`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
