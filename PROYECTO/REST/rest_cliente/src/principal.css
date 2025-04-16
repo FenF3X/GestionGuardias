@@ -1,0 +1,208 @@
+/* ===========================
+   REGLAS GENERALES
+=========================== */
+
+
+  /* ===========================
+     NAVBAR PERSONALIZADA
+  =========================== */
+
+  .navbar-custom {
+    background: linear-gradient(135deg, #0f1f2d, #18362f);
+    padding: 10px 0;
+  }
+
+  /* Centrado del logo */
+  .navbar-brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+  }
+
+  /* Imagen del logo */
+  .navbar-brand img {
+    height: 60px;
+    object-fit: contain;
+  }
+
+  /* Centrar los enlaces en pantallas grandes */
+  .navbar-nav {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  /* Estilo de los enlaces de navegación */
+  .navbar-nav .nav-link {
+    color: white !important;
+    font-weight: bold;
+  }
+
+  /* Hover de los enlaces */
+  .navbar-nav .nav-link:hover {
+    color: #8fe3b3 !important;
+  }
+
+  /* Texto de bienvenida */
+  #bienvenida {
+    color: white !important;
+    font-weight: bold;
+    margin: 0;
+  }
+
+
+  .dropdown-menu li {
+    color: white;
+    font-weight: bold;
+  }
+
+  .dropdown-menu .dropdown-item {
+    color: white !important;
+    font-weight: bold;
+    background-color: transparent !important;
+    transition: color 0.3s ease;
+  }
+
+  .dropdown-menu .dropdown-item:hover {
+    background-color: transparent !important;
+    color: #d0f0ff !important; /* blanco azulado más claro */
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    background: linear-gradient(135deg, #0f1f2d, #18362f);
+  }
+
+  /* ===========================
+     ZONA CENTRAL (Perfil + Horario)
+  =========================== */
+
+  #medio {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  /* Contenedor de perfil y texto */
+  #info {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Lista de información del usuario */
+  #info ul {
+    list-style: none;
+    margin-left: 20px;
+    padding: 0;
+  }
+
+  /* Foto de perfil */
+  #info img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  /* Tabla del horario */
+  #horario table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  #horario th, #horario td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+
+  /* ===========================
+     BOTONES DE FICHAJE
+  =========================== */
+
+  .botones-fichaje {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  /* Botón estilo moderno */
+  .btn-fichar {
+    font-weight: 600;
+    font-size: 18px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0f1f2d, #18362f);
+    border: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  /* Hover del botón de fichar */
+  .btn-fichar:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* ===========================
+     ALERTAS / MENSAJES
+  =========================== */
+
+  .alert {
+    padding: 10px 16px;
+    font-size: 15px;
+    border-radius: 8px;
+    transition: opacity 0.5s ease;
+  }
+  .foto-circular {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #004545;
+  }
+
+  /* Accion subir foto*/
+  .foto-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.foto-wrapper .foto-circular {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #004545;
+  cursor: pointer;
+}
+
+.foto-hover {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.overlay-text {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.foto-hover:hover .overlay-text {
+  opacity: 1;
+}
+
