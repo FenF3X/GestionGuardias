@@ -1,0 +1,21 @@
+  /* Estilo específico para el formulario */
+  .form-contenedor {
+    max-width: 800px;
+    margin: 50px auto;
+}
+
+.form-contenedor .form-group {
+    margin-bottom: 20px;
+}
+
+.form-contenedor .btn {
+    width: 100%;
+}
+.table-responsive {
+    max-width: 800px; /* ajusta el ancho máximo según prefieras */
+    margin: 0 auto; /* centra la tabla horizontalmente */
+  }
+
+  .table th, .table td {
+    white-space: nowrap; /* evita que el contenido se desborde en múltiples líneas */
+  }

@@ -126,14 +126,20 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
 
 <div class="container mt-5 tabla2PDF">
 
-  <h2 class="mb-4 text-center">📊 Informe filtrado por <?= htmlspecialchars($tipo) ?></h2>
+<div class="mb-4 text-center d-flex justify-content-center align-items-center" id="tituloInforme">
+  <img id="iconoInforme" src="../src/images/icono-informe.png" alt="Informe" style="height: 24px; margin-right: 8px;">
+  <span style="font-size: 20px;">Informe filtrado por <?= htmlspecialchars($tipo) ?></span>
+</div>
 
+
+  
   <div class="table-responsive">
     <table class="table table-bordered table-striped text-center align-middle">
     <thead>
         <tr>
             <th>Fecha</th>
             <th>Profesor ausente</th>
+            <th>Profesor guardia</th>
             <th>Aula</th>
             <th>Grupo</th>
             <th>Asignatura</th>
@@ -166,8 +172,79 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
 </button>
 <img id="footerLogo" src="../src/images/logoenUno.png" alt="Imagen PDF" style="display:none; max-width: 250px;">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="../src/exportarAPDF.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script>
+ document.getElementById("exportarPDF").addEventListener("click", () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
 
+  const footerLogo = document.getElementById("footerLogo");
+  const imgFooter = new Image();
+  imgFooter.src = footerLogo.src;
+
+  const iconoInforme = document.getElementById("iconoInforme");
+  const iconoImg = new Image();
+  iconoImg.src = iconoInforme.src;
+
+  iconoImg.onload = function () {
+    const pageWidth = doc.internal.pageSize.getWidth();
+
+    const iconW = 10;
+    const iconH = 10;
+    const spacing = 4;
+    const texto = "Informe filtrado por " + <?= json_encode($tipo) ?>;
+
+    doc.setFontSize(14);
+    const textWidth = doc.getTextWidth(texto);
+    const totalWidth = iconW + spacing + textWidth;
+    const startX = (pageWidth - totalWidth) / 2;
+    const iconY = 20;
+    const textY = iconY + 7;
+
+    // Dibujar icono y texto centrados
+    doc.addImage(iconoImg, 'PNG', startX, iconY, iconW, iconH);
+    doc.text(texto, startX + iconW + spacing, textY);
+
+    // Extraer datos de la tabla
+    const table = document.querySelector("table");
+    const head = [];
+    const body = [];
+
+    table.querySelectorAll("thead tr").forEach(tr => {
+      const row = [];
+      tr.querySelectorAll("th").forEach(th => row.push(th.textContent.trim()));
+      head.push(row);
+    });
+
+    table.querySelectorAll("tbody tr").forEach(tr => {
+      const row = [];
+      tr.querySelectorAll("td").forEach(td => row.push(td.textContent.trim()));
+      body.push(row);
+    });
+
+    // Dibujar la tabla
+    doc.autoTable({
+      head: head,
+      body: body,
+      startY: 35,
+      margin: { top: 30, bottom: 25 },
+      styles: { fontSize: 8, halign: 'center', cellPadding: 2 },
+      headStyles: { fillColor: [15, 31, 45] },
+      didDrawPage: function () {
+        const pageHeight = doc.internal.pageSize.height;
+        const imgWidth = 40;
+        const imgHeight = 15;
+        const x = (doc.internal.pageSize.width - imgWidth) / 2;
+        const y = pageHeight - imgHeight - 5;
+        doc.addImage(imgFooter, 'PNG', x, y, imgWidth, imgHeight);
+      }
+    });
+
+    doc.save("informe-filtrado.pdf");
+  };
+});
+
+</script>
 </body>
 </html>

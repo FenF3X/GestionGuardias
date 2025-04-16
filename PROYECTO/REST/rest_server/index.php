@@ -92,19 +92,19 @@ if ($metodo === 'GET') {
         switch ($tipo) {
             case 'dia':
                 $fecha = $_GET['fecha'];
-                $sql = "SELECT fecha,nombreProfe, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin) 
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin) 
                  FROM  registro_guardias WHERE  fecha = '$fecha'; ";
                 break;
             case 'semana':  
                 $diaSemana = $_GET['semana'];
                 $inicioSemana = date('Y-m-d', strtotime('monday this week', strtotime($diaSemana)));
                 $finSemana = date('Y-m-d', strtotime('sunday this week', strtotime($diaSemana)));
-                $sql = "SELECT fecha,nombreProfe, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin)
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin)
                  FROM registro_guardias WHERE fecha BETWEEN '$inicioSemana' AND '$finSemana'";
                 break;
             case 'mes':
                 $mes = $_GET['mes'];
-                $sql = "SELECT fecha,nombreProfe, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin)
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin)
                  FROM registro_guardias WHERE DATE_FORMAT(fecha, '%Y-%m') = '$mes'";
                  break;
             case 'trimestre':
@@ -119,18 +119,18 @@ if ($metodo === 'GET') {
                     $inicio = "2025-04-29";
                     $fin = "2025-06-21";
                 }
-                $sql = "SELECT fecha,nombreProfe, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin) 
+                $sql = "SELECT fecha,nombreProfe, nombreProfeReempl,aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin) 
                 FROM registro_guardias WHERE fecha BETWEEN '$inicio' AND '$fin'";
                 break;
             case 'docent':
                     $docente = $_GET['docente'] ?? '';
-                    $sql = "SELECT fecha,nombreProfe, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin)
+                    $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin)
                      FROM registro_guardias WHERE docente_guardia = '$docente'";
                 break;
             case 'curs':
                 $inicio = "2024-09-09";
                 $fin = "2025-06-21";
-                $sql = "SELECT fecha,nombreProfe, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin)
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin)
                  FROM registro_guardias WHERE fecha BETWEEN '$inicio' AND '$fin'";
                 break;
             default:
@@ -376,7 +376,15 @@ elseif ($metodo === 'POST') {
         $documentCubierto = $datos["document"];
         $cubiertoAus = $datos["cubierto"];
     
-        $sql = "UPDATE ausencias SET cubierto = '$cubiertoAus' WHERE sesion = '$sesionAus' AND document = '$documentAus'";
+        $sql = "UPDATE ausencias 
+        SET 
+            cubierto = '$cubiertoAus', 
+            NombreRemp = (
+                SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2)
+                FROM docent 
+                WHERE document = '$documentCubierto'
+            )
+        WHERE sesion = '$sesionAus' AND document = '$documentAus'";
         $resultadoAsignar = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
         $funcional = false;
     
@@ -394,6 +402,7 @@ elseif ($metodo === 'POST') {
                 $sesion = $resinsertinforme[0][7];
                 $document = $resinsertinforme[0][8];
                 $fecha = $resinsertinforme[0][12];
+                $nombreGuardia = $resinsertinforme[0][14];
     
                 // Obtener nombre del docente ausente
                 $sqlNombre = "SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2) AS nombreProfe FROM docent WHERE document = '$document'";
@@ -406,9 +415,9 @@ elseif ($metodo === 'POST') {
     
                 if (is_array($existe) && $existe[0][0] == 0) {
                     $sqlInforme = "INSERT INTO registro_guardias 
-                        (fecha, docente_ausente, nombreProfe, docente_guardia, aula, grupo, asignatura, sesion_orden, dia_semana, hora_inicio, hora_fin) 
+                        (fecha, docente_ausente, nombreProfe, docente_guardia,nombreProfeReempl ,aula, grupo, asignatura, sesion_orden, dia_semana, hora_inicio, hora_fin) 
                         VALUES 
-                        ('$fecha', '$document', '$nombreProfe', '$documentCubierto', '$aula', '$grupo', '$asignatura', '$sesion', '$dia', '$hora_inicio', '$hora_fin')";
+                        ('$fecha', '$document', '$nombreProfe', '$documentCubierto','$nombreGuardia' ,'$aula', '$grupo', '$asignatura', '$sesion', '$dia', '$hora_inicio', '$hora_fin')";
     
                     $resultadoInforme = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlInforme);
     
