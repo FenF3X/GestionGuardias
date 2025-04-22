@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=AsistGuard
+Comment=Abrir http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/login.php
+Exec=xdg-open http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/login.php
+Icon=/opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_cliente/src/images/favicon.png
+Terminal=false
