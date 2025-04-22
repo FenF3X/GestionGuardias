@@ -5,7 +5,7 @@
  * Toma la $URL y el método GET, POTS, PUT o DELETE
  * y opcionalmente parámetros para el paso tipo POST
  */
-DEFINE("URL", "http://localhost/REST/rest_server/index.php");
+DEFINE("URL", "http://localhost/GestionGuardias/PROYECTO/REST/rest_server/index.php");
 function curl_conexion($url, $metodo = 'GET', $datos = null, $headers = null) {
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -172,10 +172,10 @@ foreach ($horasDisponibles as $hora) {
     foreach ($_SESSION['historial'] as $registro): ?>
       <tr>
         <td><?= htmlspecialchars(date('d-m-Y', strtotime($registro[1] ?? '-'))); ?></td>
-        <td><?= htmlspecialchars($registro[8] ?? '-'); ?></td>
-        <td><?= htmlspecialchars($registro[5] ?? '-'); ?></td>
+        <td><?= htmlspecialchars($registro[9] ?? '-'); ?></td>
         <td><?= htmlspecialchars($registro[6] ?? '-'); ?></td>
-        <td><?php echo htmlspecialchars($registro[7] ?? '-'); ?></td>
+        <td><?= htmlspecialchars($registro[7] ?? '-'); ?></td>
+        <td><?php echo htmlspecialchars($registro[8] ?? '-'); ?></td>
         <td><?= htmlspecialchars($registro[3] ?? '-'); ?></td>
       </tr>
     <?php endforeach; ?>

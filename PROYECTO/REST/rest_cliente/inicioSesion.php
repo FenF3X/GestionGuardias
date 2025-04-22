@@ -14,6 +14,8 @@ if (isset($_POST["validar"])) {
         ];
 
         $response = curl_conexion(URL, "POST", $params);
+        error_log("RESPUESTA DEL SERVIDOR: " . $response);  // <-- Esto te ayudará a ver si hay algo mal
+
         $resp = json_decode($response, true);
 
         if ($resp && isset($resp["loggeado"])) {
@@ -56,7 +58,7 @@ if (isset($_POST["validar"])) {
                 exit;
             }
         } else {
-            $_SESSION["error_login"] = "Respuesta inesperada del servidor.";
+            $_SESSION["error_login"] = "No validado";
             header("Location: login.php");
             exit;
         }
