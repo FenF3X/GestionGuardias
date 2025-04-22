@@ -25,6 +25,7 @@ unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
     <title>Pagina principal de <?php echo htmlspecialchars($nombre); ?></title>
     <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../src/principal.css">
+    <link rel="stylesheet" href="../src/reloj.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <style>
@@ -131,20 +132,21 @@ unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
         <div class="foto-wrapper me-4">
             <img src="../src/images/default.jpg" alt="Foto de perfil" class="foto-circular">
         </div>
-
         <div class="info-usuario text-start">
             <p><strong>Documento:</strong> <?php echo htmlspecialchars($documento); ?></p>
             <p><strong>Nombre:</strong> <?php echo htmlspecialchars($nombre); ?></p>
             <p><strong>Rol:</strong> <?php echo htmlspecialchars($rol); ?></p>
         </div>
-    </div>
-    <?php if ($mensaje): ?>
-        <div class="alert-container">
-            <div class="alert alert-<?php echo htmlspecialchars($mensaje['type']); ?> text-center" id="mensajeAlert">
-                <?php echo htmlspecialchars($mensaje['text']); ?>
+        <!-- Reloj -->
+        <div id="clock" class="clock-container">
+            <div id="analog-clock">
+                <div id="hour-hand" class="hand"></div>
+                <div id="minute-hand" class="hand"></div>
+                <div id="second-hand" class="hand"></div>
+                <div id="center-point"></div>
             </div>
         </div>
-    <?php endif; ?>
+    </div>
 </main>
 
 <section>
@@ -244,6 +246,6 @@ unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
     };
     });
 </script>
-
+<script src="../src/reloj.js"></script>
 </body>
 </html>

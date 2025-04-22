@@ -112,14 +112,23 @@ $horasDisponibles = json_decode($response, TRUE);
         <div class="foto-wrapper me-4">
             <img src="../src/images/default.jpg" alt="Foto de perfil" class="foto-circular">
         </div>
-
         <div class="info-usuario text-start">
             <p><strong>Documento:</strong> <?php echo htmlspecialchars($documento); ?></p>
             <p><strong>Nombre:</strong> <?php echo htmlspecialchars($nombre); ?></p>
             <p><strong>Rol:</strong> <?php echo htmlspecialchars($rol); ?></p>
         </div>
+        <!-- Reloj -->
+        <div id="clock" class="clock-container">
+            <div id="analog-clock">
+                <div id="hour-hand" class="hand"></div>
+                <div id="minute-hand" class="hand"></div>
+                <div id="second-hand" class="hand"></div>
+                <div id="center-point"></div>
+            </div>
+        </div>
     </div>
 </main>
+
 <section>
 <div class="container mt-4">
 <h4 class="mb-3">Guardias realizadas</h4>
@@ -129,7 +138,7 @@ $horasDisponibles = json_decode($response, TRUE);
             <div class="flex-fill">
                 <label for="fecha" class="form-label">Fecha:</label>
                 
-                <input type="date" id="fecha" name="fecha" class="form-control">
+                <input type="date" id="fecha" name="fecha" class="form-control" value="<?php echo date('Y-m-d');?>">
                 </div>
             <div class="flex-fill">
                 <label for="hora" class="form-label">Sesión:</label>
