@@ -205,3 +205,6 @@
 .foto-hover:hover .overlay-text {
   opacity: 1;
 }
+footer.custom-footer {
+  background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
+}

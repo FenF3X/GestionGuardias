@@ -48,7 +48,13 @@ if (isset($_POST["validar"])) {
                 $resp_get = curl_conexion($url_get, "GET");
                 $sesiones = json_decode($resp_get, true);
 
-                $_SESSION["sesiones_hoy"] = is_array($sesiones) ? $sesiones : [];
+                if (isset($sesiones) && !empty($sesiones) && is_array($sesiones)) {
+                    $_SESSION["sesiones_hoy"] = $sesiones;
+                } else {
+                    unset($_SESSION["sesiones_hoy"]);
+                    $_SESSION["alertSinSesiones"] = "No hay sesiones";
+                }
+
 
                 header("Location: vistas/dashboard.php");
                 exit;

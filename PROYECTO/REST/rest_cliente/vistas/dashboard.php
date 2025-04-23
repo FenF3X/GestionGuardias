@@ -9,13 +9,15 @@ $nombre = $_SESSION['nombre'];
 $documento = $_SESSION['document'];
 $mensaje = isset($_SESSION['mensaje']) ? $_SESSION['mensaje'] : null;
 if (isset($_SESSION['registro_exitoso']) && $_SESSION['registro_exitoso']) {
-  // Eliminar la variable de sesión después de usarla
   unset($_SESSION['registro_exitoso']);
-  $mostrarModal = true; // Establecer una variable para mostrar el modal en JavaScript
+  $mostrarModal = true; 
 } else {
   $mostrarModal = false;
 }
-unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
+unset($_SESSION['mensaje']); 
+if (isset($_SESSION["alertSinSesiones"])) {
+  unset($_SESSION["sesiones_hoy"]);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +27,6 @@ unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
     <title>Pagina principal de <?php echo htmlspecialchars($nombre); ?></title>
     <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../src/principal.css">
-    <link rel="stylesheet" href="../src/reloj.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <style>
@@ -47,6 +48,7 @@ unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
             white-space: normal; /* Permite que el texto se divida en varias líneas */
             word-wrap: break-word; /* Rompe las palabras largas que no caben en una línea */
         }
+        
     </style>
 </head>
 <body>
@@ -132,21 +134,20 @@ unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
         <div class="foto-wrapper me-4">
             <img src="../src/images/default.jpg" alt="Foto de perfil" class="foto-circular">
         </div>
+
         <div class="info-usuario text-start">
             <p><strong>Documento:</strong> <?php echo htmlspecialchars($documento); ?></p>
             <p><strong>Nombre:</strong> <?php echo htmlspecialchars($nombre); ?></p>
             <p><strong>Rol:</strong> <?php echo htmlspecialchars($rol); ?></p>
         </div>
-        <!-- Reloj -->
-        <div id="clock" class="clock-container">
-            <div id="analog-clock">
-                <div id="hour-hand" class="hand"></div>
-                <div id="minute-hand" class="hand"></div>
-                <div id="second-hand" class="hand"></div>
-                <div id="center-point"></div>
+    </div>
+    <?php if ($mensaje): ?>
+        <div class="alert-container">
+            <div class="alert alert-<?php echo htmlspecialchars($mensaje['type']); ?> text-center" id="mensajeAlert">
+                <?php echo htmlspecialchars($mensaje['text']); ?>
             </div>
         </div>
-    </div>
+    <?php endif; ?>
 </main>
 
 <section>
@@ -176,7 +177,6 @@ unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
               <td><?= htmlspecialchars($sesion[4] ?? '-') ?></td>
               <td><?= htmlspecialchars($sesion[3] ?? '-') ?></td>
               <td><?= htmlspecialchars($sesion[6] ?? '-') ?></td>
-
             </tr>
           <?php endforeach; ?>
         </tbody>
@@ -193,11 +193,12 @@ unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
     </div>
   </div>
 <?php else: ?>
+  
+  <!-- Mostrar alerta si no hay sesiones -->
   <div class="alert alert-info mt-4 text-center mx-auto" style="max-width: 600px;">
-  Hoy no tienes sesiones asignadas.
-</div>
+    No tienes sesiones asignadas para hoy.
+  </div>
 <?php endif; ?>
-
 </section>
 <!-- Modal de confirmación -->
 <div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
@@ -216,6 +217,25 @@ unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
     </div>
   </div>
 </div>
+<footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
+  <div class="container text-center">
+    <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
+    <p>
+      <a href="https://www.instagram.com/" style="color: white; text-decoration: none;">
+        <img src="../src/images/instagram.png" alt="Instagram" width="24" height="24" style="background: transparent;">
+      </a> |
+      <a href="https://www.facebook.com/?locale=es_ES" style="color: white; text-decoration: none;">
+        <img src="../src/images/facebook.png" alt="Facebook" width="24" height="24" style="background: transparent;">
+      </a> |
+      <a href="https://x.com/?lang=es" style="color: white; text-decoration: none;">
+        <img src="../src/images/twitter.png" alt="Twitter" width="24" height="24" style="background: transparent;">
+      </a> |
+      <a href="https://es.linkedin.com/" style="color: white; text-decoration: none;">
+        <img src="../src/images/linkedin.png" alt="LinkedIn" width="24" height="24" style="background: transparent;">
+      </a></p>
+    <img src="../src/images/sinFondoDos.png" alt="AsistGuard" width="200" height="100">
+  </div>
+</footer>
 
 <?php if ($mostrarModal): ?>
     <!-- Mostrar el modal automáticamente después de 5 segundos -->
@@ -246,6 +266,6 @@ unset($_SESSION['mensaje']); // Limpiar el mensaje después de mostrarlo
     };
     });
 </script>
-<script src="../src/reloj.js"></script>
+
 </body>
 </html>
