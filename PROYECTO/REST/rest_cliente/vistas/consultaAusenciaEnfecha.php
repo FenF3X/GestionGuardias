@@ -22,6 +22,7 @@ $busquedaHecha = $_SESSION["busquedaGuardiasRealizada"] ?? false;
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
+<!-- Navbar con Dropdown Anidado para "Gestión de asistencia" -->
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container-fluid">
 
@@ -40,25 +41,59 @@ $busquedaHecha = $_SESSION["busquedaGuardiasRealizada"] ?? false;
 
       <!-- MENÚ CENTRAL -->
       <ul class="navbar-nav mx-auto">
-        <li class="nav-item"><a class="nav-link text-white" href="guardiasRealizadas.php?auto=1">Guardias Realizadas</a>
-        </li>
-        <a class="nav-link text-white" href="../verAusencias.php?cargar_guardias=1">Consultar Ausencias</a>
+        <li class="nav-item"><a class="nav-link text-white" href="guardiasRealizadas.php?auto=1">Guardias Realizadas</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="../verAusencias.php?cargar_guardias=1">Consultar Ausencias</a></li>
 
         <?php if ($rol === 'admin'): ?>
           <li class="nav-item"><a class="nav-link text-white" href="verInformes.php">Generar informes</a></li>
+
           <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Gestión de asistencia
-        </a>
-        <ul class="dropdown-menu dropdown-hover">
-          <li><a class="dropdown-item" href="verAsistencia.php">Consultar asistencia</a></li>
-          <li><a class="dropdown-item" href="registroAusencias.php">Registrar Ausencia</a></li>
-        </ul>
+            <a class="nav-link dropdown-toggle text-white" href="#" id="gestionAsistencia" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Gestión de asistencia
+            </a>
+            <ul class="dropdown-menu dropdown-hover" aria-labelledby="gestionAsistencia">
+
+              <li class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#" id="consultarAsistencia" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Consultar asistencia
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="consultarAsistencia">
+                  <li><a class="dropdown-item" href="verAsistencia.php">Ver asistencia detallada</a></li>
+                  <li><a class="dropdown-item" href="../verAusencias.php?cargar_guardias=1">Ver ausencias</a></li>
+                </ul>
+              </li>
+
+              <li><a class="dropdown-item" href="registroAusencias.php">Registrar Ausencia</a></li>
+            </ul>
           </li>
         <?php endif; ?>
       </ul>
 
-      <style>
+      <!-- BIENVENIDA + LOGOUT -->
+      <div class="d-flex align-items-center ms-auto">
+        <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre); ?></strong></span>
+        <form method="POST" action="../logout.php" class="mb-0">
+          <button class="btn btn-sm btn-danger" title="Cerrar sesión">
+            <i class="bi bi-box-arrow-right"></i>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<!-- CSS para el Dropdown Anidado -->
+<style>
+  .dropdown-submenu {
+    position: relative;
+  }
+  .dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+  }
+
   .dropdown-menu li {
     color: white;
     font-weight: bold;
@@ -73,30 +108,14 @@ $busquedaHecha = $_SESSION["busquedaGuardiasRealizada"] ?? false;
 
   .dropdown-menu .dropdown-item:hover {
     background-color: transparent !important;
-    color: #d0f0ff !important; /* blanco azulado más claro */
+    color: #d0f0ff !important;
   }
 
-  .dropdown:hover .dropdown-menu {
+  .dropdown-hover:hover > .dropdown-menu {
     display: block;
     background: linear-gradient(135deg, #0f1f2d, #18362f);
   }
 </style>
-
-
-
-      <!-- BIENVENIDA + LOGOUT A LA DERECHA -->
-      <div class="d-flex align-items-center ms-auto">
-        <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre); ?></strong></span>
-        <form method="POST" action="../logout.php" class="mb-0">
-          <button class="btn btn-sm btn-danger" title="Cerrar sesión">
-            <i class="bi bi-box-arrow-right"></i>
-          </button>
-        </form>
-      </div>
-
-    </div>
-  </div>
-</nav>
 <main>
     <div class="container mt-5 d-flex justify-content-start align-items-center perfil-contenedor">
         <div class="foto-wrapper me-4">

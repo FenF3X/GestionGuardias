@@ -170,9 +170,9 @@ $profesores = $_SESSION['profesores'] ?? [];
     <div id="campo-trimestre" class="campo-dinamico mb-3">
       <label for="trimestre" class="form-label">Selecciona un trimestre:</label>
       <select name="trimestre" id="trimestre" class="form-select">
-        <option value="1">1er trimestre</option>
+        <option value="1">1º trimestre</option>
         <option value="2">2º trimestre</option>
-        <option value="3">3er trimestre</option>
+        <option value="3">3º trimestre</option>
       </select>
     </div>
 
