@@ -59,31 +59,7 @@ $fecha = $_SESSION["fechaAusencia"];
         <?php endif; ?>
       </ul>
 
-      <style>
-  .dropdown-menu li {
-    color: white;
-    font-weight: bold;
-  }
-
-  .dropdown-menu .dropdown-item {
-    color: white !important;
-    font-weight: bold;
-    background-color: transparent !important;
-    transition: color 0.3s ease;
-  }
-
-  .dropdown-menu .dropdown-item:hover {
-    background-color: transparent !important;
-    color: #d0f0ff !important; /* blanco azulado más claro */
-  }
-
-  .dropdown:hover .dropdown-menu {
-    display: block;
-    background: linear-gradient(135deg, #0f1f2d, #18362f);
-  }
-</style>
-
-
+ 
 
       <!-- BIENVENIDA + LOGOUT A LA DERECHA -->
       <div class="d-flex align-items-center ms-auto">

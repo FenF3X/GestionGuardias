@@ -78,31 +78,6 @@ $profesores = $_SESSION['profesores'] ?? [];
         <?php endif; ?>
       </ul>
 
-      <style>
-        .dropdown-menu li {
-          color: white;
-          font-weight: bold;
-        }
-
-        .dropdown-menu .dropdown-item {
-          color: white !important;
-          font-weight: bold;
-          background-color: transparent !important;
-          transition: color 0.3s ease;
-        }
-
-        .dropdown-menu .dropdown-item:hover {
-          background-color: transparent !important;
-          color: #d0f0ff !important;
-        }
-
-        .dropdown:hover .dropdown-menu {
-          display: block;
-          background: linear-gradient(135deg, #0f1f2d, #18362f);
-        }
-
-        
-      </style>
 
       <div class="d-flex align-items-center ms-auto">
         <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre); ?></strong></span>
