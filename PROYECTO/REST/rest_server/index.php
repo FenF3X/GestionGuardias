@@ -92,19 +92,19 @@ if ($metodo === 'GET') {
         switch ($tipo) {
             case 'dia':
                 $fecha = $_GET['fecha'];
-                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin) 
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin),total_guardias 
                  FROM  registro_guardias WHERE  fecha = '$fecha'; ";
                 break;
             case 'semana':  
                 $diaSemana = $_GET['semana'];
                 $inicioSemana = date('Y-m-d', strtotime('monday this week', strtotime($diaSemana)));
                 $finSemana = date('Y-m-d', strtotime('sunday this week', strtotime($diaSemana)));
-                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin)
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin),total_guardias
                  FROM registro_guardias WHERE fecha BETWEEN '$inicioSemana' AND '$finSemana'";
                 break;
             case 'mes':
                 $mes = $_GET['mes'];
-                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin)
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin),total_guardias
                  FROM registro_guardias WHERE DATE_FORMAT(fecha, '%Y-%m') = '$mes'";
                  break;
             case 'trimestre':
@@ -119,18 +119,18 @@ if ($metodo === 'GET') {
                     $inicio = "2025-04-29";
                     $fin = "2025-06-21";
                 }
-                $sql = "SELECT fecha,nombreProfe, nombreProfeReempl,aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin) 
+                $sql = "SELECT fecha,nombreProfe, nombreProfeReempl,aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin),total_guardias 
                 FROM registro_guardias WHERE fecha BETWEEN '$inicio' AND '$fin'";
                 break;
             case 'docent':
                     $docente = $_GET['docente'] ?? '';
-                    $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin)
+                    $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin),total_guardias
                      FROM registro_guardias WHERE docente_guardia = '$docente'";
                 break;
             case 'curs':
                 $inicio = "2024-09-09";
                 $fin = "2025-06-21";
-                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin)
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin),total_guardias
                  FROM registro_guardias WHERE fecha BETWEEN '$inicio' AND '$fin'";
                 break;
             default:
