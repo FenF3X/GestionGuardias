@@ -146,6 +146,7 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
             <th>Sesion</th>
             <th>Dia</th>
             <th>Hora Inicio -- Hora fin</th>
+            <th>Guardias totales</th>
         </tr>
     </thead>
     <tbody>

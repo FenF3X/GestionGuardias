@@ -364,81 +364,51 @@ elseif ($metodo === 'POST') {
     }
     
     elseif ($accion === "asignarGuardia") {
+        // Fecha actual (no se usa en PHP para el INSERT, el trigger tomará NEW.fecha)
         $fecha = date('Y-m-d');
-        $datos = json_decode(file_get_contents("php://input"), true);
     
+        // Lee y decodifica JSON de la petición
+        $datos = json_decode(file_get_contents("php://input"), true);
         if (!is_array($datos)) {
             error_log("Error: los datos recibidos no son JSON válido");
             echo json_encode(["error" => "Datos no válidos"]);
             exit;
         }
     
-        $sesionAus = $datos["sesion"];
-        $documentAus = $datos["documentAus"];
-        $documentCubierto = $datos["document"];
-        $cubiertoAus = $datos["cubierto"];
-       
+        // Parámetros necesarios
+        $sesionAus       = $datos["sesion"];
+        $documentAus     = $datos["documentAus"];
+        $documentCubierto= $datos["document"];
+        $cubiertoAus     = $datos["cubierto"];
 
-        $sql = "UPDATE ausencias 
-        SET 
-            cubierto = '$cubiertoAus', 
-            NombreRemp = (
+        // Actualiza la ausencia — el trigger se disparará si cambias cubierto a 1
+        $sql = "
+            UPDATE ausencias
+            SET 
+              cubierto          = '$cubiertoAus',
+              document_cubierto = '$documentCubierto',
+              NombreRemp        = (
                 SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2)
-                FROM docent 
+                FROM docent
                 WHERE document = '$documentCubierto'
-            )
-        WHERE sesion = '$sesionAus' AND document = '$documentAus'";
-        $resultadoAsignar = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
-        $funcional = false;
-    
-        if ($resultadoAsignar > 0) {
-            $sql = "SELECT * FROM ausencias WHERE sesion = '$sesionAus' AND document = '$documentAus' AND cubierto = 1";
-            $resinsertinforme = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
-            if (is_array($resinsertinforme)) {
-                $hora_inicio = $resinsertinforme[0][1];
-                $hora_fin = $resinsertinforme[0][2];
-                $dia = $resinsertinforme[0][3];
-                $aula = $resinsertinforme[0][4];
-                $grupo = $resinsertinforme[0][5];
-                $asignatura = $resinsertinforme[0][6];
-                $sesion = $resinsertinforme[0][7];
-                $document = $resinsertinforme[0][8];
-                $nombreAusente = $resinsertinforme[0][9];
-                $fecha = $resinsertinforme[0][12];
-                $nombreGuardia = $resinsertinforme[0][14];
-    
-                // Obtener nombre del docente ausente
-               
-    
-                $sqlCheck = "SELECT COUNT(*) FROM registro_guardias 
-                             WHERE fecha = '$fecha' AND docente_ausente = '$document' AND sesion_orden = '$sesion'";
-                $existe = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlCheck);
-    
-                if (is_array($existe) && $existe[0][0] == 0) {
-                    $sqlInforme = "INSERT INTO registro_guardias 
-                        (fecha, docente_ausente, nombreProfe, docente_guardia,nombreProfeReempl ,aula, grupo, asignatura, sesion_orden, dia_semana, hora_inicio, hora_fin) 
-                        VALUES 
-                        ('$fecha', '$document', '$nombreAusente', '$documentCubierto','$nombreGuardia' ,'$aula', '$grupo', '$asignatura', '$sesion', '$dia', '$hora_inicio', '$hora_fin')";
-    
-                    $resultadoInforme = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlInforme);
-    
-                    if ($resultadoInforme > 0) {
-                        $funcional = true;
-                        error_log("funcional " . $funcional . "\n", 3, "errores.log");
+              )
+            WHERE sesion   = '$sesionAus'
+              AND document = '$documentAus';
+        ";
 
-                    }
-                }
-            }
-        }
+        $resultadoAsignar = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
     
-        if ($funcional) {
-            echo json_encode(["exito" => "Guardia asignada correctamente"]);
-        } else {
-            echo json_encode(["error" => "La guardia ya estaba registrada o ha fallado el guardado"]);
+        // Sólo comprobamos si se actualizó: el trigger de BD hará el INSERT en registro_guardias
+        if ($resultado === false) {
+            // aquí hay fallo de MySQL o mysqli no afectó la query
+            error_log("asignarGuardia › UPDATE fallida (mysql error o sintaxis)\n", 3, "errores.log");
+            echo json_encode(["error" => "Error al marcar la guardia como cubierta"]);
+            exit;
         }
+        echo json_encode(["exito" => "Guardia asignada correctamente"]);
+        exit;
     }
-    
-        
+     
     elseif ($accion === "historialGuardias") {
         $document = $_POST['document'];
         $fecha = isset($_POST["fecha"]) ? date("Y-m-d", strtotime($_POST["fecha"])) : null;
