@@ -233,7 +233,7 @@ if (isset($_SESSION["alertSinSesiones"])) {
       <a href="https://es.linkedin.com/" style="color: white; text-decoration: none;">
         <img src="../src/images/linkedin.png" alt="LinkedIn" width="24" height="24" style="background: transparent;">
       </a></p>
-    <img src="../src/images/sinFondoDos.png" alt="AsistGuard" width="200" height="100">
+    
   </div>
 </footer>
 
