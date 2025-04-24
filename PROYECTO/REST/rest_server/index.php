@@ -148,7 +148,7 @@ if ($metodo === 'GET') {
 elseif ($metodo === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
     $accion = $data['accion'] ?? ($_POST['accion'] ?? null);
-    error_log("ACCION RECIBIDA: " . $accion . "\n", 3, "error.log");
+    error_log("ACCION RECIBIDA: " . $accion . "\n", 3, "errores.log");
 
     
     if ($accion === "InicioSesion") {
@@ -377,7 +377,8 @@ elseif ($metodo === 'POST') {
         $documentAus = $datos["documentAus"];
         $documentCubierto = $datos["document"];
         $cubiertoAus = $datos["cubierto"];
-    
+       
+
         $sql = "UPDATE ausencias 
         SET 
             cubierto = '$cubiertoAus', 
@@ -393,7 +394,6 @@ elseif ($metodo === 'POST') {
         if ($resultadoAsignar > 0) {
             $sql = "SELECT * FROM ausencias WHERE sesion = '$sesionAus' AND document = '$documentAus' AND cubierto = 1";
             $resinsertinforme = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
-    
             if (is_array($resinsertinforme)) {
                 $hora_inicio = $resinsertinforme[0][1];
                 $hora_fin = $resinsertinforme[0][2];
@@ -403,13 +403,12 @@ elseif ($metodo === 'POST') {
                 $asignatura = $resinsertinforme[0][6];
                 $sesion = $resinsertinforme[0][7];
                 $document = $resinsertinforme[0][8];
+                $nombreAusente = $resinsertinforme[0][9];
                 $fecha = $resinsertinforme[0][12];
                 $nombreGuardia = $resinsertinforme[0][14];
     
                 // Obtener nombre del docente ausente
-                $sqlNombre = "SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2) AS nombreProfe FROM docent WHERE document = '$document'";
-                $resultadoNombre = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlNombre);
-                $nombreProfe = is_array($resultadoNombre) ? $resultadoNombre[0][0] : 'Desconocido';
+               
     
                 $sqlCheck = "SELECT COUNT(*) FROM registro_guardias 
                              WHERE fecha = '$fecha' AND docente_ausente = '$document' AND sesion_orden = '$sesion'";
@@ -419,12 +418,14 @@ elseif ($metodo === 'POST') {
                     $sqlInforme = "INSERT INTO registro_guardias 
                         (fecha, docente_ausente, nombreProfe, docente_guardia,nombreProfeReempl ,aula, grupo, asignatura, sesion_orden, dia_semana, hora_inicio, hora_fin) 
                         VALUES 
-                        ('$fecha', '$document', '$nombreProfe', '$documentCubierto','$nombreGuardia' ,'$aula', '$grupo', '$asignatura', '$sesion', '$dia', '$hora_inicio', '$hora_fin')";
+                        ('$fecha', '$document', '$nombreAusente', '$documentCubierto','$nombreGuardia' ,'$aula', '$grupo', '$asignatura', '$sesion', '$dia', '$hora_inicio', '$hora_fin')";
     
                     $resultadoInforme = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlInforme);
     
                     if ($resultadoInforme > 0) {
                         $funcional = true;
+                        error_log("funcional " . $funcional . "\n", 3, "errores.log");
+
                     }
                 }
             }

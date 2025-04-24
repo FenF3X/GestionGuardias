@@ -1,0 +1,63 @@
+ACCION RECIBIDA: historialGuardias
+ACCION RECIBIDA: historialGuardias
+ACCION RECIBIDA: asignarGuardia
+ACCION RECIBIDA: historialGuardias
+ACCION RECIBIDA: historialGuardias
+ACCION RECIBIDA: asignarGuardia
+ACCION RECIBIDA: historialGuardias
+ACCION RECIBIDA: historialGuardias
+ACCION RECIBIDA: asignarGuardia
+valores: 1
+ACCION RECIBIDA: asignarGuardia
+valores: Array
+ACCION RECIBIDA: asignarGuardia
+valores: Array
+(
+    [0] => Array
+        (
+            [0] => 179
+            [1] => 09:10:00
+            [2] => 10:00:00
+            [3] => J
+            [4] => B12
+            [5] => 2ESOC
+            [6] => Ciencias Sociales Geografía e Historia
+            [7] => 2
+            [8] => 010969028D
+            [9] => FRANCISCO JAVIER F C
+            [10] => 0
+            [11] => 0
+            [12] => 2025-04-24
+            [13] => 1
+            [14] => ANGEL A C
+        )
+
+)
+
+ACCION RECIBIDA: asignarGuardia
+valores: Array
+(
+    [0] => Array
+        (
+            [0] => 180
+            [1] => 10:00:00
+            [2] => 10:50:00
+            [3] => J
+            [4] => B11
+            [5] => 1ESOA
+            [6] => Geografía e Historia
+            [7] => 3
+            [8] => 010969028D
+            [9] => FRANCISCO JAVIER F C
+            [10] => 0
+            [11] => 0
+            [12] => 2025-04-24
+            [13] => 1
+            [14] => ANGEL A C
+        )
+
+)
+
+ACCION RECIBIDA: asignarGuardia
+funcional 1
+ACCION RECIBIDA: historialGuardias
