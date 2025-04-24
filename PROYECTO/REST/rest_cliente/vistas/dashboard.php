@@ -9,6 +9,7 @@ $nombre = $_SESSION['nombre'];
 $documento = $_SESSION['document'];
 $mensaje = isset($_SESSION['mensaje']) ? $_SESSION['mensaje'] : null;
 if (isset($_SESSION['registro_exitoso']) && $_SESSION['registro_exitoso']) {
+  error_log("registro ausencia ok");
   unset($_SESSION['registro_exitoso']);
   $mostrarModal = true; 
 } else {
@@ -217,25 +218,7 @@ if (isset($_SESSION["alertSinSesiones"])) {
     </div>
   </div>
 </div>
-<footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
-  <div class="container text-center">
-    <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
-    <p>
-      <a href="https://www.instagram.com/" style="color: white; text-decoration: none;">
-        <img src="../src/images/instagram.png" alt="Instagram" width="24" height="24" style="background: transparent;">
-      </a> |
-      <a href="https://www.facebook.com/?locale=es_ES" style="color: white; text-decoration: none;">
-        <img src="../src/images/facebook.png" alt="Facebook" width="24" height="24" style="background: transparent;">
-      </a> |
-      <a href="https://x.com/?lang=es" style="color: white; text-decoration: none;">
-        <img src="../src/images/twitter.png" alt="Twitter" width="24" height="24" style="background: transparent;">
-      </a> |
-      <a href="https://es.linkedin.com/" style="color: white; text-decoration: none;">
-        <img src="../src/images/linkedin.png" alt="LinkedIn" width="24" height="24" style="background: transparent;">
-      </a></p>
-    
-  </div>
-</footer>
+
 
 <?php if ($mostrarModal): ?>
     <!-- Mostrar el modal automáticamente después de 5 segundos -->

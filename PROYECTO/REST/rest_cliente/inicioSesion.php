@@ -14,7 +14,6 @@ if (isset($_POST["validar"])) {
         ];
 
         $response = curl_conexion(URL, "POST", $params);
-        error_log("RESPUESTA DEL SERVIDOR: " . $response);  // <-- Esto te ayudará a ver si hay algo mal
 
         $resp = json_decode($response, true);
 

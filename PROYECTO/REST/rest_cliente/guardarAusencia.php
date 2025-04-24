@@ -50,7 +50,7 @@ if ($response === false || $response === "") {
     $_SESSION['registro_exitoso'] = false;
     error_log("Error del servidor: " . $estado["error"]);
 } else {
-    error_log("Respuesta inválida del backend: " . $response);
+    error_log("Respuesta inválida del backend: " . $estado);
 }
 
 
