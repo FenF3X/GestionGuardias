@@ -148,7 +148,7 @@ if ($metodo === 'GET') {
 elseif ($metodo === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
     $accion = $data['accion'] ?? ($_POST['accion'] ?? null);
-    error_log("ACCION RECIBIDA: " . $accion . "\n", 3, "errores.log");
+   // error_log("ACCION RECIBIDA: " . $accion . "\n", 3, "errores.log");
 
     
     if ($accion === "InicioSesion") {
