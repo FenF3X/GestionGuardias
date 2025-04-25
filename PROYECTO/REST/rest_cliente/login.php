@@ -30,13 +30,16 @@ unset($_SESSION["error_login"]);
     align-items: center;
     flex-direction: column;
   }
+  #logo{
+    margin-top:50px;
+  }
 </style>
 
 </head>
 <body>
     <div class="fecha-actual text-center mt-3"></div>
     <div class="text-center">
-        <img src="src/images/logoenUno.png" alt="Logo de AsistGuard">
+        <img id="logo" src="src/images/logoenUno2.png" alt="Logo de AsistGuard">
     </div>
 
     <div class="login-box">
