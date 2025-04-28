@@ -121,20 +121,50 @@ if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_as
     </div>
   </div>
 </nav>
-
 <main>
-    <div class="container mt-5 d-flex justify-content-start align-items-center perfil-contenedor">
+  <div class="container mt-5">
+    <!-- Perfil: foto + datos a la izquierda, botones a la derecha -->
+    <div class="perfil-contenedor 
+                d-flex flex-column flex-md-row 
+                align-items-center justify-content-between">
+      
+      <!-- IZQUIERDA: foto + datos -->
+      <div class="d-flex align-items-center mb-3 mb-md-0">
         <div class="foto-wrapper me-4">
-            <img src="../src/images/default.jpg" alt="Foto de perfil" class="foto-circular">
+          <img src="../src/images/default.jpg" alt="Foto de perfil" class="foto-circular">
         </div>
-
         <div class="info-usuario text-start">
-            <p><strong>Documento:</strong> <?php echo htmlspecialchars($documento); ?></p>
-            <p><strong>Nombre:</strong> <?php echo htmlspecialchars($nombre); ?></p>
-            <p><strong>Rol:</strong> <?php echo htmlspecialchars($rol); ?></p>
+          <p><strong>Documento:</strong> <?php echo htmlspecialchars($documento); ?></p>
+          <p><strong>Nombre:</strong> <?php echo htmlspecialchars($nombre); ?></p>
+          <p><strong>Rol:</strong> <?php echo htmlspecialchars($rol); ?></p>
         </div>
+      </div>
+      
+     <!-- DERECHA: botones en línea -->
+     <div class="botones-usuario d-flex align-items-center gap-2 text-center text-md-end">
+  
+
+  <!-- CHAT -->
+  <a 
+    href="chat.php" 
+    class="btn btn-primary d-flex align-items-center justify-content-center" 
+    role="button"
+  >
+    <i class="bi bi-chat-dots-fill fs-4"></i>
+    <span class="ms-2 d-none d-md-inline">Chat</span>
+  </a>
     </div>
 
+
+
+    <?php if (isset($mensaje)): ?>
+      <div class="alert-container">
+        <div class="alert alert-<?php echo htmlspecialchars($mensaje['type']); ?> text-center" id="mensajeAlert">
+          <?php echo htmlspecialchars($mensaje['text']); ?>
+        </div>
+      </div>
+    <?php endif; ?>
+  </div>
 </main>
 
 <div class="container mt-5">

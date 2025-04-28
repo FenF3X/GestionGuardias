@@ -1,0 +1,204 @@
+<?php
+// chat.php
+date_default_timezone_set('Europe/Madrid');
+session_start();
+include('../curl_conexion.php');  // Función curl_conexion(URL, método, params)
+
+// 1) Verificar usuario logueado
+$rol      = $_SESSION['rol'] ?? null;
+$nombre   = $_SESSION['nombre'] ?? null;
+$document = $_SESSION['document'] ?? null;
+if (!$document) {
+  header('Location: login.php');
+  exit;
+}
+
+// 2) Obtener lista de profesores vía cURL
+$params     = ['accion' => 'consultaProfesMensaje',  'documento'=> $document];
+$resp       = curl_conexion(URL, 'POST', $params);
+$profesores = json_decode($resp, true);
+if (!is_array($profesores) || empty($profesores)) {
+  die('Error al obtener la lista de profesores.');
+}
+
+// 3) Determinar nombre de profesor (GET) o primer profesor
+$profNombre = $_GET['profesor'] ?? $profesores[0][1] ?? null;
+if (!$profNombre) {
+  echo '<p>No hay profesores disponibles.</p>';
+  exit;
+}
+
+// 4) Buscar datos del profesor actual y su ID
+$profActual = null;
+$profesorId = null;
+foreach ($profesores as $prof) {
+  if ($prof[1] === $profNombre) {
+    $profActual = $prof;
+    $profesorId = $prof[0];
+    break;
+  }
+}
+if (!$profActual) {
+  $profActual = $profesores[0];
+  $profesorId = $profesores[0][0];
+  $profNombre = $profesores[0][1];
+}
+
+// 5) Enviar mensaje
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mensaje'])) {
+  $contenido = trim($_POST['mensaje']);
+  $params    = [
+    'accion'   => 'enviaMensaje',
+    'emisor'   => $document,
+    'receptor' => $profesorId,
+    'mensaje' => $contenido
+  ];
+  curl_conexion(URL, 'POST', $params);
+  header('Location: chat.php?profesor=' . urlencode($profNombre));
+  exit;
+}
+
+// 6) Cargar mensajes
+$params   = [
+  'accion'   => 'consultaMensajes',
+  'emisor'   => $document,
+  'receptor' => $profesorId
+];
+$resp      = curl_conexion(URL, 'POST', $params);
+$mensajes  = json_decode($resp, true) ?: [];
+?>
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat con <?= htmlspecialchars($profActual[1] ?? 'Profesor') ?></title>
+  <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="../src/principal.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    .chat-window { height: 70vh; }
+    .msg { max-width: 75%; word-wrap: break-word; }
+    .from-me { margin-left: auto; }
+    .from-them { margin-right: auto; }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="dashboard.php">
+        <img src="../src/images/sinFondoDos.png" alt="Logo AsistGuard" class="logo-navbar">
+      </a>
+      <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link text-white" href="guardiasRealizadas.php?auto=1">Guardias Realizadas</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="../verAusencias.php?cargar_guardias=1">Consultar Ausencias</a></li>
+          <?php if ($rol === 'admin'): ?>
+            <li class="nav-item"><a class="nav-link text-white" href="verInformes.php">Generar informes</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">Gestión de asistencia</a>
+              <ul class="dropdown-menu dropdown-hover">
+                <li><a class="dropdown-item" href="verAsistencia.php">Consultar asistencia</a></li>
+                <li><a class="dropdown-item" href="registroAusencias.php">Registrar Ausencia</a></li>
+              </ul>
+            </li>
+          <?php endif; ?>
+        </ul>
+        <div class="d-flex align-items-center ms-auto">
+          <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre) ?></strong></span>
+          <form method="POST" action="../logout.php" class="mb-0">
+            <button class="btn btn-sm btn-danger" title="Cerrar sesión"><i class="bi bi-box-arrow-right"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CHAT -->
+  <main>
+    <div class="container mt-5">
+      <!-- Perfil + Botones -->
+      <div class="perfil-contenedor d-flex flex-column flex-md-row align-items-center justify-content-between">
+        <div class="d-flex align-items-center mb-3 mb-md-0">
+          <div class="foto-wrapper me-4">
+            <img src="../src/images/default.jpg" alt="Foto de perfil" class="foto-circular">
+          </div>
+          <div class="info-usuario text-start">
+            <p><strong>Documento:</strong> <?= htmlspecialchars($document) ?></p>
+            <p><strong>Nombre:</strong> <?= htmlspecialchars($nombre) ?></p>
+            <p><strong>Rol:</strong> <?= htmlspecialchars($rol) ?></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid py-4">
+        <div class="row">
+          <!-- CONTACTOS -->
+          <div class="col-md-3 mb-3">
+            <h5>Contactos</h5>
+            <form method="get" id="frmProf">
+              <select name="profesor" id="agenda" class="form-select" size="13" onchange="frmProf.submit()">
+                <?php foreach ($profesores as $prof): ?>
+                  <option value="<?= htmlspecialchars($prof[1]) ?>" <?= ($prof[1] === $profNombre ? 'selected' : '') ?>><?= htmlspecialchars($prof[1]) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </form>
+          </div>
+          <!-- VENTANA CHAT -->
+          <div class="col-md-9 d-flex flex-column">
+            <div class="border rounded p-3 mb-3"><strong>Chat con <?= htmlspecialchars($profActual[1]) ?></strong></div>
+            <div id="chatWindow" class="chat-window border rounded flex-grow-1 p-3 mb-2 overflow-auto bg-light">
+              <?php if (!is_array($mensajes)): ?>
+                <p class="text-center text-muted">No tienes mensajes en este chat</p>
+              <?php else: ?>
+                <?php foreach ($mensajes as $m): ?>
+                  <?php
+                    $isMe   = ($m[0] == $document);
+                    $sender = $isMe ? 'Tú' : htmlspecialchars($profActual[1]);
+                    $cls    = $isMe ? 'from-me bg-primary text-white' : 'from-them bg-white';
+                    // Usa la columna de hora directamente
+$hora = $m[3] ?? '';
+                  ?>
+                  <div class="d-flex mb-3 <?= $isMe ? 'justify-content-end' : '' ?>">
+                    <div class="msg p-2 rounded <?= $cls ?>">
+                      <small class="text-muted"><?= $sender ?> • <?= $hora ?></small>
+                      <div><?= nl2br(htmlspecialchars($m[1] ?? '')) ?></div>
+                    </div>
+                  </div>
+                <?php endforeach; ?>
+              <?php endif; ?>
+            </div>
+            <form method="post" class="input-group">
+              <input name="mensaje" type="text" class="form-control" placeholder="Escribe tu mensaje..." autocomplete="off">
+              <button class="btn btn-primary" type="submit">Enviar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f)">
+    <div class="container text-center">
+      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
+      <p>
+        <a href="https://www.instagram.com/" style="color:white;"><img src="../src/images/instagram.png" alt="Instagram" width="24"></a> |
+        <a href="https://www.facebook.com/?locale=es_ES" style="color:white;"><img src="../src/images/facebook.png" alt="Facebook" width="24"></a> |
+        <a href="https://x.com/?lang=es" style="color:white;"><img src="../src/images/twitter.png" alt="Twitter" width="24"></a> |
+        <a href="https://es.linkedin.com/" style="color:white;"><img src="../src/images/linkedin.png" alt="LinkedIn" width="24"></a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="../src/chat.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

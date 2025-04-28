@@ -484,8 +484,60 @@ elseif ($metodo === 'POST') {
             echo json_encode(["error" => "No se encontraron registros"]);
         }
     }
+    elseif ($accion === "consultaProfesMensaje") {
+        $sql = "SELECT document, CONCAT(nom, ' ', cognom1, ' ', cognom2) AS nombre_completo FROM docent";
+        $resultado = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
     
-elseif ($metodo === 'PUT') {         
+        // Verificar si la consulta fue exitosa
+        if (is_array($resultado)) {
+            echo json_encode($resultado);  // Devolver los datos de los profesores
+        } else {
+            echo json_encode(["error" => "No se encontraron docentes"]);  // Error en caso de no encontrar docentes
+        }
+    }
+    elseif ($accion === "consultaMensajes") {
+        $docent_emisor   = $_POST['emisor'];
+        $docent_receptor = $_POST['receptor'];
+    
+        $sql = "SELECT docent_emisor, mensaje, fecha, hora
+                FROM mensajes
+                WHERE (docent_emisor = '$docent_emisor' AND docent_receptor = '$docent_receptor')
+                   OR (docent_emisor = '$docent_receptor' AND docent_receptor = '$docent_emisor')
+                ORDER BY fecha";
+        $resultMensajes = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
+    
+        if (is_array($resultMensajes) && !empty($resultMensajes)) {
+            echo json_encode($resultMensajes);
+        } else {
+            echo json_encode("No tienes mensajes en este chat");
+        }
+    }
+    elseif ($accion == "enviaMensaje") {
+        $docent_emisor   = $_POST['emisor'];
+        $docent_receptor = $_POST['receptor'];
+        $mensaje         = $_POST['mensaje'];
+        $fecha           = date('Y-m-d');
+        $hora            = date('H:i:s');  // guardamos la hora con segundos
+    
+        $sql = "INSERT INTO mensajes 
+                  (docent_emisor, docent_receptor, mensaje, fecha, hora)
+                VALUES
+                  ('$docent_emisor', '$docent_receptor', '" . addslashes($mensaje) . "', '$fecha', '$hora')";
+    
+        $mensajeEscrito = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
+        if ($mensajeEscrito) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'error'   => 'No se pudo enviar el mensaje'
+            ]);
+        }
+        exit;
+    }
+    
+    
+}elseif ($metodo === 'PUT') {         
     // Por implementar         
 } 
 elseif ($metodo === 'DELETE') {         
@@ -493,5 +545,4 @@ elseif ($metodo === 'DELETE') {
 } 
 else {         
     echo json_encode(["error" => "Opción incorrecta!!!!"]); 
-}
 }
