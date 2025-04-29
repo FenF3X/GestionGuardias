@@ -13,36 +13,30 @@ if (!$document) {
   exit;
 }
 
-
-$params = ['accion' => 'consultaProfesEscritos', 'documento'=>$document];
+// 2) Obtener contactos escritos
+$params = ['accion' => 'consultaProfesEscritos', 'documento' => $document];
 $resp = curl_conexion(URL, 'POST', $params);
 $profesoresEscritos = json_decode($resp, true);
 if (!is_array($profesoresEscritos) || empty($profesoresEscritos)) {
   die('Error al obtener la lista de profesores escritos.');
-  ?> <a href="dashboard.php">Volver</a><?php
 }
 
-// 2) Obtener lista de profesores vía cURL
-$params     = ['accion' => 'consultaProfesMensaje',  'documento'=> $document];
-$resp       = curl_conexion(URL, 'POST', $params);
+// 3) Obtener lista completa de profesores
+$params = ['accion' => 'consultaProfesMensaje', 'documento' => $document];
+$resp = curl_conexion(URL, 'POST', $params);
 $profesores = json_decode($resp, true);
 if (!is_array($profesores) || empty($profesores)) {
   die('Error al obtener la lista de profesores.');
-  ?> <a href="dashboard.php">Volver</a><?php
 }
 
-
-
-
-
-// 3) Determinar nombre de profesor (GET) o primer profesor
+// 4) Determinar profesor actual (GET o primer elemento)
 $profNombre = $_GET['profesor'] ?? $profesores[0][1] ?? null;
 if (!$profNombre) {
   echo '<p>No hay profesores disponibles.</p>';
   exit;
 }
 
-// 4) Buscar datos del profesor actual y su ID
+// 5) Buscar datos del profesor actual
 $profActual = null;
 $profesorId = null;
 foreach ($profesores as $prof) {
@@ -58,15 +52,15 @@ if (!$profActual) {
   $profNombre = $profesores[0][1];
 }
 
-// 5) Enviar mensaje
+// 6) Enviar mensaje
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mensaje'])) {
   $contenido = trim($_POST['mensaje']);
-  $params    = [
+  $params = [
     'accion'          => 'enviaMensaje',
     'emisor'          => $document,
     'nombreEmisor'    => $nombre,
     'receptor'        => $_POST['receptor'],
-    'nombreReceptor'  => $_POST['nombreReceptor'],  // ← ahora sí
+    'nombreReceptor'  => $_POST['nombreReceptor'],
     'mensaje'         => $contenido
   ];
   curl_conexion(URL, 'POST', $params);
@@ -74,16 +68,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mensaje'])) {
   exit;
 }
 
-
-
-// 6) Cargar mensajes
-$params   = [
+// 7) Cargar mensajes
+$params = [
   'accion'   => 'consultaMensajes',
   'emisor'   => $document,
   'receptor' => $profesorId
 ];
-$resp      = curl_conexion(URL, 'POST', $params);
-$mensajes  = json_decode($resp, true) ?: [];
+$resp = curl_conexion(URL, 'POST', $params);
+$mensajes = json_decode($resp, true) ?: [];
 ?>
 
 <!doctype html>
@@ -101,6 +93,16 @@ $mensajes  = json_decode($resp, true) ?: [];
     .msg { max-width: 75%; word-wrap: break-word; }
     .from-me { margin-left: auto; }
     .from-them { margin-right: auto; }
+    /* Estilos para la lista de contactos custom */
+    .list-group {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .list-group-item {
+      white-space: normal;
+      padding: 0.75rem 1rem;
+    }
   </style>
 </head>
 <body>
@@ -141,9 +143,8 @@ $mensajes  = json_decode($resp, true) ?: [];
   <!-- MAIN CHAT -->
   <main>
     <div class="container mt-5">
-      <!-- Perfil + Botones -->
-      <div class="perfil-contenedor d-flex flex-column flex-md-row align-items-center justify-content-between">
-        <div class="d-flex align-items-center mb-3 mb-md-0">
+      <div class="perfil-contenedor d-flex flex-column flex-md-row align-items-center justify-content-between mb-4">
+        <div class="d-flex align-items-center">
           <div class="foto-wrapper me-4">
             <img src="../src/images/default.jpg" alt="Foto de perfil" class="foto-circular">
           </div>
@@ -155,58 +156,67 @@ $mensajes  = json_decode($resp, true) ?: [];
         </div>
       </div>
 
-      <div class="container-fluid py-4">
-        <div class="row">
-          <!-- CONTACTOS -->
-          <div class="col-md-3 mb-3">
-            <h5>Mis mensajes</h5>
-            <form method="get" id="frmProf">
-              <select name="profesor" id="agenda" class="form-select" size="6" onchange="frmProf.submit()">
-                <?php foreach ($profesoresEscritos as $prof): ?>
-                  <option value="<?= htmlspecialchars($prof[1]) ?>" <?= ($prof[1] === $profNombre ? 'selected' : '') ?>><?= htmlspecialchars($prof[1]) ?></option>
-                <?php endforeach; ?>
-              </select>
-            </form>
-            <h5>Otros Contactos</h5>
-            <form method="get" id="frmProf2">
-              <select name="profesor" id="agenda" class="form-select" size="6" onchange="frmProf2.submit()">
-                <?php foreach ($profesores as $prof): ?>
-                  <option value="<?= htmlspecialchars($prof[1]) ?>" <?= ($prof[1] === $profNombre ? 'selected' : '') ?>><?= htmlspecialchars($prof[1]) ?></option>
-                <?php endforeach; ?>
-              </select>
-            </form>
+      <div class="row">
+        <!-- CONTACTOS -->
+        <div class="col-md-3 mb-3">
+          <h5>Mis mensajes</h5>
+          <div class="list-group">
+            <?php foreach ($profesoresEscritos as $prof):
+              $name    = htmlspecialchars($prof[1]);
+              $msg     = $prof[2] ?? 'Sin mensajes';
+              $preview = mb_strimwidth($msg, 0, 30, '...');
+              $active  = ($name === $profNombre) ? ' active' : '';
+              $url     = 'chat.php?profesor=' . urlencode($name);
+            ?>
+              <a href="<?= $url ?>"
+                 class="list-group-item list-group-item-action<?= $active ?>">
+                <div class="fw-semibold"><?= $name ?></div>
+                <small class="text-muted"><?= $preview ?></small>
+              </a>
+            <?php endforeach; ?>
           </div>
-          <!-- VENTANA CHAT -->
-          <div class="col-md-9 d-flex flex-column">
-            <div class="border rounded p-3 mb-3"><strong>Chat con <?= htmlspecialchars($profActual[1]) ?></strong></div>
-            <div id="chatWindow" class="chat-window border rounded flex-grow-1 p-3 mb-2 overflow-auto bg-light">
-              <?php if (!is_array($mensajes)): ?>
-                <p class="text-center text-muted">No tienes mensajes en este chat</p>
-              <?php else: ?>
-                <?php foreach ($mensajes as $m): ?>
-                  <?php
-                    $isMe   = ($m[0] == $document);
-                    $sender = $isMe ? 'Tú' : htmlspecialchars($profActual[1]);
-                    $cls    = $isMe ? 'from-me bg-primary text-white' : 'from-them bg-white';
-                    // Usa la columna de hora directamente
-                  $hora = $m[3] ?? '';
-                  ?>
-                  <div class="d-flex mb-3 <?= $isMe ? 'justify-content-end' : '' ?>">
-                    <div class="msg p-2 rounded <?= $cls ?>">
-                      <small class="text-muted"><?= $sender ?> • <?= $hora ?></small>
-                      <div><?= nl2br(htmlspecialchars($m[1] ?? '')) ?></div>
-                    </div>
+
+          <h5 class="mt-4">Otros Contactos</h5>
+          <form method="get" id="frmProf2">
+            <select name="profesor" class="form-select" size="6" onchange="frmProf2.submit()">
+              <?php foreach ($profesores as $prof): ?>
+                <option value="<?= htmlspecialchars($prof[1]) ?>" <?= ($prof[1] === $profNombre ? 'selected' : '') ?>>
+                  <?= htmlspecialchars($prof[1]) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </form>
+        </div>
+
+        <!-- VENTANA CHAT -->
+        <div class="col-md-9 d-flex flex-column">
+          <div class="border rounded p-3 mb-3"><strong>Chat con <?= htmlspecialchars($profActual[1]) ?></strong></div>
+          <div id="chatWindow" class="chat-window border rounded flex-grow-1 p-3 mb-2 overflow-auto bg-light">
+            <?php if (!is_array($mensajes)): ?>
+              <p class="text-center text-muted">No tienes mensajes en este chat</p>
+            <?php else: ?>
+              <?php foreach ($mensajes as $m):
+                $isMe   = ($m[0] == $document);
+                $sender = $isMe ? 'Tú' : htmlspecialchars($profActual[1]);
+                $cls    = $isMe ? 'from-me bg-primary text-white' : 'from-them bg-white';
+                $hora   = $m[3] ?? '';
+              ?>
+                <div class="d-flex mb-3 <?= $isMe ? 'justify-content-end' : '' ?>">
+                  <div class="msg p-2 rounded <?= $cls ?>">
+                    <small class="text-muted"><?= $sender ?> • <?= $hora ?></small>
+                    <div><?= nl2br(htmlspecialchars($m[1] ?? '')) ?></div>
                   </div>
-                <?php endforeach; ?>
-              <?php endif; ?>
-            </div>
-            <form method="post" class="input-group">
-            <input type="hidden" name="receptor" value="<?= $profesorId ?>">
-              <input type="hidden" name="nombreReceptor" value="<?= htmlspecialchars($profNombre) ?>">
-              <input name="mensaje" type="text" class="form-control" placeholder="Escribe tu mensaje..." autocomplete="off">
-              <button class="btn btn-primary" type="submit">Enviar</button>
-            </form>
+                </div>
+              <?php endforeach; ?>
+            <?php endif; ?>
           </div>
+
+          <form method="post" class="input-group">
+            <input type="hidden" name="receptor"       value="<?= $profesorId ?>">
+            <input type="hidden" name="nombreReceptor" value="<?= htmlspecialchars($profNombre) ?>">
+            <input name="mensaje" type="text" class="form-control" placeholder="Escribe tu mensaje..." autocomplete="off">
+            <button class="btn btn-primary" type="submit">Enviar</button>
+          </form>
         </div>
       </div>
     </div>
@@ -226,7 +236,6 @@ $mensajes  = json_decode($resp, true) ?: [];
   </footer>
 
   <script src="../src/chat.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
