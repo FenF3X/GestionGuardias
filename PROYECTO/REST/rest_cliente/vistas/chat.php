@@ -13,14 +13,27 @@ if (!$document) {
   exit;
 }
 
+
+$params = ['accion' => 'consultaProfesEscritos', 'documento'=>$document];
+$resp = curl_conexion(URL, 'POST', $params);
+$profesoresEscritos = json_decode($resp, true);
+if (!is_array($profesoresEscritos) || empty($profesoresEscritos)) {
+  die('Error al obtener la lista de profesores escritos.');
+  ?> <a href="dashboard.php">Volver</a><?php
+}
+
 // 2) Obtener lista de profesores vía cURL
 $params     = ['accion' => 'consultaProfesMensaje',  'documento'=> $document];
 $resp       = curl_conexion(URL, 'POST', $params);
 $profesores = json_decode($resp, true);
 if (!is_array($profesores) || empty($profesores)) {
-  alert('Error al obtener la lista de profesores.');
+  die('Error al obtener la lista de profesores.');
   ?> <a href="dashboard.php">Volver</a><?php
 }
+
+
+
+
 
 // 3) Determinar nombre de profesor (GET) o primer profesor
 $profNombre = $_GET['profesor'] ?? $profesores[0][1] ?? null;
@@ -146,9 +159,17 @@ $mensajes  = json_decode($resp, true) ?: [];
         <div class="row">
           <!-- CONTACTOS -->
           <div class="col-md-3 mb-3">
-            <h5>Contactos</h5>
+            <h5>Mis mensajes</h5>
             <form method="get" id="frmProf">
-              <select name="profesor" id="agenda" class="form-select" size="13" onchange="frmProf.submit()">
+              <select name="profesor" id="agenda" class="form-select" size="6" onchange="frmProf.submit()">
+                <?php foreach ($profesoresEscritos as $prof): ?>
+                  <option value="<?= htmlspecialchars($prof[1]) ?>" <?= ($prof[1] === $profNombre ? 'selected' : '') ?>><?= htmlspecialchars($prof[1]) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </form>
+            <h5>Otros Contactos</h5>
+            <form method="get" id="frmProf2">
+              <select name="profesor" id="agenda" class="form-select" size="6" onchange="frmProf2.submit()">
                 <?php foreach ($profesores as $prof): ?>
                   <option value="<?= htmlspecialchars($prof[1]) ?>" <?= ($prof[1] === $profNombre ? 'selected' : '') ?>><?= htmlspecialchars($prof[1]) ?></option>
                 <?php endforeach; ?>

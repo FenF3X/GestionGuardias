@@ -484,6 +484,26 @@ elseif ($metodo === 'POST') {
             echo json_encode(["error" => "No se encontraron registros"]);
         }
     }
+    elseif ($accion === "consultaProfesEscritos") {
+        $doc = $_POST['documento'];
+        $sql = "SELECT DISTINCT docent_receptor, nombreReceptor AS nombre_completo 
+            FROM mensajes 
+            WHERE docent_emisor = '$doc' 
+            AND docent_receptor <> '$doc'
+            UNION
+            SELECT DISTINCT docent_emisor, nombreEmisor AS nombre_completo 
+            FROM mensajes 
+            WHERE docent_receptor = '$doc' 
+            AND docent_emisor <> '$doc'";
+        $resultado = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
+        error_log(print_r($resultado,TRUE));
+        // Verificar si la consulta fue exitosa
+        if (is_array($resultado)) {
+            echo json_encode($resultado);  // Devolver los datos de los profesores
+        } else {
+            echo json_encode(["error" => "No se encontraron docentes"]);  // Error en caso de no encontrar docentes
+        }
+    }
     elseif ($accion === "consultaProfesMensaje") {
         $sql = "SELECT document, CONCAT(nom, ' ', cognom1, ' ', cognom2) AS nombre_completo FROM docent";
         $resultado = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
