@@ -6,7 +6,7 @@ DEFINE ("BASE_DATOS", "guardias");
 function conexion_bd($serv, $user, $passwd, $bd, $sql){  
     $con_bd = @mysqli_connect($serv, $user, $passwd, $bd);
     if (!$con_bd) {
-        error_log("Error al conectar: " . mysqli_connect_error() . "\n", 3, "errores.log");
+        error_log("Error al conectar: " . mysqli_connect_error());
         return false;
     }
     $con_bd->set_charset('utf8');

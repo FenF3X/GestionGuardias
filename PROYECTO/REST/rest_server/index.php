@@ -486,20 +486,57 @@ elseif ($metodo === 'POST') {
     }
     elseif ($accion === "consultaProfesEscritos") {
         $doc = $_POST['documento'];
-        $sql = "SELECT DISTINCT docent_receptor, nombreReceptor,mensaje,fecha, hora AS nombre_completo 
-            FROM mensajes 
-            WHERE docent_emisor = '$doc' 
-            AND docent_receptor <> '$doc'
-            UNION
-            SELECT DISTINCT docent_emisor, nombreEmisor,mensaje,fecha,hora AS nombre_completo 
-            FROM mensajes 
-            WHERE docent_receptor = '$doc' 
-            AND docent_emisor <> '$doc'";
+        $sql = "SELECT DISTINCT *
+FROM (
+  -- Mensaje más reciente enviado
+  SELECT DISTINCT
+    docent_receptor AS interlocutor_id,
+    nombreReceptor   AS interlocutor_nombre,
+    mensaje,
+    fecha,
+    hora
+  FROM mensajes
+  WHERE docent_emisor  = '$doc'
+    AND docent_receptor <> '$doc'
+
+  UNION ALL
+
+  -- Mensaje más reciente recibido
+  SELECT DISTINCT
+    docent_emisor   AS interlocutor_id,
+    nombreEmisor    AS interlocutor_nombre,
+    mensaje,
+    fecha,
+    hora
+  FROM mensajes
+  WHERE docent_receptor = '$doc'
+    AND docent_emisor   <> '$doc'
+) AS todos_los_mensajes
+ORDER BY fecha DESC, hora DESC;
+
+";
         $resultado = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
-        error_log(print_r($resultado,TRUE));
         // Verificar si la consulta fue exitosa
         if (is_array($resultado)) {
-            echo json_encode($resultado);  // Devolver los datos de los profesores
+           // 1) Asumimos que $resultado ya viene ordenado por fecha DESC, hora DESC
+$unicos = [];
+
+// 2) Recorremos todos los mensajes
+foreach ($resultado as $mensaje) {
+    $dni = $mensaje[0]; // índice 0 = dni/interlocutor_id
+    
+    // Si aún no hemos guardado nada para este DNI, lo guardamos
+    // (como vienen ordenados, la primera vez será el más reciente).
+    if (!isset($unicos[$dni])) {
+        $unicos[$dni] = $mensaje;
+    }
+}
+
+// 3) Reconstruimos un array indexado con solo los mensajes únicos
+$resultadoFiltrado = array_values($unicos);
+
+// Ahora $resultadoFiltrado solo contiene un mensaje (el más reciente) por cada DNI
+            echo json_encode($resultadoFiltrado);  // Devolver los datos de los profesores
         } else {
             echo json_encode(["error" => "No se encontraron docentes"]);  // Error en caso de no encontrar docentes
         }
