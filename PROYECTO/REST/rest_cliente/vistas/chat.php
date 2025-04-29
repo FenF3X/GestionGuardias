@@ -18,7 +18,8 @@ $params     = ['accion' => 'consultaProfesMensaje',  'documento'=> $document];
 $resp       = curl_conexion(URL, 'POST', $params);
 $profesores = json_decode($resp, true);
 if (!is_array($profesores) || empty($profesores)) {
-  die('Error al obtener la lista de profesores.');
+  alert('Error al obtener la lista de profesores.');
+  ?> <a href="dashboard.php">Volver</a><?php
 }
 
 // 3) Determinar nombre de profesor (GET) o primer profesor
@@ -48,15 +49,19 @@ if (!$profActual) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mensaje'])) {
   $contenido = trim($_POST['mensaje']);
   $params    = [
-    'accion'   => 'enviaMensaje',
-    'emisor'   => $document,
-    'receptor' => $profesorId,
-    'mensaje' => $contenido
+    'accion'          => 'enviaMensaje',
+    'emisor'          => $document,
+    'nombreEmisor'    => $nombre,
+    'receptor'        => $_POST['receptor'],
+    'nombreReceptor'  => $_POST['nombreReceptor'],  // ← ahora sí
+    'mensaje'         => $contenido
   ];
   curl_conexion(URL, 'POST', $params);
-  header('Location: chat.php?profesor=' . urlencode($profNombre));
+  header('Location: chat.php?profesor=' . urlencode($_POST['nombreReceptor']));
   exit;
 }
+
+
 
 // 6) Cargar mensajes
 $params   = [
@@ -163,7 +168,7 @@ $mensajes  = json_decode($resp, true) ?: [];
                     $sender = $isMe ? 'Tú' : htmlspecialchars($profActual[1]);
                     $cls    = $isMe ? 'from-me bg-primary text-white' : 'from-them bg-white';
                     // Usa la columna de hora directamente
-$hora = $m[3] ?? '';
+                  $hora = $m[3] ?? '';
                   ?>
                   <div class="d-flex mb-3 <?= $isMe ? 'justify-content-end' : '' ?>">
                     <div class="msg p-2 rounded <?= $cls ?>">
@@ -175,6 +180,8 @@ $hora = $m[3] ?? '';
               <?php endif; ?>
             </div>
             <form method="post" class="input-group">
+            <input type="hidden" name="receptor" value="<?= $profesorId ?>">
+              <input type="hidden" name="nombreReceptor" value="<?= htmlspecialchars($profNombre) ?>">
               <input name="mensaje" type="text" class="form-control" placeholder="Escribe tu mensaje..." autocomplete="off">
               <button class="btn btn-primary" type="submit">Enviar</button>
             </form>

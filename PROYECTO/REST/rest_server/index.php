@@ -514,16 +514,19 @@ elseif ($metodo === 'POST') {
     }
     elseif ($accion == "enviaMensaje") {
         $docent_emisor   = $_POST['emisor'];
+        $nombreEmisor = $_POST['nombreEmisor'];
         $docent_receptor = $_POST['receptor'];
+        $nombreReceptor = $_POST['nombreReceptor'];
         $mensaje         = $_POST['mensaje'];
         $fecha           = date('Y-m-d');
         $hora            = date('H:i:s');  // guardamos la hora con segundos
     
-        $sql = "INSERT INTO mensajes 
-                  (docent_emisor, docent_receptor, mensaje, fecha, hora)
-                VALUES
-                  ('$docent_emisor', '$docent_receptor', '" . addslashes($mensaje) . "', '$fecha', '$hora')";
-    
+        $sql = "INSERT INTO mensajes
+        (docent_emisor, nombreEmisor, docent_receptor, nombreReceptor, mensaje, fecha, hora)
+      VALUES
+        ('$docent_emisor', '$nombreEmisor', '$docent_receptor', '$nombreReceptor', '"
+        . addslashes($mensaje) . "', '$fecha', '$hora')";
+
         $mensajeEscrito = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
         if ($mensajeEscrito) {
             echo json_encode(['success' => true]);
