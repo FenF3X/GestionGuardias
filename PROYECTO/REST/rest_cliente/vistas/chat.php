@@ -160,21 +160,22 @@ $mensajes = json_decode($resp, true) ?: [];
         <!-- CONTACTOS -->
         <div class="col-md-3 mb-3">
           <h5>Mis mensajes</h5>
-          <div class="list-group">
-            <?php foreach ($profesoresEscritos as $prof):
-              $name    = htmlspecialchars($prof[1]);
-              $msg     = $prof[2] ?? 'Sin mensajes';
-              $preview = mb_strimwidth($msg, 0, 30, '...');
-              $active  = ($name === $profNombre) ? ' active' : '';
-              $url     = 'chat.php?profesor=' . urlencode($name);
-            ?>
-              <a href="<?= $url ?>"
-                 class="list-group-item list-group-item-action<?= $active ?>">
-                <div class="fw-semibold"><?= $name ?></div>
-                <small class="text-muted"><?= $preview ?></small>
-              </a>
-            <?php endforeach; ?>
-          </div>
+<div class="list-group">
+  <?php foreach ($profesoresEscritos as $prof):
+    $name    = htmlspecialchars($prof[1]);   // contact_name
+    $msg     = $prof[2]  ?? 'Sin mensajes';   // mensaje
+    $preview = mb_strimwidth($msg, 0, 30, '...');
+    $active  = ($name === $profNombre) ? ' active' : '';
+    $url     = 'chat.php?profesor=' . urlencode($name);
+  ?>
+    <a href="<?= $url ?>"
+       class="list-group-item list-group-item-action<?= $active ?>">
+      <div class="fw-semibold"><?= $name ?></div>
+      <small class="text-muted"><?= $preview ?></small>
+    </a>
+  <?php endforeach; ?>
+</div>
+
 
           <h5 class="mt-4">Otros Contactos</h5>
           <form method="get" id="frmProf2">

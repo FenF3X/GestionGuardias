@@ -486,12 +486,12 @@ elseif ($metodo === 'POST') {
     }
     elseif ($accion === "consultaProfesEscritos") {
         $doc = $_POST['documento'];
-        $sql = "SELECT DISTINCT docent_receptor, nombreReceptor,mensaje AS nombre_completo 
+        $sql = "SELECT DISTINCT docent_receptor, nombreReceptor,mensaje,fecha, hora AS nombre_completo 
             FROM mensajes 
             WHERE docent_emisor = '$doc' 
             AND docent_receptor <> '$doc'
             UNION
-            SELECT DISTINCT docent_emisor, nombreEmisor,mensaje AS nombre_completo 
+            SELECT DISTINCT docent_emisor, nombreEmisor,mensaje,fecha,hora AS nombre_completo 
             FROM mensajes 
             WHERE docent_receptor = '$doc' 
             AND docent_emisor <> '$doc'";
