@@ -207,66 +207,47 @@ $mensajes = json_decode($resp, true) ?: [];
               <p class="text-center text-muted">No tienes mensajes en este chat</p>
             <?php else: ?>
               <?php foreach ($mensajes as $m):
-                $isMe   = ($m[0] == $document);
-                $sender = $isMe ? 'Tú' : htmlspecialchars($profActual[1]);
-                $cls    = $isMe ? 'from-me bg-primary text-white' : 'from-them bg-white';
-                $hora   = $m[3] ?? '';
-                $leido  = $m[4] ?? null; 
-                 // Determinar el color del doble check
-                $checkColor = $leido ? 'text-white' : 'text-secondary'; // Blanco si leído, gris si no
-
-              ?>
-                <div class="d-flex mb-3 <?= $isMe ? 'justify-content-end' : '' ?>">
-                  <div class="msg p-2 rounded <?= $cls ?>">
-                  <small class="text-muted d-flex align-items-center">
-    <?= $sender ?> • <?= $hora ?>
-    <?php if ($isMe): ?>
+    $isMe       = ($m[0] == $document);
+    if (!$isMe) continue;         // sólo mostramos el menú en nuestros mensajes
+    $sender     = 'Tú';
+    $hora       = $m[3] ?? '';
+    $leido      = $m[4] ?? null;
+    $numMensaje = $m[5] ?? 0;     
+    $checkColor = $leido ? 'text-white' : 'text-black';
+?>
+  <div class="d-flex mb-3 justify-content-end">
+    <div class="msg p-2 rounded from-me bg-primary text-white">
+      <small class="text-muted d-flex align-items-center">
+        <?= $sender ?> • <?= $hora ?>
         <i class="bi bi-check2-all <?= $checkColor ?> ms-2"></i>
         <div class="dropup dropCustomGroup ms-2 position-relative">
-  <a class="btn btn-secondary btn-sm dropdown-toggle"
-     href="#"
-     role="button"
-     id="dropdownMenuLinkMsg"
-     data-bs-toggle="dropdown"
-     aria-expanded="false">
-    <i class="bi bi-chevron-down"></i>
-  </a>
-  <ul class="dropdown-menu dropdown-menu-start dropCustomMenu"
-      aria-labelledby="dropdownMenuLinkMsg">
-    <li>
-      <a class="dropdown-item"
-         href="#"
-         data-bs-toggle="modal"
-         data-bs-target="#editMessageModal">
-         Editar mensaje
-      </a>
-    </li>
-    <li>
-      <a class="dropdown-item text-danger"
-         href="#"
-         data-bs-toggle="modal"
-         data-bs-target="#deleteMessageModal">
-         Eliminar mensaje
-      </a>
-    </li>
-    <li>
-      <a class="dropdown-item"
-         href="#"
-         data-bs-toggle="modal"
-         data-bs-target="#forwardMessageModal">
-         Reenviar mensaje
-      </a>
-    </li>
-  </ul>
-</div>
+          <a class="btn btn-secondary btn-sm dropdown-toggle"
+             href="#"
+             role="button"
+             data-bs-toggle="dropdown"
+             aria-expanded="false">
+            <i class="bi bi-chevron-down"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-start dropCustomMenu">
+            <!-- ... Editar, Reenviar … -->
+            <li>
+              <!-- aquí pasamos el ID al modal global -->
+              <a class="dropdown-item text-danger"
+                 href="#"
+                 data-bs-toggle="modal"
+                 data-bs-target="#deleteMessageModal"
+                 data-message-id="<?= $numMensaje ?>">
+                Eliminar mensaje
+              </a>
+            </li>
+          </ul>
+        </div>
+      </small>
+      <div><?= nl2br(htmlspecialchars($m[1] ?? '')) ?></div>
+    </div>
+  </div>
+<?php endforeach; ?>
 
-
-    <?php endif; ?>
-</small>
-                    <div><?= nl2br(htmlspecialchars($m[1] ?? '')) ?></div>
-                  </div>
-                </div>
-              <?php endforeach; ?>
             <?php endif; ?>
           </div>
 
@@ -315,8 +296,14 @@ $mensajes = json_decode($resp, true) ?: [];
         ¿Estás seguro de que quieres eliminar este mensaje?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger">Eliminar</button>
+        <form action="../elementosMensaje.php" method="POST">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" name="eliminar" class="btn btn-danger">Eliminar</button>
+          <input type="hidden" name="mensaje" id="deleteMessageId" value="">
+          <input type="hidden" name="receptor" value="<?= htmlspecialchars($profesorId) ?>">
+          <input type="hidden" name="emisor" value="<?= htmlspecialchars($document) ?>">
+
+        </form>
       </div>
     </div>
   </div>
@@ -362,6 +349,33 @@ $mensajes = json_decode($resp, true) ?: [];
       </p>
     </div>
   </footer>
+  <script>
+  var deleteModal = document.getElementById('deleteMessageModal');
+  deleteModal.addEventListener('show.bs.modal', function (event) {
+    // El enlace que disparó el modal
+    var button    = event.relatedTarget;
+    // Su atributo con el ID
+    var messageId = button.getAttribute('data-message-id');
+    // Lo ponemos en el input oculto
+    document.getElementById('deleteMessageId').value = messageId;
+  });
+</script>
+<script>
+  window.addEventListener('load', function() {
+    // 1) Scroll del chat hasta el final
+    var chatWindow = document.getElementById('chatWindow');
+    if (chatWindow) {
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+    // 2) Scroll al input y focus
+    var messageInput = document.querySelector('input[name="mensaje"]');
+    if (messageInput) {
+      messageInput.scrollIntoView({ behavior: 'smooth' });
+      messageInput.focus();
+    }
+  });
+</script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
