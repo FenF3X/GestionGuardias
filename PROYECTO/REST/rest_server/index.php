@@ -610,6 +610,7 @@ $resultadoFiltrado = array_values($unicos);
          WHERE docent_emisor = '$docent_emisor'
       ";
       $resCount = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlCount);
+      error_log("CONTEO RECIBIDA: " . $docent_emisor . "\n", 3, "errores.log");
       error_log("CONTEO RECIBIDA: " . print_r($resCount,true) . "\n", 3, "errores.log");
       $previos   = intval($resCount[0][0] ?? 0);
       error_log($previos);
