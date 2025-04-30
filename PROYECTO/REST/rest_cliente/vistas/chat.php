@@ -98,6 +98,13 @@ $mensajes = json_decode($resp, true) ?: [];
       white-space: normal;
       padding: 0.75rem 1rem;
     }
+    .dropCustomGroup .dropdown-menu {
+    top: auto !important; /* Ignorar el posicionamiento automático */
+    bottom: 100%; /* Posicionar hacia arriba */
+    left: 0; /* Alinear a la izquierda */
+    transform: translate(0, -5px); /* Ajustar ligeramente la posición */
+}
+
   </style>
 </head>
 <body>
@@ -212,11 +219,23 @@ $mensajes = json_decode($resp, true) ?: [];
               ?>
                 <div class="d-flex mb-3 <?= $isMe ? 'justify-content-end' : '' ?>">
                   <div class="msg p-2 rounded <?= $cls ?>">
-                    <small class="text-muted"><?= $sender ?> • <?= $hora ?>
-                    <?php if ($isMe): ?>
-                    <i class="bi bi-check2-all <?= $checkColor ?>"></i>
-                <?php endif; ?>
-                  </small>
+                  <small class="text-muted d-flex align-items-center">
+    <?= $sender ?> • <?= $hora ?>
+    <?php if ($isMe): ?>
+        <i class="bi bi-check2-all <?= $checkColor ?> ms-2"></i>
+        <div class="dropdown ms-2 dropup dropCustomGroup" id="opciones">
+    <a class="btn btn-secondary btn-sm" href="#" role="button" id="dropdownMenuLinkMsg" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-chevron-down"></i> <!-- Icono de flecha hacia abajo personalizado -->
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-start dropCustomMenu" aria-labelledby="dropdownMenuLinkMsg">
+        <li><a class="dropdown-item" href="#">Editar mensaje</a></li>
+        <li><a class="dropdown-item" href="#">Eliminar mensaje</a></li>
+        <li><a class="dropdown-item" href="#">Reenviar mensaje</a></li>
+    </ul>
+</div>
+    <?php endif; ?>
+</small>
                     <div><?= nl2br(htmlspecialchars($m[1] ?? '')) ?></div>
                   </div>
                 </div>
