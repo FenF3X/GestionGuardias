@@ -233,11 +233,33 @@ $mensajes = json_decode($resp, true) ?: [];
   </a>
   <ul class="dropdown-menu dropdown-menu-start dropCustomMenu"
       aria-labelledby="dropdownMenuLinkMsg">
-    <li><a class="dropdown-item" href="#">Editar mensaje</a></li>
-    <li><a class="dropdown-item" href="#">Eliminar mensaje</a></li>
-    <li><a class="dropdown-item" href="#">Otra acción</a></li>
+    <li>
+      <a class="dropdown-item"
+         href="#"
+         data-bs-toggle="modal"
+         data-bs-target="#editMessageModal">
+         Editar mensaje
+      </a>
+    </li>
+    <li>
+      <a class="dropdown-item text-danger"
+         href="#"
+         data-bs-toggle="modal"
+         data-bs-target="#deleteMessageModal">
+         Eliminar mensaje
+      </a>
+    </li>
+    <li>
+      <a class="dropdown-item"
+         href="#"
+         data-bs-toggle="modal"
+         data-bs-target="#forwardMessageModal">
+         Reenviar mensaje
+      </a>
+    </li>
   </ul>
 </div>
+
 
     <?php endif; ?>
 </small>
@@ -259,6 +281,75 @@ $mensajes = json_decode($resp, true) ?: [];
     </div>
   </main>
 
+      <!-- Modal Editar Mensaje -->
+<div class="modal fade" id="editMessageModal" tabindex="-1" aria-labelledby="editMessageLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editMessageLabel">Editar mensaje</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="editMessageInput" class="form-label">Nuevo texto</label>
+          <textarea id="editMessageInput" class="form-control" rows="3">Aquí va el mensaje</textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Eliminar Mensaje -->
+<div class="modal fade" id="deleteMessageModal" tabindex="-1" aria-labelledby="deleteMessageLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteMessageLabel">Eliminar mensaje</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que quieres eliminar este mensaje?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Reenviar Mensaje -->
+<div class="modal fade" id="forwardMessageModal" tabindex="-1" aria-labelledby="forwardMessageLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="forwardMessageLabel">Reenviar mensaje</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="forwardToInput" class="form-label">Enviar a:</label>
+          <select id="forwardToInput" class="form-select">
+            <!-- Aquí puedes poblar con tus contactos -->
+            <option value="1">Profesor A</option>
+            <option value="2">Profesor B</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Reenviar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
   <!-- FOOTER -->
   <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f)">
     <div class="container text-center">
@@ -271,7 +362,6 @@ $mensajes = json_decode($resp, true) ?: [];
       </p>
     </div>
   </footer>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
