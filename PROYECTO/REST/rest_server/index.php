@@ -556,7 +556,7 @@ $resultadoFiltrado = array_values($unicos);
         $docent_emisor   = $_POST['emisor'];
         $docent_receptor = $_POST['receptor'];
     
-        $sql = "SELECT docent_emisor, mensaje, fecha, hora
+        $sql = "SELECT docent_emisor, mensaje, fecha, hora, leido
                 FROM mensajes
                 WHERE (docent_emisor = '$docent_emisor' AND docent_receptor = '$docent_receptor')
                    OR (docent_emisor = '$docent_receptor' AND docent_receptor = '$docent_emisor')
@@ -564,10 +564,35 @@ $resultadoFiltrado = array_values($unicos);
         $resultMensajes = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
     
         if (is_array($resultMensajes) && !empty($resultMensajes)) {
+            foreach ($resultMensajes as $mensaje) {
+                if (!($mensaje[4])) {
+                    $sqlUpd = "
+                    UPDATE mensajes
+                    SET leido = NOW()
+                    WHERE docent_emisor   = '$docent_receptor'
+                    AND docent_receptor = '$docent_emisor'
+                    AND leido IS NULL 
+                    ";
+                conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlUpd);
+                }
+            }
+         }
+            $sql = "SELECT docent_emisor, mensaje, fecha, hora, leido
+                FROM mensajes
+                WHERE (docent_emisor = '$docent_emisor' AND docent_receptor = '$docent_receptor')
+                   OR (docent_emisor = '$docent_receptor' AND docent_receptor = '$docent_emisor')
+                ORDER BY fecha";
+       
+        if (is_array($resultMensajes) && !empty($resultMensajes)) {
+
+        $resultMensajes = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
+    
             echo json_encode($resultMensajes);
-        } else {
+            }
+        else {
             echo json_encode("No tienes mensajes en este chat");
         }
+    
     }
     elseif ($accion == "enviaMensaje") {
         $docent_emisor   = $_POST['emisor'];

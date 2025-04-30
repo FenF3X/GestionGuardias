@@ -17,17 +17,12 @@ if (!$document) {
 $params = ['accion' => 'consultaProfesEscritos', 'documento' => $document];
 $resp = curl_conexion(URL, 'POST', $params);
 $profesoresEscritos = json_decode($resp, true);
-if (!is_array($profesoresEscritos) || empty($profesoresEscritos)) {
-  die('Error al obtener la lista de profesores escritos.');
-}
+
 
 // 3) Obtener lista completa de profesores
 $params = ['accion' => 'consultaProfesMensaje', 'documento' => $document];
 $resp = curl_conexion(URL, 'POST', $params);
 $profesores = json_decode($resp, true);
-if (!is_array($profesores) || empty($profesores)) {
-  die('Error al obtener la lista de profesores.');
-}
 
 // 4) Determinar profesor actual (GET o primer elemento)
 $profNombre = $_GET['profesor'] ?? $profesores[0][1] ?? null;
@@ -159,38 +154,40 @@ $mensajes = json_decode($resp, true) ?: [];
       <div class="row">
         <!-- CONTACTOS -->
         <div class="col-md-3 mb-3">
-          <h5>Mis mensajes</h5>
+        <?php $tamaño = 14?>
+          <?php if (!empty($profesoresEscritos)): ?>
+            <h5>Mis mensajes</h5>
             <div class="list-group">
-            <?php error_log(print_r($profesoresEscritos, true)); ?>
-  <?php foreach ($profesoresEscritos as $prof): 
-    // Ahora cada $prof es un array con:
-    // 0 => interlocutor_id
-    // 1 => interlocutor_nombre
-    // 2 => mensaje
-    // 3 => fecha
-    // 4 => hora
-    $name    = htmlspecialchars($prof[1]);   
-    $msg     = $prof[2]  ?? 'Sin mensajes';   
-    $preview = mb_strimwidth($msg, 0, 30, '...');
-    $active  = ($name === $profNombre) ? ' active' : '';
-    $url     = 'chat.php?profesor=' . urlencode($name);
-  ?>
-    <a href="<?= $url ?>"
-       class="list-group-item list-group-item-action<?= $active ?>">
-      <div class="fw-semibold"><?= $name ?></div>
-      <small class="text-muted"><?= $preview ?></small>
-    </a>
-  <?php endforeach; ?>
-</div>
-
+              <?php $tamaño = 6?>
+              <?php foreach ($profesoresEscritos as $prof): 
+                // Ahora cada $prof es un array con:
+                // 0 => interlocutor_id
+                // 1 => interlocutor_nombre
+                // 2 => mensaje
+                // 3 => fecha
+                // 4 => hora
+                $name    = htmlspecialchars($prof[1]);   
+                $msg     = $prof[2]  ?? 'Sin mensajes';   
+                $preview = mb_strimwidth($msg, 0, 30, '...');
+                $active  = ($name === $profNombre) ? ' active' : '';
+                $url     = 'chat.php?profesor=' . urlencode($name);
+              ?>
+                <a href="<?= $url ?>"
+                   class="list-group-item list-group-item-action<?= $active ?>">
+                  <div class="fw-semibold"><?= $name ?></div>
+                  <small class="text-muted"><?= $preview ?></small>
+                </a>
+              <?php endforeach; ?>
+            </div>
+          <?php endif; ?>
 
           <h5 class="mt-4">Otros Contactos</h5>
           <form method="get" id="frmProf2">
-            <select name="profesor" class="form-select" size="6" onchange="frmProf2.submit()">
+            <select name="profesor" class="form-select" size="<?= $tamaño ?>" onchange="frmProf2.submit()">
               <?php foreach ($profesores as $prof): ?>
-                <option value="<?= htmlspecialchars($prof[1]) ?>" <?= ($prof[1] === $profNombre ? 'selected' : '') ?>>
-                  <?= htmlspecialchars($prof[1]) ?>
-                </option>
+              <option value="<?= htmlspecialchars($prof[1]) ?>" <?= ($prof[1] === $profNombre ? 'selected' : '') ?>>
+                <?= htmlspecialchars($prof[1]) ?>
+              </option>
               <?php endforeach; ?>
             </select>
           </form>
@@ -208,10 +205,18 @@ $mensajes = json_decode($resp, true) ?: [];
                 $sender = $isMe ? 'Tú' : htmlspecialchars($profActual[1]);
                 $cls    = $isMe ? 'from-me bg-primary text-white' : 'from-them bg-white';
                 $hora   = $m[3] ?? '';
+                $leido  = $m[4] ?? null; 
+                 // Determinar el color del doble check
+                $checkColor = $leido ? 'text-white' : 'text-secondary'; // Blanco si leído, gris si no
+
               ?>
                 <div class="d-flex mb-3 <?= $isMe ? 'justify-content-end' : '' ?>">
                   <div class="msg p-2 rounded <?= $cls ?>">
-                    <small class="text-muted"><?= $sender ?> • <?= $hora ?></small>
+                    <small class="text-muted"><?= $sender ?> • <?= $hora ?>
+                    <?php if ($isMe): ?>
+                    <i class="bi bi-check2-all <?= $checkColor ?>"></i>
+                <?php endif; ?>
+                  </small>
                     <div><?= nl2br(htmlspecialchars($m[1] ?? '')) ?></div>
                   </div>
                 </div>
