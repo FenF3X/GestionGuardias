@@ -234,7 +234,7 @@ $mensajes = json_decode($resp, true) ?: [];
         <li><a class="dropdown-item"  id="editarSeleccion">Editar</a></li>
         <li><a class="dropdown-item" id="borrarSeleccion">Eliminar</a></li>
         <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Marcar como no leído</a></li>
+        <li><a class="dropdown-item" id="quitarVisto">Marcar como no leído</a></li>
       </ul>
     </div>
   </div>
