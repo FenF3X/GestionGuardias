@@ -621,7 +621,6 @@ $resultadoFiltrado = array_values($unicos);
     
     
 }elseif ($metodo === 'PUT') {
-    error_log("entro al put");
 
     $raw = file_get_contents('php://input');
 
@@ -651,8 +650,32 @@ $resultadoFiltrado = array_values($unicos);
     }
 } 
 elseif ($metodo === 'DELETE') {         
-    // Por implementar         
-} 
+    $raw = file_get_contents('php://input');
+
+    $datos = json_decode($raw, true);
+    if (!is_array($datos)) {
+        parse_str($raw, $datos);
+    }
+    if ($datos["accion"] == "BorrarMensaje") {
+
+        $wheres = [];
+foreach ($datos["mensajes"] as $m) {
+    $fecha   = $m['fecha'];
+    $hora    = $m['hora'];
+    $texto   = $m['mensajeOriginal'];
+    $wheres[] = "(`fecha` = '$fecha' AND `hora` = '$hora' AND `mensaje` = '$texto')";
+        }
+    
+        $sql = "DELETE FROM `mensajes` WHERE " . implode(' OR ', $wheres);
+        $result = conexion_bd(SERVIDOR,USER,PASSWD,BASE_DATOS,$sql);
+
+        if ($result) {
+            echo json_encode(["exito" => true]);
+        } else{
+            echo json_encode(["exito" => false]);
+        }
+    }
+    } 
 else {         
     echo json_encode(["error" => "Opción incorrecta!!!!"]); 
 }
