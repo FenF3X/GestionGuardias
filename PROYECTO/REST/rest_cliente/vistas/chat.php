@@ -98,6 +98,26 @@ $mensajes = json_decode($resp, true) ?: [];
       white-space: normal;
       padding: 0.75rem 1rem;
     }
+    /* Contenedor relativo para el dropdown manual */
+.manual-dropdown {
+  position: relative;
+  display: inline-block;
+}
+/* Oculta el menú por defecto */
+.manual-dropdown .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  display: none;
+  margin-top: 0.5rem;  
+  background: linear-gradient(135deg, #0f1f2d, #18362f);
+
+}
+/* Cuando tenga la clase .show, se muestra */
+.manual-dropdown .dropdown-menu.show {
+  display: block;
+}
+
   </style>
 </head>
 <body>
@@ -195,32 +215,65 @@ $mensajes = json_decode($resp, true) ?: [];
 
         <!-- VENTANA CHAT -->
         <div class="col-md-9 d-flex flex-column">
-          <div class="border rounded p-3 mb-3"><strong>Chat con <?= htmlspecialchars($profActual[1]) ?></strong></div>
+        <div class="border rounded p-3 mb-3 d-flex justify-content-between align-items-center">
+  <strong>Chat con <?= htmlspecialchars($profActual[1]) ?></strong>
+
+  <?php if(is_array($mensajes)) : ?>
+  <div class="d-flex align-items-center">
+    <!-- Botón Habilitar/Desactivar edición -->
+    <button id="toggle-edit-btn" class="btn btn-sm btn-secondary me-3">
+      Habilitar edición
+    </button>
+
+    <!-- Dropdown manual de tres puntos -->
+    <div class="manual-dropdown" id="manualDropdown" style="display: none;">
+            <button id="btnOpciones" class="btn btn-link text-muted p-0">
+        <i class="bi bi-three-dots-vertical fs-4"></i>
+      </button>
+      <ul id="menuOpciones" class="dropdown-menu">
+        <li><a class="dropdown-item" href="#" id="editarSeleccion">Editar</a></li>
+        <li><a class="dropdown-item" href="#">Eliminar</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#">Marcar como no leído</a></li>
+      </ul>
+    </div>
+  </div>
+  <?php endif; ?>
+</div>
+
           <div id="chatWindow" class="chat-window border rounded flex-grow-1 p-3 mb-2 overflow-auto bg-light">
             <?php if (!is_array($mensajes)): ?>
               <p class="text-center text-muted">No tienes mensajes en este chat</p>
             <?php else: ?>
               <?php foreach ($mensajes as $m):
-                $isMe   = ($m[0] == $document);
-                $sender = $isMe ? 'Tú' : htmlspecialchars($profActual[1]);
-                $cls    = $isMe ? 'from-me bg-primary text-white' : 'from-them bg-white';
-                $hora   = $m[3] ?? '';
-                $leido  = $m[4] ?? null; 
-                 // Determinar el color del doble check
-                $checkColor = $leido ? 'text-white' : 'text-secondary'; // Blanco si leído, gris si no
+  $isMe   = ($m[0] == $document);
+  $sender = $isMe ? 'Tú' : htmlspecialchars($profActual[1]);
+  $cls    = $isMe ? 'from-me bg-primary text-white' : 'from-them bg-white';
+  $hora   = $m[3] ?? '';
+  $leido  = $m[4] ?? null;
+?>
+  <div class="d-flex mb-3 message-item <?= $isMe ? 'justify-content-end' : '' ?>">
+    <?php if ($isMe): ?>
+      <!-- checkbox sólo en mis mensajes -->
+      <input type="checkbox"
+             class="edit-checkbox me-2"
+             style="display:none;"
+             value="<?= htmlspecialchars($m[2]) /* o el ID del mensaje */ ?>">
+    <?php endif; ?>
 
-              ?>
-                <div class="d-flex mb-3 <?= $isMe ? 'justify-content-end' : '' ?>">
-                  <div class="msg p-2 rounded <?= $cls ?>">
-                    <small class="text-muted"><?= $sender ?> • <?= $hora ?>
-                    <?php if ($isMe): ?>
-                    <i class="bi bi-check2-all <?= $checkColor ?>"></i>
-                <?php endif; ?>
-                  </small>
-                    <div><?= nl2br(htmlspecialchars($m[1] ?? '')) ?></div>
-                  </div>
-                </div>
-              <?php endforeach; ?>
+    <div class="msg p-2 rounded <?= $cls ?>">
+      <small class="text-muted">
+        <?= $sender ?> • <?= $hora ?>
+        <?php if ($isMe): ?>
+          <i class="bi bi-check2-all <?= $leido ? 'text-white' : 'text-secondary' ?>"></i>
+        <?php endif; ?>
+      </small>
+      <div><?= nl2br(htmlspecialchars($m[1] ?? '')) ?></div>
+    </div>
+  </div>
+<?php endforeach; ?>
+
+
             <?php endif; ?>
           </div>
 
@@ -248,7 +301,93 @@ $mensajes = json_decode($resp, true) ?: [];
     </div>
   </footer>
 
-  <script src="../src/chat.js"></script>
+  <!-- Modal de alerta personalizada -->
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alertModalLabel">Atención</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body" id="alertModalBody">
+        <!-- Aquí irá el mensaje dinámico -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+ <script>
+(function(){
+  const toggleBtn = document.getElementById('toggle-edit-btn');
+  const manualDropdown = document.getElementById('manualDropdown');
+  const editCheckboxes = () => Array.from(document.querySelectorAll('.edit-checkbox'));
+
+  // Toggle de edición (checkboxes + dropdown)
+  toggleBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const checkboxes = editCheckboxes();
+    const editing = !(checkboxes.length && checkboxes[0].style.display === 'inline-block');
+
+    checkboxes.forEach(cb => {
+      cb.style.display = editing ? 'inline-block' : 'none';
+      if (!editing) cb.checked = false;  // opcional: desmarca al salir
+    });
+
+    this.textContent = editing ? 'Desactivar edición' : 'Habilitar edición';
+    manualDropdown.style.display = editing ? 'inline-block' : 'none';
+  });
+
+  // Dropdown manual de tres puntos
+  const btnOpciones = document.getElementById('btnOpciones');
+  const menuOpciones = document.getElementById('menuOpciones');
+
+  btnOpciones.addEventListener('click', function(e){
+    e.stopPropagation();
+    menuOpciones.classList.toggle('show');
+  });
+
+  document.addEventListener('click', function(){
+    menuOpciones.classList.remove('show');
+  });
+
+  menuOpciones.addEventListener('click', function(e){
+    e.stopPropagation();
+  });
+
+  // Acción “Editar”: sólo si hay exactamente un checkbox seleccionado
+  document.getElementById('editarSeleccion').addEventListener('click', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+    const seleccionados = editCheckboxes()
+      .filter(cb => cb.style.display !== 'none' && cb.checked);
+
+    if (seleccionados.length !== 1) {
+      const modalBody = document.getElementById('alertModalBody');
+      modalBody.textContent = 'Por favor selecciona un único mensaje para editar.';
+      const alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
+      alertModal.show();
+      return;
+    }
+
+    const mensajeId = seleccionados[0].value;
+    window.location.href = `editarMensaje.php?id=${encodeURIComponent(mensajeId)}`;
+  });
+
+  // Scroll al final y focus en el input al cargar
+  window.addEventListener('load', function(){
+    const chatWindow = document.getElementById('chatWindow');
+    if (chatWindow) chatWindow.scrollTop = chatWindow.scrollHeight;
+    const messageInput = document.querySelector('input[name="mensaje"]');
+    if (messageInput) messageInput.focus();
+  });
+})();
+</script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
