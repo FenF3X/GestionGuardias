@@ -15,14 +15,11 @@ if ($metodo === 'GET') {
     }
     // Manejo de diferentes acciones
     $accion = $_GET['accion'] ?? null;
-    error_log("entro server");
     if($accion === "consultaSesiones"){
-        error_log("entro consultaSesiones");
         $sql = "SELECT DISTINCT sessio_orde, CONCAT('Sesion ', sessio_orde, ': ', hora_desde, ' - ', hora_fins) AS horario_completo 
             FROM sessions_horari 
             ORDER BY sessio_orde ASC";
         $result = conexion_bd(SERVIDOR,USER,PASSWD,BASE_DATOS,$sql);
-        error_log("hago consulta");
         if (is_array($result)) {
             if (!empty($result)) {
                 echo json_encode($result);
@@ -623,8 +620,35 @@ $resultadoFiltrado = array_values($unicos);
     }
     
     
-}elseif ($metodo === 'PUT') {         
-    // Por implementar         
+}elseif ($metodo === 'PUT') {
+    error_log("entro al put");
+
+    $raw = file_get_contents('php://input');
+
+    $datos = json_decode($raw, true);
+    if (!is_array($datos)) {
+        parse_str($raw, $datos);
+    }
+    if ($datos["accion"] == "EditarMensaje") {
+        error_log("entro en editar");
+    $docentEmisor       = $datos['docentEmisor']  ?? null;
+    $fecha           = $datos['fecha']         ?? null;
+    $hora            = $datos['hora']          ?? null;
+    $mensajeOriginal = $datos['mOriginal']     ?? null;
+    $mensajeEditado  = $datos['mEditado']      ?? null;
+
+        $sql = "UPDATE mensajes SET mensaje = '$mensajeEditado' WHERE docent_emisor = '$docentEmisor' AND
+        fecha = '$fecha' AND hora ='$hora' AND mensaje = '$mensajeOriginal'";
+
+        error_log($sql);
+        $result = conexion_bd(SERVIDOR, USER,PASSWD,BASE_DATOS,$sql);
+
+        if ($result) {
+            echo json_encode(["exito" => true]);
+        } else{
+            echo json_encode(["exito" => false]);
+        }
+    }
 } 
 elseif ($metodo === 'DELETE') {         
     // Por implementar         

@@ -71,3 +71,4 @@
 05-05-2025 07:13:22 | Fallo | DNI: 011939238D | Profesor: JUAN ANTONIO M B | Log In(Entrada)
 05-05-2025 07:13:52 | Éxito | DNI: 016976848Q | Profesor: ESTHER S O | Log In(Entrada)
 05-05-2025 07:14:17 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
+05-05-2025 11:15:12 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)

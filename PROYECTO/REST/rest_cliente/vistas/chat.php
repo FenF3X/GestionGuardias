@@ -246,32 +246,37 @@ $mensajes = json_decode($resp, true) ?: [];
               <p class="text-center text-muted">No tienes mensajes en este chat</p>
             <?php else: ?>
               <?php foreach ($mensajes as $m):
-  $isMe   = ($m[0] == $document);
-  $sender = $isMe ? 'Tú' : htmlspecialchars($profActual[1]);
-  $cls    = $isMe ? 'from-me bg-primary text-white' : 'from-them bg-white';
-  $hora   = $m[3] ?? '';
-  $leido  = $m[4] ?? null;
-?>
-  <div class="d-flex mb-3 message-item <?= $isMe ? 'justify-content-end' : '' ?>">
-    <?php if ($isMe): ?>
-      <!-- checkbox sólo en mis mensajes -->
-      <input type="checkbox"
-             class="edit-checkbox me-2"
-             style="display:none;"
-             value="<?= htmlspecialchars($m[2]) /* o el ID del mensaje */ ?>">
-    <?php endif; ?>
+          $isMe       = ($m[0] == $document);
+          $sender     = $isMe ? 'Tú' : htmlspecialchars($profActual[1]);
+          $cls        = $isMe ? 'from-me bg-primary text-white' : 'from-them bg-white';
+          $fecha      = htmlspecialchars($m[2]);  // fecha
+          $hora       = htmlspecialchars($m[3]);  // hora
+          $leido       = htmlspecialchars($m[4]);  // leido
+          $original   = htmlspecialchars($m[1]);  // texto original
+          $mensajeId  = htmlspecialchars($m[0]);  // id del mensaje
+          $checkColor = $leido ? 'text-white' : 'text-black';
 
-    <div class="msg p-2 rounded <?= $cls ?>">
-      <small class="text-muted">
-        <?= $sender ?> • <?= $hora ?>
-        <?php if ($isMe): ?>
-          <i class="bi bi-check2-all <?= $leido ? 'text-white' : 'text-secondary' ?>"></i>
-        <?php endif; ?>
-      </small>
-      <div><?= nl2br(htmlspecialchars($m[1] ?? '')) ?></div>
-    </div>
-  </div>
-<?php endforeach; ?>
+
+        ?>
+          <div class="d-flex mb-3 message-item <?= $isMe ? 'justify-content-end' : '' ?>">
+            <?php if ($isMe): ?>
+              <input type="checkbox"
+                    class="edit-checkbox me-2"
+                    style="display:none;"
+                    value="<?= $mensajeId ?>"
+                    data-fecha="<?= $fecha ?>"
+                    data-hora="<?= $hora ?>"
+                    data-original="<?= $original ?>">
+            <?php endif; ?>
+
+            <div class="msg p-2 rounded <?= $cls ?>">
+              <small class="text-muted"><?= $sender ?> • <?= $hora ?></small>
+              <i class="bi bi-check2-all <?= $checkColor ?> ms-2"></i>
+              <div><?= nl2br($original) ?></div>
+            </div>
+          </div>
+        <?php endforeach; ?>
+
 
 
             <?php endif; ?>
@@ -319,6 +324,33 @@ $mensajes = json_decode($resp, true) ?: [];
   </div>
 </div>
 
+<!-- Modal de edición de mensaje -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="editForm" method="post" action="../editarMensaje.php" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Editar mensaje</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <input type="hidden" name="idMensaje" id="editModalId">
+      <input type="hidden" name="fecha" id="editModalFecha">
+      <input type="hidden" name="hora" id="editModalHora">
+      <input type="hidden" name="mensajeOriginal" id="editModalOriginal">
+      <input type="hidden" name="nombreReceptor"   value="<?= htmlspecialchars($profNombre) ?>">
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="editModalTextarea" class="form-label">Mensaje</label>
+          <textarea class="form-control" name="mensajeEditado" id="editModalTextarea" rows="4"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+</div>
+
   
  <script>
 (function(){
@@ -358,25 +390,40 @@ $mensajes = json_decode($resp, true) ?: [];
     e.stopPropagation();
   });
 
-  // Acción “Editar”: sólo si hay exactamente un checkbox seleccionado
   document.getElementById('editarSeleccion').addEventListener('click', function(e){
-    e.preventDefault();
-    e.stopPropagation();
+  e.preventDefault();
+  e.stopPropagation();
 
-    const seleccionados = editCheckboxes()
-      .filter(cb => cb.style.display !== 'none' && cb.checked);
+  const seleccionados = Array.from(document.querySelectorAll('.edit-checkbox'))
+    .filter(cb => cb.style.display !== 'none' && cb.checked);
 
-    if (seleccionados.length !== 1) {
-      const modalBody = document.getElementById('alertModalBody');
-      modalBody.textContent = 'Por favor selecciona un único mensaje para editar.';
-      const alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
-      alertModal.show();
-      return;
-    }
+  if (seleccionados.length !== 1) {
+    document.getElementById('alertModalBody').textContent =
+      'Por favor selecciona un único mensaje para editar.';
+    new bootstrap.Modal(document.getElementById('alertModal')).show();
+    return;
+  }
 
-    const mensajeId = seleccionados[0].value;
-    window.location.href = `editarMensaje.php?id=${encodeURIComponent(mensajeId)}`;
-  });
+  const cb       = seleccionados[0];
+  const mensajeId = cb.value;
+  const original  = cb.dataset.original; // Dataset como setAttribute pero para atributos que empiezan
+  const fecha     = cb.dataset.fecha;  // como data-abc
+  const hora      = cb.dataset.hora;
+
+  // Rellenar campos ocultos
+  document.getElementById('editModalId').value       = mensajeId;
+  document.getElementById('editModalOriginal').value = original;
+  document.getElementById('editModalFecha').value    = fecha;
+  document.getElementById('editModalHora').value     = hora;
+
+  // Prefill del textarea con el original
+  document.getElementById('editModalTextarea').value = original;
+
+  // Mostrar modal de edición
+  new bootstrap.Modal(document.getElementById('editModal')).show();
+});
+
+
 
   // Scroll al final y focus en el input al cargar
   window.addEventListener('load', function(){
