@@ -1,3 +1,4 @@
+
 <?php 
 include("config.php");
 session_start(); 
@@ -577,7 +578,7 @@ $resultadoFiltrado = array_values($unicos);
                 }
             }
          }
-            $sql = "SELECT docent_emisor, mensaje, fecha, hora, leido, total_mensajes
+            $sql = "SELECT docent_emisor, mensaje, fecha, hora, leido
                 FROM mensajes
                 WHERE (docent_emisor = '$docent_emisor' AND docent_receptor = '$docent_receptor')
                    OR (docent_emisor = '$docent_receptor' AND docent_receptor = '$docent_emisor')
@@ -603,35 +604,11 @@ $resultadoFiltrado = array_values($unicos);
         $fecha           = date('Y-m-d');
         $hora            = date('H:i:s');  // guardamos la hora con segundos
     
-        //Conteo de mensajes que yo enviaré para controlarlos por ID
-        $sqlCount = "
-        SELECT COUNT(*) AS total 
-          FROM mensajes 
-         WHERE docent_emisor = '$docent_emisor'
-      ";
-      $resCount = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlCount);
-      error_log("CONTEO RECIBIDA: " . $docent_emisor . "\n", 3, "errores.log");
-      error_log("CONTEO RECIBIDA: " . print_r($resCount,true) . "\n", 3, "errores.log");
-      $previos   = intval($resCount[0][0] ?? 0);
-      error_log($previos);
-
-      $siguiente = $previos + 1;
-
-      $sql = 
-      "INSERT INTO mensajes " .
-      "(docent_emisor, nombreEmisor, docent_receptor, nombreReceptor, mensaje, fecha, hora, leido, total_mensajes) " .
-      "VALUES (" .
-        "'" . $docent_emisor    . "', " .
-        "'" . addslashes($nombreEmisor)   . "', " .
-        "'" . $docent_receptor  . "', " .
-        "'" . addslashes($nombreReceptor) . "', " .
-        "'" . addslashes(trim($mensaje))  . "', " .
-        "'" . $fecha             . "', " .
-        "'" . $hora              . "', " .
-         "NULL" .   // leido = 0
-         $siguiente .   // total_mensajes
-      ")"
-    ;
+        $sql = "INSERT INTO mensajes
+        (docent_emisor, nombreEmisor, docent_receptor, nombreReceptor, mensaje, fecha, hora)
+      VALUES
+        ('$docent_emisor', '$nombreEmisor', '$docent_receptor', '$nombreReceptor', '"
+        . addslashes($mensaje) . "', '$fecha', '$hora')";
 
         $mensajeEscrito = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
         if ($mensajeEscrito) {
