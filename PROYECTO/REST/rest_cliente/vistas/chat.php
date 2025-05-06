@@ -83,42 +83,8 @@ $mensajes = json_decode($resp, true) ?: [];
   <link rel="stylesheet" href="../src/principal.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <style>
-    .chat-window { height: 70vh; }
-    .msg { max-width: 75%; word-wrap: break-word; }
-    .from-me { margin-left: auto; }
-    .from-them { margin-right: auto; }
-    /* Estilos para la lista de contactos custom */
-    .list-group {
-      max-height: 300px;
-      overflow-y: auto;
-    }
-    
-    .list-group-item {
-      white-space: normal;
-      padding: 0.75rem 1rem;
-    }
-    /* Contenedor relativo para el dropdown manual */
-.manual-dropdown {
-  position: relative;
-  display: inline-block;
-}
-/* Oculta el menú por defecto */
-.manual-dropdown .dropdown-menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  display: none;
-  margin-top: 0.5rem;  
-  background: linear-gradient(135deg, #0f1f2d, #18362f);
+  <link rel="stylesheet" href="../src/chat.css">
 
-}
-/* Cuando tenga la clase .show, se muestra */
-.manual-dropdown .dropdown-menu.show {
-  display: block;
-}
-
-  </style>
 </head>
 <body>
   <!-- NAVBAR -->
@@ -148,8 +114,12 @@ $mensajes = json_decode($resp, true) ?: [];
         <div class="d-flex align-items-center ms-auto">
           <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre) ?></strong></span>
           <form method="POST" action="../logout.php" class="mb-0">
-            <button class="btn btn-sm btn-danger" title="Cerrar sesión"><i class="bi bi-box-arrow-right"></i></button>
-          </form>
+          <button 
+  class="btn btn-sm btn-outline-light"
+  style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d);" 
+  title="Cerrar sesión">
+    <i class="bi bi-box-arrow-right"></i>
+  </button>          </form>
         </div>
       </div>
     </div>
@@ -221,7 +191,7 @@ $mensajes = json_decode($resp, true) ?: [];
   <?php if(is_array($mensajes)) : ?>
   <div class="d-flex align-items-center">
     <!-- Botón Habilitar/Desactivar edición -->
-    <button id="toggle-edit-btn" class="btn btn-sm btn-secondary me-3">
+    <button id="toggle-edit-btn" class="btn btn-sm btn-secondary me-3" style="background: linear-gradient(135deg, #9d4edd, #1e3a5f); border:2px solid;">
       Habilitar edición
     </button>
 
@@ -267,7 +237,7 @@ $mensajes = json_decode($resp, true) ?: [];
                     data-original="<?= $original ?>">
             <?php endif; ?>
 
-            <div class="msg p-2 rounded <?= $cls ?>">
+            <div  class="msg p-2 rounded <?= $cls ?>">
               <small class="text-muted"><?= $sender ?> • <?= $hora ?></small>
               <i class="bi bi-check2-all <?= $checkColor ?> ms-2"></i>
               <div><?= nl2br($original) ?></div>
@@ -281,11 +251,35 @@ $mensajes = json_decode($resp, true) ?: [];
           </div>
 
           <form method="post" class="input-group">
-            <input type="hidden" name="receptor"       value="<?= $profesorId ?>">
-            <input type="hidden" name="nombreReceptor" value="<?= htmlspecialchars($profNombre) ?>">
-            <input name="mensaje" type="text" class="form-control" placeholder="Escribe tu mensaje..." autocomplete="off">
-            <button class="btn btn-primary" type="submit">Enviar</button>
-          </form>
+  <input
+    name="mensaje"
+    type="text"
+    class="form-control"
+    placeholder="Escribe tu mensaje..."
+    autocomplete="off"
+    style="
+      border-top-left-radius: .375rem;
+      border-bottom-left-radius: .375rem;
+      border: 2px solid transparent;
+      border-image: linear-gradient(135deg, #9d4edd, #1e3a5f) 1;
+      outline: none; box-shadow: none;
+    "
+  >
+  <button
+    class="btn"
+    type="submit"
+    style="
+      background: linear-gradient(135deg, #9d4edd, #1e3a5f);
+      border: 2px solid #1e3a5f;
+      border-top-right-radius: .375rem;
+      border-bottom-right-radius: .375rem;
+      color:white;
+    "
+  >
+    Enviar
+  </button>
+</form>
+
         </div>
       </div>
     </div>

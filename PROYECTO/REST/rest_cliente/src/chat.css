@@ -1,0 +1,171 @@
+.chat-window { height: 70vh; }
+.msg { max-width: 75%; word-wrap: break-word; }
+.from-me { margin-left: auto; }
+.from-them { margin-right: auto; }
+/* Estilos para la lista de contactos custom */
+.list-group {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.list-group-item {
+  white-space: normal;
+  padding: 0.75rem 1rem;
+}
+/* Contenedor relativo para el dropdown manual */
+.manual-dropdown {
+position: relative;
+display: inline-block;
+}
+/* Oculta el menú por defecto */
+.manual-dropdown .dropdown-menu {
+position: absolute;
+top: 100%;
+right: 0;
+display: none;
+margin-top: 0.5rem;  
+background: linear-gradient(135deg, #0f1f2d, #18362f);
+
+}
+/* Cuando tenga la clase .show, se muestra */
+.manual-dropdown .dropdown-menu.show {
+display: block;
+}
+
+.navbar-toggler {
+background-color: #0f1f2d !important;  
+border: 2px solid #fff !important;     
+}
+
+.navbar-toggler-icon {
+background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
+}
+
+
+.navbar-toggler:hover {
+background-color: #18362f !important; 
+}
+::-webkit-scrollbar {
+display: none; 
+}
+
+
+/* === LIST-GROUP (Mis mensajes) === */
+.list-group-item {
+    background-color: #0f1f2d;               /* fondo oscuro base */
+    color: #fff;                             /* texto blanco */
+    border-left: 4px solid #1e3a5f;          /* barra verde-azulada */
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .list-group-item small.text-muted {
+    color: #fff !important;
+  }
+  /* ====== Eliminar foco azul de los list-group-item ====== */
+.list-group-item:focus,
+.list-group-item:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ====== Eliminar foco azul del select de Otros Contactos ====== */
+.form-select:focus,
+.form-select:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Si quieres además que al hacer clic no cambie fondo ni borde */
+.list-group-item:focus,
+.form-select:focus {
+  background: none;
+  border-color: inherit;
+}
+  .list-group-item:hover {
+    background: linear-gradient(135deg, #1e3a5f, #0f1f2d);
+    border-left-color: #0f1f2d;
+    color:white;
+  }
+  .list-group-item.active {
+    background: linear-gradient(135deg, #1e3a5f, #0f1f2d);
+    border-left-color: #0f1f2d;
+    color: white;
+  }
+  
+ /* === FORM-SELECT (Otros Contactos) unificado === */
+.form-select {
+    background-color: #0f1f2d;      /* mismo fondo oscuro */
+    color: #fff;                    /* texto blanco */
+    border: 2px solid #1e3a5f;      /* borde verde-azulado */
+    border-radius: 0.25rem;
+    /* Quita cualquier apariencia nativa extra */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Forzar caja sobre el background al abrir */
+    background-image: none !important;
+  }
+  
+  /* Opciones */
+  .form-select option {
+    background-color: #0f1f2d;      /* mismo fondo que el select */
+    color: #fff;                    /* texto blanco */
+    padding:5px;
+}
+  
+  /* Hover sobre opción */
+  .form-select option:hover {
+    background-color: #486c9c;      /* degradado sólido intermedio */
+  }
+  
+  /* Cuando esté enfocado, mostrar degradado */
+  .form-select:focus {
+    outline: none;
+    box-shadow: none;
+    background: linear-gradient(135deg, #1e3a5f, #0f1f2d);
+    border-color: #0f1f2d;
+  }
+  
+  /* Scrollbar interno en WebKit */
+  .form-select::-webkit-scrollbar {
+    width: 6px;
+  }
+  .form-select::-webkit-scrollbar-thumb {
+    background-color: #1e3a5f;
+    border-radius: 3px;
+  }
+  .form-select::-webkit-scrollbar-track {
+    background-color: #0f1f2d;
+  }
+  
+  /* Ajuste para que el scrollbar interno no se vea raro */
+  .form-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  
+  /* Flecha del select en blanco */
+  .form-select::-ms-expand {
+    color: #fff;
+  }
+  
+  /* Tamaño dinámico según variable $tamaño */
+  .form-select[size] {
+    height: auto; /* deja que Bootstrap adapte bien el size */
+  }
+  /* ====== Input de mensaje sin foco azul y con borde igual que el botón ====== */
+input[name="mensaje"] {
+    /* Borde con el mismo degradado del botón */
+    border: 2px solid transparent;
+    border-image: linear-gradient(135deg, #9d4edd, #1e3a5f) 1;
+    /* Evitar que salga sombra o outline al hacer foco */
+    outline: none;
+    box-shadow: none;
+  }
+  
+  input[name="mensaje"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    /* Mantener el borde degradado igual */
+    border-image: linear-gradient(135deg, #9d4edd, #1e3a5f) 1;
+  }
