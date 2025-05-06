@@ -211,7 +211,7 @@ if (isset($_SESSION["alertSinSesiones"])) {
         El registro de ausencia se ha realizado satisfactoriamente.
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border: 2px solid; background: linear-gradient(135deg, #1e3a5f, #0f1f2d);">Cerrar</button>
       </div>
     </div>
   </div>
