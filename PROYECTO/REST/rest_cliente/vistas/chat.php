@@ -217,6 +217,8 @@ $mensajes = json_decode($resp, true) ?: [];
           $isMe       = ($m[0] == $document);
           $sender     = $isMe ? 'Tú' : htmlspecialchars($profActual[1]);
           $cls        = $isMe ? 'from-me bg-primary text-white' : 'from-them bg-white';
+          $messColor = $isMe ? 'linear-gradient(135deg, #1e3a5f, #0f1f2d)' : 'linear-gradient(135deg, #9d4edd, #1e3a5f)';
+          $nomColor = $isMe ? '#0dcaf0' : '#db2ea7';
           $fecha      = htmlspecialchars($m[2]);  // fecha
           $hora       = htmlspecialchars($m[3]);  // hora
           $leido       = htmlspecialchars($m[4]);  // leido
@@ -236,12 +238,14 @@ $mensajes = json_decode($resp, true) ?: [];
                     data-hora="<?= $hora ?>"
                     data-original="<?= $original ?>">
             <?php endif; ?>
+            <div class="msg p-2 rounded <?= $cls ?>" style="background: <?= $messColor ?>">
+  <small style="color:<?= $nomColor ?>; font-weight:bold;"><?= $sender ?> • <?= $hora ?></small>
+  <?php if ($isMe): ?>
+    <i class="bi bi-check2-all <?= $checkColor ?> ms-2"></i>
+  <?php endif; ?>
+  <div style="color:white;"><?= nl2br($original) ?></div>
+</div>
 
-            <div class="msg p-2 rounded <?= $cls ?>">
-              <small class="text-muted"><?= $sender ?> • <?= $hora ?></small>
-              <i class="bi bi-check2-all <?= $checkColor ?> ms-2"></i>
-              <div><?= nl2br($original) ?></div>
-            </div>
           </div>
         <?php endforeach; ?>
 
