@@ -22,6 +22,7 @@ $usuarioId = $_SESSION['document'];
     <link rel="stylesheet" href="../src/principal.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<style>::-webkit-scrollbar {display: none; }</style>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <nav class="navbar navbar-expand-lg navbar-custom">
@@ -68,9 +69,12 @@ $usuarioId = $_SESSION['document'];
       <div class="d-flex align-items-center ms-auto">
         <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre); ?></strong></span>
         <form method="POST" action="../logout.php" class="mb-0">
-          <button class="btn btn-sm btn-danger" title="Cerrar sesión">
-            <i class="bi bi-box-arrow-right"></i>
-          </button>
+        <button 
+  class="btn btn-sm btn-outline-light"
+  style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d);" 
+  title="Cerrar sesión">
+    <i class="bi bi-box-arrow-right"></i>
+  </button>
         </form>
       </div>
 
@@ -104,6 +108,8 @@ $usuarioId = $_SESSION['document'];
     href="chat.php" 
     class="btn btn-primary d-flex align-items-center justify-content-center" 
     role="button"
+    style=" border: 2px solid; 
+   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);"
   >
     <i class="bi bi-chat-dots-fill fs-4"></i>
     <span class="ms-2 d-none d-md-inline">Chat</span>
@@ -125,7 +131,10 @@ $usuarioId = $_SESSION['document'];
 <section>
     <div class="d-flex justify-content-center mb-3">
         <form action="../verAusencias.php" method="GET">
-            <button type="submit" name="cargar_guardias" class="btn btn-primary">Cargar Guardias</button>
+            <button type="submit" 
+            name="cargar_guardias" 
+            class="btn btn-primary"
+            style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d);border:0;">Cargar Guardias</button>
         </form>
     </div>
     <?php if (!empty($_SESSION["guardiasPen"]) && isset($_SESSION["guardiasPen"])): ?>
@@ -161,10 +170,11 @@ $usuarioId = $_SESSION['document'];
     <?php if ($sesion[6] == 0): ?>
         <span class="badge bg-danger d-inline-flex align-items-center me-2">Pendiente</span>
         <button 
-  class="btn btn-warning btn-sm w-auto w-sm-100" 
+  class="badge bg-warning btn-sm w-auto w-sm-100" 
+  style="border:0;"
   data-bs-toggle="modal" 
   data-bs-target="#coverGuardModal" 
-  data-sesion="<?php echo htmlspecialchars('Sesion: ' . $sesion[0] . ' - Aula: ' . $sesion[1] . ' - Grupo: ' . $sesion[2]); ?>"
+  data-sesion="<?php echo htmlspecialchars('Sesion: ' . $sesion[0] . ' - Aula: ' . $sesion[1] . ' - Grupo: ' . $sesion[2] . '  Asignatura: ' . $sesion[3]); ?>"
   data-sesion-id="<?php echo htmlspecialchars($sesion[0]); ?>"
   data-document="<?php echo htmlspecialchars($sesion[4]); ?>">
     Cubrir Guardia
@@ -202,13 +212,15 @@ $usuarioId = $_SESSION['document'];
         <p id="sesion-info"></p> <!-- Aquí se mostrará la sesión que se va a cubrir -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar guardia</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style=" border: 2px solid; 
+   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);">Cancelar guardia</button>
         <form action="../verAusencias.php" method="POST" class="d-inline">
   <input type="hidden" id="sesion_id_input" name="sesion_id" value="">
   <input type="hidden" id="document_input" name="document" value="">
   <input type="hidden" name="asignar" value="1">
   <input type="hidden" name="redirigir" value="1"> <!-- para saber que después debe redirigir -->
-  <button type="submit" class="btn btn-primary" id="confirm-cover">Asignarme guardia</button>
+  <button type="submit" class="btn btn-primary" id="confirm-cover" style=" border: 2px solid; 
+   background:linear-gradient(135deg, #0f1f2d, #18362f);">Asignarme guardia</button>
 </form>
 
 
