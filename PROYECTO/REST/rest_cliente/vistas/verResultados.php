@@ -58,7 +58,42 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
       </ul>
 
       <style>
+        .table-responsive {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
 
+/* 2) Fuerza que aquí sí se muestre la scrollbar */
+.table-responsive::-webkit-scrollbar {
+  display: block !important;
+  height: 6px;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+  background: rgba(30,58,95,0.8);
+  border-radius: 3px;
+}
+.table-responsive::-webkit-scrollbar-track {
+  background: rgba(15,31,45,0.5);
+  border-radius: 3px;
+}
+@media (max-width: 767.98px) {
+  .table-responsive table {
+    min-width: 700px; /* o el ancho que necesiten tus columnas */
+  }
+}
+
+::-webkit-scrollbar {display: none; } 
+.navbar-toggler {background-color: #0f1f2d !important;  /* tu azul custom */border: 2px solid #fff !important;     /* borde blanco */}
+
+/* 2) Icono: tres barras blancas */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
+}
+
+
+.navbar-toggler:hover {
+  background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
+}
         
   table {
     table-layout: auto !important;
@@ -75,15 +110,22 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
   .table-responsive {
     overflow-x: auto;
   }
+  table.table-guardias thead tr th {
+background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
+color: #fff !important;
+}
 </style>
 
 
       <div class="d-flex align-items-center ms-auto">
         <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre); ?></strong></span>
         <form method="POST" action="../logout.php" class="mb-0">
-          <button class="btn btn-sm btn-danger" title="Cerrar sesión">
-            <i class="bi bi-box-arrow-right"></i>
-          </button>
+        <button 
+  class="btn btn-sm btn-outline-light"
+  style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d);" 
+  title="Cerrar sesión">
+    <i class="bi bi-box-arrow-right"></i>
+  </button>
         </form>
       </div>
     </div>
@@ -117,6 +159,8 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
     href="chat.php" 
     class="btn btn-primary d-flex align-items-center justify-content-center" 
     role="button"
+    style=" border: 2px solid; 
+   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);"
   >
     <i class="bi bi-chat-dots-fill fs-4"></i>
     <span class="ms-2 d-none d-md-inline">Chat</span>
@@ -144,8 +188,8 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
 
 
   
-  <div class="table-responsive">
-    <table class="table table-bordered table-striped text-center align-middle">
+  <div class="table-responsive ">
+    <table class="table table-bordered table-striped text-center align-middle table-guardias">
     <thead>
         <tr>
             <th>Fecha</th>
@@ -178,14 +222,27 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
     <a href="verInformes.php" class="btn btn-secondary">⬅️ Volver</a>
   </div>
 <!-- Botón flotante para exportar a PDF -->
-<button id="exportarPDF" class="btn btn-danger position-fixed" 
-        style="top: 90px; right: 20px; z-index: 1000;">
+<button id="exportarPDF"
+        class="btn btn-danger position-fixed"
+        style="
+          right: 20px;
+          bottom: 20px;
+          z-index: 1000;
+          border: 2px solid;
+          background: linear-gradient(135deg, #1e3a5f, #0f1f2d);
+        ">
   <i class="bi bi-file-earmark-pdf-fill"></i> Exportar a PDF
 </button>
 <img id="footerLogo" src="../src/images/logoenUno.png" alt="Imagen PDF" style="display:none; max-width: 250px;">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <!-- 1) Bootstrap Bundle (Popper + Collapse, Dropdowns, etc) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- 2) Tus otros scripts (jsPDF, Flatpickr, inicializadores, etc) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <!-- …el resto de tus scripts… -->
+</body>
 <script>
  document.getElementById("exportarPDF").addEventListener("click", () => {
   const { jsPDF } = window.jspdf;

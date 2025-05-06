@@ -24,7 +24,19 @@ $usuarioId = $_SESSION['document'];
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../src/principal.css">
 
-<style>::-webkit-scrollbar {display: none; }</style>
+<style> 
+::-webkit-scrollbar {display: none; } 
+.navbar-toggler {background-color: #0f1f2d !important;  /* tu azul custom */border: 2px solid #fff !important;     /* borde blanco */}
+
+/* 2) Icono: tres barras blancas */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
+}
+
+
+.navbar-toggler:hover {
+  background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
+}</style>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <nav class="navbar navbar-expand-lg navbar-custom">

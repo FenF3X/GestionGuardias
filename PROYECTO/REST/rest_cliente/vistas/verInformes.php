@@ -44,9 +44,45 @@ $profesores = $_SESSION['profesores'] ?? [];
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Página principal de <?php echo htmlspecialchars($nombre); ?></title>
   <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
-  <link rel="stylesheet" href="../src/principal.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
+
+<link rel="stylesheet" href="../src/guardias.css">
+<link rel="stylesheet" href="../src/principal.css">
+  <style> 
+::-webkit-scrollbar {display: none; } 
+.navbar-toggler {background-color: #0f1f2d !important;  /* tu azul custom */border: 2px solid #fff !important;     /* borde blanco */}
+
+/* 2) Icono: tres barras blancas */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
+}
+
+
+.navbar-toggler:hover {
+  background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
+}
+/* Meses en el monthSelectPlugin: texto siempre blanco */
+.flatpickr-calendar .flatpickr-monthSelect-month {
+  color: #fff !important;
+  opacity: 1 !important; /* elimina cualquier semitransparencia */
+}
+
+/* Hover sobre un mes: mantiene texto blanco */
+.flatpickr-calendar .flatpickr-monthSelect-month:hover {
+  color: #fff !important;
+  background: rgba(30, 58, 95, 0.8) !important;
+}
+
+/* Mes seleccionado: fondo más destacado, texto blanco */
+.flatpickr-calendar .flatpickr-monthSelect-month.selected,
+.flatpickr-calendar .flatpickr-monthSelect-month.selected:hover {
+  background: #00ffc3 !important;  /* o el color que quieras */
+  color: #fff !important;
+}
+</style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-custom">
@@ -82,9 +118,12 @@ $profesores = $_SESSION['profesores'] ?? [];
       <div class="d-flex align-items-center ms-auto">
         <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre); ?></strong></span>
         <form method="POST" action="../logout.php" class="mb-0">
-          <button class="btn btn-sm btn-danger" title="Cerrar sesión">
-            <i class="bi bi-box-arrow-right"></i>
-          </button>
+        <button 
+  class="btn btn-sm btn-outline-light"
+  style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d);" 
+  title="Cerrar sesión">
+    <i class="bi bi-box-arrow-right"></i>
+  </button>
         </form>
       </div>
     </div>
@@ -119,6 +158,8 @@ $profesores = $_SESSION['profesores'] ?? [];
     href="chat.php" 
     class="btn btn-primary d-flex align-items-center justify-content-center" 
     role="button"
+    style=" border: 2px solid; 
+   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);"
   >
     <i class="bi bi-chat-dots-fill fs-4"></i>
     <span class="ms-2 d-none d-md-inline">Chat</span>
@@ -149,7 +190,7 @@ $profesores = $_SESSION['profesores'] ?? [];
   <form method="GET" action="../generarInforme.php">
     <div class="mb-3">
       <label for="tipoInforme" class="form-label fw-bold">Selecciona el tipo de informe 👇</label>
-      <select id="tipoInforme" name="tipoInforme" class="form-select" required>
+      <select id="tipoInforme" name="tipoInforme" class="form-select input-select-custom" required>
         <option value="">-- Elige una opción --</option>
         <option value="dia">Por día</option>
         <option value="semana">Por semana</option>
@@ -162,22 +203,22 @@ $profesores = $_SESSION['profesores'] ?? [];
 
     <div id="campo-dia" class="campo-dinamico mb-3">
       <label for="dia" class="form-label">Selecciona un día:</label>
-      <input type="date" name="dia" id="dia" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+      <input type="date" name="dia" id="dia" class="input-select-custom w-100" value="<?php echo date('Y-m-d'); ?>">
     </div>
 
     <div id="campo-semana" class="campo-dinamico mb-3">
       <label for="semana" class="form-label">Selecciona un día de la semana:</label>
-      <input type="date" name="semana" id="semana" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+      <input type="date" name="semana" id="semana" class="input-select-custom w-100" value="<?php echo date('Y-m-d'); ?>">
     </div>
 
     <div id="campo-mes" class="campo-dinamico mb-3">
       <label for="mes" class="form-label">Selecciona un mes:</label>
-      <input type="month" name="mes" id="mes" class="form-control" value="<?php echo date('Y-m'); ?>">
+      <input type="month" name="mes" id="mes" class="input-select-custom w-100" value="<?php echo date('Y-m'); ?>">
     </div>
 
     <div id="campo-trimestre" class="campo-dinamico mb-3">
       <label for="trimestre" class="form-label">Selecciona un trimestre:</label>
-      <select name="trimestre" id="trimestre" class="form-select">
+      <select name="trimestre" id="trimestre" class="form-select input-select-custom">
         <option value="1">1º trimestre</option>
         <option value="2">2º trimestre</option>
         <option value="3">3º trimestre</option>
@@ -186,7 +227,7 @@ $profesores = $_SESSION['profesores'] ?? [];
 
     <div id="campo-docent" class="campo-dinamico mb-3">
       <label for="docent" class="form-label">Selecciona un docente:</label>
-      <select name="docent" id="docent" class="form-select">
+      <select name="docent" id="docent" class="form-select input-select-custom">
         <option value="">-- Elige un docente --</option>
         <?php foreach ($profesores as $profesor): ?>
                         <option value="<?php echo $profesor[0]; ?>"><?php echo htmlspecialchars($profesor[1]); ?></option>
@@ -194,10 +235,71 @@ $profesores = $_SESSION['profesores'] ?? [];
       </select>
     </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Generar informe</button>
+    <button type="submit" class="btn btn-primary mt-3" style=" border: 2px solid; 
+   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);">Generar informe</button>
   </form>
 </div>
         </div>
+<!-- 1) Bootstrap JS y Flatpickr -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
+
+<!-- 2) Inicializaciones -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const commonOpts = {
+    disableMobile: true,
+    altInput: true,
+    altInputClass: "input-select-custom",
+    locale: "es",
+    onReady(_, __, instance) {
+      instance.calendarContainer.style.border = "2px solid #1e3a5f";
+    }
+  };
+
+  // Campo “fecha” (ya lo tenías)
+  flatpickr("#fecha", {
+    ...commonOpts,
+    dateFormat: "Y-m-d",
+    altFormat: "j F, Y",
+    monthSelectorType: "dropdown"
+  });
+
+  // **** Campo “dia” – ahora también tendrá tu Flatpickr ****
+  flatpickr("#dia", {
+    ...commonOpts,
+    dateFormat: "Y-m-d",
+    altFormat: "j F, Y"
+  });
+
+  flatpickr("#semana", {
+    ...commonOpts,
+    dateFormat: "Y-m-d",
+    altFormat: "j F, Y"
+  });
+  
+  flatpickr("#mes", {
+  disableMobile: true,
+  altInput: true,
+  altInputClass: "input-select-custom",
+  locale: "es",
+  plugins: [
+    new monthSelectPlugin({
+      shorthand: false,    // meses completos (“Enero”, “Febrero”…)
+      dateFormat: "Y-m",   // valor que se envía: “2025-05”
+      altFormat:  "Y-m"    // formato visible en el input: “2025-05”
+    })
+  ],
+  onReady(_, __, instance) {
+    instance.calendarContainer.style.border = "2px solid #1e3a5f";
+  }
+});
+
+  });
+</script>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -227,7 +329,6 @@ $profesores = $_SESSION['profesores'] ?? [];
   });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
