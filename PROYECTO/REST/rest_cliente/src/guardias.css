@@ -118,3 +118,8 @@ select.input-select-custom::-ms-expand {
 .navbar-toggler:hover {
   background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
 }
+::-webkit-scrollbar {
+  display: none; 
+}
+
+
