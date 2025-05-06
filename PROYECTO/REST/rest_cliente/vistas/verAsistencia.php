@@ -56,7 +56,11 @@ if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_as
     <link rel="stylesheet" href="../src/principal.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="../src/guardias.css">
+
 <style>
+  ::-webkit-scrollbar {display: none; } 
+
   .table-responsive {
     max-width: 800px; /* ajusta el ancho máximo según prefieras */
     margin: 0 auto; /* centra la tabla horizontalmente */
@@ -65,6 +69,10 @@ if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_as
   .table th, .table td {
     white-space: nowrap; /* evita que el contenido se desborde en múltiples líneas */
   }
+  table.table-guardias thead tr th {
+background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
+color: #fff !important;
+}
 </style>
 
 </head>
@@ -112,9 +120,12 @@ if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_as
       <div class="d-flex align-items-center ms-auto">
         <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre); ?></strong></span>
         <form method="POST" action="../logout.php" class="mb-0">
-          <button class="btn btn-sm btn-danger" title="Cerrar sesión">
-            <i class="bi bi-box-arrow-right"></i>
-          </button>
+        <button 
+  class="btn btn-sm btn-outline-light"
+  style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d);" 
+  title="Cerrar sesión">
+    <i class="bi bi-box-arrow-right"></i>
+  </button>
         </form>
       </div>
 
@@ -149,6 +160,8 @@ if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_as
     href="chat.php" 
     class="btn btn-primary d-flex align-items-center justify-content-center" 
     role="button"
+    style=" border: 2px solid; 
+   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);"
   >
     <i class="bi bi-chat-dots-fill fs-4"></i>
     <span class="ms-2 d-none d-md-inline">Chat</span>
@@ -168,52 +181,64 @@ if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_as
 </main>
 
 <div class="container mt-5">
-    <h2 class="mb-4">Consulta de asistencia del profesorado</h2>
-    
-    <form action="../resultadoAsistencia.php" method="POST">
-        <div class="row mb-3">
-            <div class="col-md-6">
-            <label for="profesor">Seleccionar Profesor(opcional)</label>
-                <select id="profesor" name="document" class="form-control">
-                    <option value="">Seleccionar</option>
-                    <?php foreach ($profesores as $profesor): ?>
-                        <option value="<?php echo $profesor[0]; ?>"><?php echo htmlspecialchars($profesor[1]); ?></option>
-                    <?php endforeach; ?>
-                </select>            </div>
-            <div class="col-md-6">
-                <label for="tipoConsulta" class="form-label">Consultar por:</label>
-                <select name="tipoConsulta" id="tipoConsulta" class="form-select" required>
-                    <option value="" selected disabled>Selecciona una opción</option>
-                    <option value="fecha">Fecha concreta</option>
-                    <option value="mes">Mes completo</option>
-                </select>
-            </div>
-        </div>
+  <h2 class="mb-4">Consulta de asistencia del profesorado</h2>
+  <form action="../resultadoAsistencia.php" method="POST">
+    <div class="row g-3 align-items-end mb-3">
+      
+      <!-- PROFESOR -->
+      <div class="col-12 col-md-6">
+        <label for="profesor" class="form-label">Seleccionar Profesor (opcional)</label>
+        <select id="profesor" name="document" class="input-select-custom w-100">
+          <option value="">Seleccionar</option>
+          <?php foreach ($profesores as $profesor): ?>
+            <option value="<?= $profesor[0] ?>">
+              <?= htmlspecialchars($profesor[1]) ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      
+      <!-- TIPO DE CONSULTA -->
+      <div class="col-12 col-md-6">
+        <label for="tipoConsulta" class="form-label">Consultar por:</label>
+        <select id="tipoConsulta" name="tipoConsulta" class="input-select-custom w-100" required>
+          <option value="" selected disabled>Selecciona una opción</option>
+          <option value="fecha">Fecha concreta</option>
+          <option value="mes">Mes completo</option>
+        </select>
+      </div>
+      
+    </div>
 
-        <div class="row mb-3" id="inputFecha" style="display: none;">
-            <div class="col">
-                <label for="fecha" class="form-label">Fecha:</label>
-                <input type="date" name="fecha" id="fecha" class="form-control" value="<?php echo date('Y-m-d'); ?>">
-            </div>
-        </div>
+    <!-- INPUTS dinámicos -->
+    <div class="row g-3 mb-3" id="inputFecha" style="display: none;">
+      <div class="col-12 col-md-6">
+        <label for="fecha" class="form-label">Fecha:</label>
+        <input type="date" name="fecha" id="fecha"
+               class="form-select" value="<?= date('Y-m-d') ?>">
+      </div>
+    </div>
 
-        <div class="row mb-3" id="inputMes" style="display: none;">
-            <div class="col">
-                <label for="mes" class="form-label">Mes:</label>
-                <input type="month" name="mes" id="mes" class="form-control" value="<?php echo date('Y-m'); ?>">
-            </div>
-        </div>
+    <div class="row g-3 mb-3" id="inputMes" style="display: none;">
+      <div class="col-12 col-md-6">
+        <label for="mes" class="form-label">Mes:</label>
+        <input type="month" name="mes" id="mes"
+               class="form-select" value="<?= date('Y-m') ?>">
+      </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary">Consultar asistencia</button>
-    </form>
+    <button type="submit" class="btn btn-primary"  style=" border: 2px solid; 
+   background:linear-gradient(135deg, #0f1f2d, #18362f);">Consultar asistencia</button>
+  </form>
 </div>
+
 <?php if (isset($_SESSION['resultado_asistencia'])): ?>
     <hr class="my-5">
 <h2 class="mb-4 mt-5 text-center">Resultado de la consulta</h2>
 
     <?php if (count($datosValidos) > 0): ?>
     <div class="table-responsive mt-3">
-        <table class="table table-bordered table-striped text-center">
+        <table class="table table-bordered table-striped text-center table-guardias">
             <thead class="table-dark">
                 <tr>
                     <th>Docente</th>
@@ -260,7 +285,7 @@ document.getElementById('tipoConsulta').addEventListener('change', function () {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-</body>
+
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
@@ -279,4 +304,5 @@ document.getElementById('tipoConsulta').addEventListener('change', function () {
        </a></p>
    </div>
  </footer>
+ </body>
 </html>

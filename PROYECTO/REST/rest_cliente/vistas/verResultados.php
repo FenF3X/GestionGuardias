@@ -58,6 +58,7 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
       </ul>
 
       <style>
+        
         .table-responsive {
   overflow-x: auto !important;
   -webkit-overflow-scrolling: touch;
