@@ -105,18 +105,17 @@ select.input-select-custom::-ms-expand {
     background: rgba(30,58,95,1) !important;
 }  
 .navbar-toggler {
-  background-color: #0f1f2d !important;  /* tu azul custom */
-  border: 2px solid #fff !important;     /* borde blanco */
+  background-color: #0f1f2d !important;  
+  border: 2px solid #fff !important;     
 }
 
-/* 2) Icono: tres barras blancas */
 .navbar-toggler-icon {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
 }
 
 
 .navbar-toggler:hover {
-  background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
+  background-color: #18362f !important; 
 }
 ::-webkit-scrollbar {
   display: none; 

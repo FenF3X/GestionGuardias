@@ -19,9 +19,11 @@ $usuarioId = $_SESSION['document'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagina principal de <?php echo htmlspecialchars($nombre); ?></title>
     <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="../src/principal.css">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../src/principal.css">
+
 <style>::-webkit-scrollbar {display: none; }</style>
 </head>
 <body class="d-flex flex-column min-vh-100">
