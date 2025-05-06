@@ -237,7 +237,7 @@ $mensajes = json_decode($resp, true) ?: [];
                     data-original="<?= $original ?>">
             <?php endif; ?>
 
-            <div  class="msg p-2 rounded <?= $cls ?>">
+            <div class="msg p-2 rounded <?= $cls ?>">
               <small class="text-muted"><?= $sender ?> • <?= $hora ?></small>
               <i class="bi bi-check2-all <?= $checkColor ?> ms-2"></i>
               <div><?= nl2br($original) ?></div>
@@ -251,35 +251,12 @@ $mensajes = json_decode($resp, true) ?: [];
           </div>
 
           <form method="post" class="input-group">
-  <input
-    name="mensaje"
-    type="text"
-    class="form-control"
-    placeholder="Escribe tu mensaje..."
-    autocomplete="off"
-    style="
-      border-top-left-radius: .375rem;
-      border-bottom-left-radius: .375rem;
-      border: 2px solid transparent;
-      border-image: linear-gradient(135deg, #9d4edd, #1e3a5f) 1;
-      outline: none; box-shadow: none;
-    "
-  >
-  <button
-    class="btn"
-    type="submit"
-    style="
-      background: linear-gradient(135deg, #9d4edd, #1e3a5f);
-      border: 2px solid #1e3a5f;
-      border-top-right-radius: .375rem;
-      border-bottom-right-radius: .375rem;
-      color:white;
-    "
-  >
-    Enviar
-  </button>
-</form>
-
+            <input type="hidden" name="receptor"       value="<?= $profesorId ?>">
+            <input type="hidden" name="nombreReceptor" value="<?= htmlspecialchars($profNombre) ?>">
+            <input name="mensaje" type="text" class="form-control" placeholder="Escribe tu mensaje..." autocomplete="off"
+            >
+            <button class="btn btn-primary" type="submit" style="background: linear-gradient(135deg, #9d4edd, #1e3a5f); border:2px solid;">Enviar</button>
+          </form>
         </div>
       </div>
     </div>
