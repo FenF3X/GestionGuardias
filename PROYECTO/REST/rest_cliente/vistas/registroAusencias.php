@@ -39,9 +39,14 @@ $profesores = $_SESSION['profesores'] ?? [];
     <title>Pagina principal de <?php echo htmlspecialchars($nombre); ?></title>
     <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../src/principal.css">
+    <link rel="stylesheet" href="../src/guardias.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 <style>
+  ::-webkit-scrollbar{display:none;}
         /* Estilo específico para el formulario */
         .form-container {
             max-width: 800px;
@@ -55,6 +60,43 @@ $profesores = $_SESSION['profesores'] ?? [];
         .form-container .btn {
             width: 100%;
         }
+        #motivo::placeholder {
+    color: #fff;
+    opacity: 1; /* asegúrate de que no quede atenuado */
+  }
+
+  /* WebKit (Chrome, Safari, Opera, Edge Chromium) */
+  #motivo::-webkit-input-placeholder {
+    color: #fff;
+  }
+
+  /* Firefox 19+ */
+  #motivo::-moz-placeholder {
+    color: #fff;
+    opacity: 1;
+  }
+
+  /* Firefox 4 – 18 */
+  #motivo:-moz-placeholder {
+    color: #fff;
+    opacity: 1;
+  }
+
+  /* IE 10+ y Edge pre-Chromium */
+  #motivo:-ms-input-placeholder {
+    color: #fff;
+  }
+.navbar-toggler {background-color: #0f1f2d !important;  /* tu azul custom */border: 2px solid #fff !important;     /* borde blanco */}
+
+/* 2) Icono: tres barras blancas */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
+}
+
+
+.navbar-toggler:hover {
+  background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
+}
     </style>
 </head>
 <body>
@@ -102,9 +144,12 @@ $profesores = $_SESSION['profesores'] ?? [];
       <div class="d-flex align-items-center ms-auto">
         <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre); ?></strong></span>
         <form method="POST" action="../logout.php" class="mb-0">
-          <button class="btn btn-sm btn-danger" title="Cerrar sesión">
-            <i class="bi bi-box-arrow-right"></i>
-          </button>
+        <button 
+  class="btn btn-sm btn-outline-light"
+  style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d);" 
+  title="Cerrar sesión">
+    <i class="bi bi-box-arrow-right"></i>
+  </button>
         </form>
       </div>
 
@@ -115,11 +160,21 @@ $profesores = $_SESSION['profesores'] ?? [];
 <!-- Formulario para registrar la ausencia -->
 <main>
     <div class="container mt-5 form-container">
-        <h3 class="mb-3 text-center">Registrar Ausencia de Profesor</h3>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+  <h3 class="m-0">Registrar Ausencia de Profesor</h3>
+  <a href="chat.php"
+     class="btn btn-sm btn-primary w-auto d-flex align-items-center"
+     style="border: 2px solid; background: linear-gradient(135deg, #1e3a5f, #0f1f2d); padding: .25rem .5rem;">
+    <i class="bi bi-chat-dots-fill fs-5"></i>
+    <span class="ms-2 d-none d-md-inline fs-6">Chat</span>
+  </a>
+</div>
+
+
         <form action="../obtenerSesiones.php" id="busqueda"  method="POST">
             <div class="form-group">
                 <label for="profesor">Seleccionar Profesor</label>
-                <select id="profesor" name="document" class="form-control" required>
+                <select id="profesor" name="document" class="input-select-custom w-100" required>
                     <option value="">Seleccione un profesor</option>
                     <?php foreach ($profesores as $profesor): ?>
                         <option value="<?php echo $profesor[0]; ?>"><?php echo htmlspecialchars($profesor[1]); ?></option>
@@ -135,14 +190,40 @@ $profesores = $_SESSION['profesores'] ?? [];
 
             <div class="form-group">
                 <label for="motivo">Motivo de la Ausencia</label>
-                <textarea id="motivo" name="motivo" class="form-control" rows="4" placeholder="Escriba el motivo de la ausencia"></textarea>
+                <textarea id="motivo"
+                 name="motivo" 
+                 class="form-control" 
+                 rows="4" 
+                 style="background: linear-gradient(135deg, #1e3a5f, #0f1f2d);border: 2px solid;color:white;"
+                 placeholder="Escriba el motivo de la ausencia"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-danger mt-3">Buscar sesiones</button>
+            <button type="submit" class="btn btn-danger mt-3" style=" border: 2px solid; 
+   background:linear-gradient(135deg, #0f1f2d, #18362f);">Buscar sesiones</button>
         </form>
     </div>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- 2) Flatpickr y locale -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
+<!-- 3) Tu inicialización -->
+<script>
+  flatpickr("#fecha", {
+    disableMobile: true,
+    monthSelectorType: "dropdown",
+    altInput: true,
+    altInputClass: "input-select-custom",
+    dateFormat: "Y-m-d",
+    altFormat: "j F, Y",
+    locale: "es",
+    onReady(_, __, instance) {
+      instance.calendarContainer.style.border = "2px solid #1e3a5f";
+    }
+  });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('#busqueda');
@@ -165,7 +246,6 @@ $profesores = $_SESSION['profesores'] ?? [];
 
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
