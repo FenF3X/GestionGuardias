@@ -231,7 +231,7 @@ $mensajes = json_decode($resp, true) ?: [];
         <i class="bi bi-three-dots-vertical fs-4"></i>
       </button>
       <ul id="menuOpciones" class="dropdown-menu">
-        <li><a class="dropdown-item"  id="editarSeleccion">Editar mensaje(s)</a></li>
+        <li><a class="dropdown-item"  id="editarSeleccion">Editar mensaje</a></li>
         <li><a class="dropdown-item" id="borrarSeleccion">Eliminar mensaje(s)</a></li>
       </ul>
     </div>

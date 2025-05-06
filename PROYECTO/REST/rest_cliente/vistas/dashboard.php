@@ -9,7 +9,6 @@ $nombre = $_SESSION['nombre'];
 $documento = $_SESSION['document'];
 $mensaje = isset($_SESSION['mensaje']) ? $_SESSION['mensaje'] : null;
 if (isset($_SESSION['registro_exitoso']) && $_SESSION['registro_exitoso']) {
-  error_log("registro ausencia ok");
   unset($_SESSION['registro_exitoso']);
   $mostrarModal = true; 
 } else {
@@ -27,30 +26,27 @@ if (isset($_SESSION["alertSinSesiones"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagina principal de <?php echo htmlspecialchars($nombre); ?></title>
     <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="../src/principal.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<style>
-        /* Estilo para el contenedor del mensaje */
-        .alert-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 300px; /* Ancho del mensaje */
-            z-index: 9999; /* Asegura que el mensaje esté por encima de otros elementos */
-            overflow: hidden; /* Evita que el texto se desborde del contenedor */
-        }
+<link rel="stylesheet" href="../src/principal.css">
+<link rel="stylesheet" href="../src/dashboard.css">
 
-        /* Opcional: Estilo para los mensajes de alerta */
-        .alert-container .alert {
-            padding: 15px;
-            font-size: 14px; /* Ajusta el tamaño del texto */
-            text-align: center;
-            white-space: normal; /* Permite que el texto se divida en varias líneas */
-            word-wrap: break-word; /* Rompe las palabras largas que no caben en una línea */
-        }
-        
-    </style>
+<style>
+  .navbar-toggler {
+  background-color: #0f1f2d !important;  /* tu azul custom */
+  border: 2px solid #fff !important;     /* borde blanco */
+}
+
+/* 2) Icono: tres barras blancas */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
+}
+
+
+.navbar-toggler:hover {
+  background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
+}
+</style>
 </head>
 <body>
     
@@ -98,10 +94,14 @@ if (isset($_SESSION["alertSinSesiones"])) {
       <div class="d-flex align-items-center ms-auto">
         <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre); ?></strong></span>
         <form method="POST" action="../logout.php" class="mb-0">
-          <button class="btn btn-sm btn-danger" title="Cerrar sesión">
-            <i class="bi bi-box-arrow-right"></i>
-          </button>
-        </form>
+  <button 
+  class="btn btn-sm btn-outline-light"
+  style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d);" 
+  title="Cerrar sesión">
+    <i class="bi bi-box-arrow-right"></i>
+  </button>
+</form>
+
       </div>
 
     </div>
@@ -135,6 +135,8 @@ if (isset($_SESSION["alertSinSesiones"])) {
     href="chat.php" 
     class="btn btn-primary d-flex align-items-center justify-content-center" 
     role="button"
+    style=" border: 2px solid; 
+   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);"
   >
     <i class="bi bi-chat-dots-fill fs-4"></i>
     <span class="ms-2 d-none d-md-inline">Chat</span>
@@ -161,7 +163,7 @@ if (isset($_SESSION["alertSinSesiones"])) {
 
     <!-- Tabla responsiva -->
     <div class="table-responsive">
-      <table class="table table-bordered table-striped text-center align-middle">
+      <table class="table text-center align-middle table-guardias">
         <thead class="table-dark">
           <tr>
             <th>Hora</th>
@@ -188,10 +190,20 @@ if (isset($_SESSION["alertSinSesiones"])) {
       <br>
       <div class="d-flex justify-content-center">
         <form action="../fichar.php" method="POST">
-          <button class="btn btn-primary mx-3 w-auto" name="fentrada" id="fentrada">Fichar entrada</button>
+          <button 
+          class="btn btn-primary mx-3 w-auto" 
+          name="fentrada" 
+          id="fentrada"
+          style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d); border:0;"
+          >Fichar entrada</button>
         </form>
         <form action="../fichar.php" method="POST">
-          <button class="btn btn-danger mx-3 w-auto" name="fsalida" id="fsalida">Fichar salida</button>
+          <button 
+          class="btn btn-danger mx-3 w-auto" 
+          name="fsalida" 
+          id="fsalida"
+          style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d); border:0;"
+          >Fichar salida</button>
         </form>
       </div>
     </div>

@@ -26,9 +26,11 @@ $horasDisponibles = json_decode($response, TRUE);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagina principal de <?php echo htmlspecialchars($nombre); ?></title>
     <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="../src/principal.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="../src/guardias.css">
+<link rel="stylesheet" href="../src/principal.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-custom">
@@ -75,9 +77,12 @@ $horasDisponibles = json_decode($response, TRUE);
       <div class="d-flex align-items-center ms-auto">
         <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre); ?></strong></span>
         <form method="POST" action="../logout.php" class="mb-0">
-          <button class="btn btn-sm btn-danger" title="Cerrar sesión">
-            <i class="bi bi-box-arrow-right"></i>
-          </button>
+        <button 
+  class="btn btn-sm btn-outline-light"
+  style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d);" 
+  title="Cerrar sesión">
+    <i class="bi bi-box-arrow-right"></i>
+  </button>
         </form>
       </div>
 
@@ -112,6 +117,8 @@ $horasDisponibles = json_decode($response, TRUE);
     href="chat.php" 
     class="btn btn-primary d-flex align-items-center justify-content-center" 
     role="button"
+    style=" border: 2px solid; 
+   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);"
   >
     <i class="bi bi-chat-dots-fill fs-4"></i>
     <span class="ms-2 d-none d-md-inline">Chat</span>
@@ -134,39 +141,61 @@ $horasDisponibles = json_decode($response, TRUE);
 <div class="container mt-4">
 <h4 class="mb-3">Guardias realizadas</h4>
 <div class="d-flex justify-content-center mb-4">
-    <form action="../verGuardiasRealizadas.php" method="POST" class="w-75">
-        <div class="d-flex justify-content-between gap-3">
-            <div class="flex-fill">
-                <label for="fecha" class="form-label">Fecha:</label>
-                
-                <input type="date" id="fecha" name="fecha" class="form-control" value="<?php echo date('Y-m-d');?>">
-                </div>
-            <div class="flex-fill">
-                <label for="hora" class="form-label">Sesión:</label>
-                <select id="hora" name="hora" class="form-select">
-                    <option value="" disabled selected>Selecciona una sesión</option>
-<?php
-foreach ($horasDisponibles as $hora) {
-    $id = $hora[0];
-    $texto = $hora[1]; 
-    echo '<option value="' . htmlspecialchars($id) . '">' . htmlspecialchars($texto) . '</option>';
-}
-?>
-</select>
+<form action="../verGuardiasRealizadas.php" method="POST" class="w-75 mx-auto">
+  <div class="row g-3 align-items-center">
+    
+    <!-- Fecha -->
+    <div class="col-12 col-md-auto d-flex align-items-center">
+      <label for="fecha" class="col-form-label me-2 mb-0">Fecha:</label>
+      <input 
+        type="date" 
+        id="fecha" 
+        name="fecha" 
+        class="input-select-custom w-100" 
+        value="<?php echo date('Y-m-d');?>">
+    </div>
+    
+    <!-- Sesión -->
+    <div class="col-12 col-md-auto d-flex align-items-center">
+      <label for="hora" class="col-form-label me-2 mb-0">Sesión:</label>
+      <select 
+        id="hora" 
+        name="hora" 
+        class="input-select-custom w-100"
+      >
+        <option value="" disabled selected>Selecciona una sesión</option>
+        <?php foreach ($horasDisponibles as $hora): ?>
+          <option value="<?= htmlspecialchars($hora[0]) ?>">
+            <?= htmlspecialchars($hora[1]) ?>
+          </option>
+        <?php endforeach; ?>
+      </select>
+    </div>
+    
+    <!-- Botón -->
+    <div class="col-12 col-md-auto">
+      <button 
+        type="submit" 
+        name="cargar_guardias" 
+        id="cargar_guardias" 
+        class="btn btn-primary w-100 w-md-auto"
+        style="border:2px solid;background:linear-gradient(135deg,#1e3a5f,#0f1f2d);"
+      >
+        Ver mis Guardias
+      </button>
+    </div>
+    
+  </div>
+</form>
 
-            </div>
-            <div class="d-flex align-items-end">
-                <button type="submit" name="cargar_guardias" id="cargar_guardias" class="btn btn-primary w-100">Ver mis Guardias</button>
-            </div>
-        </div>
-    </form>
+
 </div>
 
 
 <!-- Tabla responsiva -->
-<?php if (isset($_SESSION['historial']) && is_array($_SESSION['historial']) && empty($_SESSION['error'])): ?>
+<?php if (!empty($_SESSION['historial']) && is_array($_SESSION['historial']) && empty($_SESSION['error'])): ?>
     <div class="table-responsive">
-  <table class="table table-bordered table-striped text-center align-middle">
+  <table class="table table-guardias text-center align-middle">
     <thead class="table-dark">
       <tr>
         <th>Fecha</th>
@@ -200,21 +229,33 @@ foreach ($horasDisponibles as $hora) {
 <?php endif; ?>
 
 </section>
-<script>
-window.onload = function() {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('auto') === '1') {
-        document.getElementById('cargar_guardias').click();
-    }
-}
-</script>
+…  
+  <!-- al final de <body> -->
 
+  <!-- 1) Bootstrap JS para dropdowns, collapse, etc -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-</script>
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- 2) Flatpickr y locale -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 
+  <!-- 3) Tu inicialización -->
+  <script>
+    flatpickr("#fecha", {
+      disableMobile: true,
+      monthSelectorType: "dropdown",
+      altInput: true,
+      altInputClass: "input-select-custom",
+      dateFormat: "Y-m-d",
+      altFormat: "j F, Y",
+      locale: "es",
+      onReady(_, __, instance) {
+        instance.calendarContainer.style.border = "2px solid #1e3a5f";
+      }
+    });
+  </script>
 </body>
+
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>

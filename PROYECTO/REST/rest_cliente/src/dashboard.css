@@ -1,0 +1,26 @@
+ /* Estilo para el contenedor del mensaje */
+ .alert-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px; /* Ancho del mensaje */
+    z-index: 9999; /* Asegura que el mensaje esté por encima de otros elementos */
+    overflow: hidden; /* Evita que el texto se desborde del contenedor */
+}
+
+/* Opcional: Estilo para los mensajes de alerta */
+.alert-container .alert {
+    padding: 15px;
+    font-size: 14px; /* Ajusta el tamaño del texto */
+    text-align: center;
+    white-space: normal; /* Permite que el texto se divida en varias líneas */
+    word-wrap: break-word; /* Rompe las palabras largas que no caben en una línea */
+}
+
+
+/* 2) Degradado en las cabeceras (<th>) */
+table.table-guardias thead tr th {
+background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
+color: #fff !important;
+}
+
