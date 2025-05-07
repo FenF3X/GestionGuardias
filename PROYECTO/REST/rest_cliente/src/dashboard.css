@@ -1,43 +1,134 @@
- /* Estilo para el contenedor del mensaje */
+/**
+ * Contenedor del mensaje de alerta que se muestra en pantalla.
+ *
+ * @class alert-container
+ * @param {fixed} position - Posición fija para que siga visible al hacer scroll.
+ * @param {string} top - Separación desde la parte superior.
+ * @param {string} right - Separación desde la parte derecha.
+ * @param {string} width - Ancho del mensaje.
+ * @param {number} z-index - Nivel de apilamiento por encima de otros elementos.
+ * @param {string} overflow - Manejo del desbordamiento de texto.
+ */
  .alert-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 300px; /* Ancho del mensaje */
-    z-index: 9999; /* Asegura que el mensaje esté por encima de otros elementos */
-    overflow: hidden; /* Evita que el texto se desborde del contenedor */
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px; /* Ancho del mensaje */
+  z-index: 9999; /* Asegura que el mensaje esté por encima de otros elementos */
+  overflow: hidden; /* Evita que el texto se desborde del contenedor */
 }
 
-/* Opcional: Estilo para los mensajes de alerta */
+/**
+* Estilo para los mensajes de alerta dentro del contenedor.
+*
+* @class alert-container .alert
+* @param {string} padding - Espacio interior para el texto.
+* @param {string} font-size - Tamaño del texto.
+* @param {string} text-align - Alineación del texto.
+* @param {string} white-space - Permite división en varias líneas.
+* @param {string} word-wrap - Rompe palabras largas que no caben en una línea.
+*/
 .alert-container .alert {
-    padding: 15px;
-    font-size: 14px; /* Ajusta el tamaño del texto */
-    text-align: center;
-    white-space: normal; /* Permite que el texto se divida en varias líneas */
-    word-wrap: break-word; /* Rompe las palabras largas que no caben en una línea */
+  padding: 15px;
+  font-size: 14px; /* Ajusta el tamaño del texto */
+  text-align: center;
+  white-space: normal; /* Permite que el texto se divida en varias líneas */
+  word-wrap: break-word; /* Rompe las palabras largas que no caben en una línea */
 }
 
-
-/* 2) Degradado en las cabeceras (<th>) */
+/**
+* Encabezados de la tabla de guardias con degradado de fondo.
+*
+* @selector table.table-guardias thead tr th
+* @param {string} background - Degradado diagonal de colores personalizados.
+* @param {string} color - Color del texto de los encabezados.
+*/
 table.table-guardias thead tr th {
-background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
-color: #fff !important;
+  background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
+  color: #fff !important;
 }
-  .navbar-toggler {
+
+/**
+* Botón hamburguesa de la navbar con estilo personalizado.
+*
+* @class navbar-toggler
+* @param {string} background-color - Color de fondo del botón.
+* @param {string} border - Borde blanco de 2px.
+*/
+.navbar-toggler {
   background-color: #0f1f2d !important;  /* tu azul custom */
   border: 2px solid #fff !important;     /* borde blanco */
 }
 
-/* 2) Icono: tres barras blancas */
+/**
+* Icono de hamburguesa en la navbar con barras blancas.
+*
+* @class navbar-toggler-icon
+* @param {string} background-image - SVG en línea de tres barras.
+*/
 .navbar-toggler-icon {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
 }
 
-
+/**
+* Estado hover del botón hamburguesa.
+*
+* @class navbar-toggler:hover
+* @param {string} background-color - Color de fondo al pasar el ratón.
+*/
 .navbar-toggler:hover {
   background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
 }
-::-webkit-scrollbar {
-  display: none; 
-}
 
+/**
+* Oculta la barra de scroll en navegadores WebKit.
+*
+* @selector ::-webkit-scrollbar
+* @param {string} display - Oculta la barra de desplazamiento.
+*/
+::-webkit-scrollbar {
+  display: none;
+}
+/**
+ * @selector html, body
+ * @description Asegura que la raíz y el body ocupen el 100% de la altura de la ventana y elimina márgenes por defecto.
+ * @param {string} height – Altura al 100% del viewport.
+ * @param {string} margin – Elimina márgenes por defecto.
+ */
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+/**
+ * @selector body
+ * @description Convierte el body en un contenedor flex de columna y reparte el espacio entre sus hijos.
+ * @param {string} display – Define flexbox.
+ * @param {string} flex-direction – Dirección de los elementos en columna.
+ * @param {string} justify-content – Espacia los elementos para que el footer se empuje hacia abajo.
+ */
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+/**
+ * @class page-content
+ * @description Contenedor principal de la página que crece para rellenar el espacio disponible.
+ * @param {number} flex – Crece de forma proporcional para ocupar el espacio sobrante.
+ */
+.page-content {
+  flex: 1;
+}
+/**
+ * @selector footer
+ * @description Se sitúa siempre al final del body, “empujado” por el contenido previo.
+ * @param {string} position – Posición relativa para respetar el flujo de documento.
+ * @param {string} margin-top – Automático para empujar el footer hacia abajo.
+ * @param {string} width – Ocupa el 100% del ancho del contenedor.
+ */
+footer {
+  position: relative;
+  margin-top: auto;
+  width: 100%;
+}

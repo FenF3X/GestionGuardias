@@ -248,7 +248,7 @@ if (isset($_SESSION["alertSinSesiones"])) {
     });
 </script>
 
-</body>
+
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
@@ -267,4 +267,5 @@ if (isset($_SESSION["alertSinSesiones"])) {
        </a></p>
    </div>
  </footer>
+</body>
 </html>
