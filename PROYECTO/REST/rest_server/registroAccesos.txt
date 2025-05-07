@@ -98,3 +98,4 @@
 07-05-2025 10:57:46 | Éxito | DNI: 017959408Z | Profesor: MARIA DE BEGOÑA E C | Log In(Entrada)
 07-05-2025 10:58:08 | Éxito | DNI: 010969028D | Profesor: FRANCISCO JAVIER F C | Log In(Entrada)
 07-05-2025 11:03:35 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
+07-05-2025 11:43:41 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
