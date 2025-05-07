@@ -10,9 +10,7 @@
  * @license    MIT
  * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/vistas/horarioAusente.php
  * @warning **Atención:** Este enlace solo funciona cuando viene redireccionado de registroAusencias
- */
 
-/**
  * @function initSession
  * @description Inicia la sesión y valida que el usuario esté autenticado.
  */

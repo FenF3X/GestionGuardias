@@ -1,51 +1,70 @@
 <?php
+/**
+ * verAsistencia.php
+ *
+ * Página de consulta de asistencia del profesorado.
+ * Permite filtrar por profesor en una fecha o mes, o bien cualquier profesor 
+ * en una fecha o un mes  mostrando resultados válidos.
+ *
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/vistas/verAsistencia.php
+ *
+ * @function initSessionAndFetchProfesores
+ * @description Inicia la sesión, valida autenticación de administrador y obtiene la lista de profesores.
+ */
 session_start();
 include("../curl_conexion.php");
-if (!isset($_SESSION['document'])) {
-  header("Location: ../login.php");
-  exit();
-}
-$rol = $_SESSION['rol'] ?? '';
-$nombre = $_SESSION['nombre'] ?? '';
-$documento = $_SESSION['document'] ?? '';
 
+// Redirige al login si no hay sesión activa
+if (!isset($_SESSION['document'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+/**
+ * @var string $rol         Rol del usuario ('admin' o 'profesor').
+ * @var string $nombre      Nombre a mostrar en la cabecera.
+ * @var string $documento   Documento/ID del usuario.
+ */
+$rol        = $_SESSION['rol'] ?? '';
+$nombre     = $_SESSION['nombre'] ?? '';
+$documento  = $_SESSION['document'] ?? '';
+
+// Solo administradores pueden acceder
 if ($rol !== 'admin') {
-    header('Location: dashboard.php'); // Redirige si no es admin
+    header('Location: dashboard.php');
     exit;
 }
-$params = [
-    'accion' => 'consultaProfes'
-];
-$response = curl_conexion(URL, 'POST', $params); // Realizamos la consulta usando POST
 
-// Decodificar la respuesta JSON
+// Petición a la API para obtener la lista de profesores
+$params    = ['accion' => 'consultaProfes'];
+$response  = curl_conexion(URL, 'POST', $params);
 $profesores = json_decode($response, true);
 
-// Verificar si hay errores en la respuesta
+// Manejo de error en respuesta
 if (isset($profesores['error'])) {
     $_SESSION['mensaje'] = ['type' => 'danger', 'text' => $profesores['error']];
 } else {
     $_SESSION['profesores'] = $profesores;
 }
 
-// Verificar si el usuario está autenticado y tiene permisos de administrador
-if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
-    header("Location: login.php"); // Redirigir si no es un admin
-    exit();
-}
-
-// Obtener los datos de los profesores desde la sesión
+// Preparar los datos de profesores para el formulario
 $profesores = $_SESSION['profesores'] ?? [];
+
+// Filtrar registros válidos de la consulta previa (si existen)
 $datosValidos = [];
-
 if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_asistencia'])) {
-    $datosValidos = array_filter($_SESSION['resultado_asistencia'], function($registro) {
-        return !empty($registro[0]) && $registro[0] !== 'N';
-    });
+    $datosValidos = array_filter(
+        $_SESSION['resultado_asistencia'],
+        function($registro) {
+            // Un registro es válido si el nombre del docente no está vacío ni marcado como 'N'
+            return !empty($registro[0]) && $registro[0] !== 'N';
+        }
+    );
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>

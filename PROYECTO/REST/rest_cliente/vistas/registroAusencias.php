@@ -1,10 +1,30 @@
 <?php
+/**
+ * registroAusencias.php
+ *
+ * Formulario de consulta de un profesor a seleccionar en un dia a seleccionar con prevención de
+ * no ser un dia en fin de semana y además un campo de justificación de ausencia
+ *
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/vistas/registroAusencias.php
+
+ * @function initSession
+ * @description Inicia la sesión y valida que el usuario esté autenticado.
+ */
 session_start();
 include("../curl_conexion.php");
 if (!isset($_SESSION['document'])) {
   header("Location: ../login.php");
   exit();
 }
+
+/**
+ * @var string $rol      Rol del usuario ("admin" o "profesor").
+ * @var string $nombre   Nombre del usuario para mostrar en la cabecera.
+ */
+
 $rol = $_SESSION['rol'];
 $nombre = $_SESSION['nombre'];
 $params = [
