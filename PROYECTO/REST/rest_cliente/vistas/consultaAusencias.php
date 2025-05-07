@@ -1,4 +1,15 @@
 <?php
+/**
+ * consultaAusencias.php
+ *
+ * Página de consulta de las Ausencias de los profesores por día actual. Preparado para horas de guardia
+ * para el docente 
+ *
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/vistas/consultaAusencias.php
+ */
 session_start();
 if (!isset($_SESSION['document'])) {
   header("Location: ../login.php");
@@ -7,7 +18,12 @@ if (!isset($_SESSION['document'])) {
 $rol = $_SESSION['rol'];
 $nombre = $_SESSION['nombre'];
 $documento = $_SESSION['document'];
-$usuarioId = $_SESSION['document'];
+
+/**
+ * @var string $rol      - Rol del usuario actual (p.ej. 'admin').
+ * @var string $nombre   - Nombre del usuario mostrado en cabecera.
+ * @var string $documento- Documento o ID del usuario.
+ */
 
 
 ?>
@@ -19,26 +35,18 @@ $usuarioId = $_SESSION['document'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagina principal de <?php echo htmlspecialchars($nombre); ?></title>
     <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../src/principal.css">
-
-<style> 
-::-webkit-scrollbar {display: none; } 
-.navbar-toggler {background-color: #0f1f2d !important;  /* tu azul custom */border: 2px solid #fff !important;     /* borde blanco */}
-
-/* 2) Icono: tres barras blancas */
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
-}
+    <link rel="stylesheet" href="../src/guardias.css">
 
 
-.navbar-toggler:hover {
-  background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
-}</style>
 </head>
 <body class="d-flex flex-column min-vh-100">
+  <!--
+    @section Navbar
+    Barra de navegación principal con logo, enlaces y logout.
+  -->
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container-fluid">
 
@@ -63,6 +71,7 @@ $usuarioId = $_SESSION['document'];
 
 
         </li>
+      <!-- SOLO ADMIN -->
 
         <?php if ($rol === 'admin'): ?>
           <li class="nav-item"><a class="nav-link text-white" href="verInformes.php">Generar informes</a></li>
@@ -96,6 +105,10 @@ $usuarioId = $_SESSION['document'];
   </div>
 </nav>
 <main>
+   <!--
+    @section main
+    Foto de perfil con datos personales
+  -->
   <div class="container mt-5">
     <!-- Perfil: foto + datos a la izquierda, botones a la derecha -->
     <div class="perfil-contenedor 
@@ -141,7 +154,10 @@ $usuarioId = $_SESSION['document'];
     <?php endif; ?>
   </div>
 </main>
-
+ <!--
+    @section Carga de Guardias
+    Botón para recargar guardias pendientes mediante GET.
+  -->
 <section>
     <div class="d-flex justify-content-center mb-3">
         <form action="../verAusencias.php" method="GET">
@@ -214,8 +230,9 @@ $usuarioId = $_SESSION['document'];
 <?php endif; ?>
 
 
-    <!-- Modal de confirmación para cubrir la guardia -->
-<div class="modal fade" id="coverGuardModal" tabindex="-1" aria-labelledby="coverGuardModalLabel" aria-hidden="true">
+<!--@section Modal Cobertura
+      Modal de Bootstrap para confirmar cobertura de guardia.-->
+      <div class="modal fade" id="coverGuardModal" tabindex="-1" aria-labelledby="coverGuardModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -257,7 +274,10 @@ $usuarioId = $_SESSION['document'];
 <script src="../src/guardias.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-
+  <!--
+    @section Footer
+    Pie de página con derechos y redes sociales.
+  -->
 <footer class="bg-dark text-white py-4 mt-auto" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
