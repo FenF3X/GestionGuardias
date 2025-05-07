@@ -1,37 +1,66 @@
 <?php
-// chat.php
+/**
+ * chat.php
+ *
+ * Página de chat que permite la comunicación entre el usuario autenticado y sus profesores.
+ * Gestiona la sesión, envía y recibe mensajes mediante llamadas al servicio remoto vía CURL.
+ *
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/vistas/chat.php
+ */
 date_default_timezone_set('Europe/Madrid');
 session_start();
 include('../curl_conexion.php');  // Función curl_conexion(URL, método, params)
 
-// 1) Verificar usuario logueado
+/**
+ * 1) Verificación de usuario logueado.
+ *    Comprueba si existe el documento en sesión; si no, redirige a la página de login.
+ */
 $rol      = $_SESSION['rol'] ?? null;
 $nombre   = $_SESSION['nombre'] ?? null;
 $document = $_SESSION['document'] ?? null;
 if (!$document) {
-  header('Location: login.php');
+  header('Location: ../login.php');
   exit;
 }
 
-// 2) Obtener contactos escritos
+/**
+ * 2) Obtención de contactos con los que ya se han intercambiado mensajes.
+ *
+ * @var array \$profesoresEscritos Lista de profesores con mensajes previos (id, nombre, mensaje, fecha, hora).
+ */
 $params = ['accion' => 'consultaProfesEscritos', 'documento' => $document];
 $resp = curl_conexion(URL, 'POST', $params);
 $profesoresEscritos = json_decode($resp, true);
 
 
-// 3) Obtener lista completa de profesores
+/**
+ * 3) Obtención de lista completa de profesores disponibles para iniciar conversación.
+ *
+ * @var array \$profesores Matriz de profesores (id, nombre).
+ */
 $params = ['accion' => 'consultaProfesMensaje', 'documento' => $document];
 $resp = curl_conexion(URL, 'POST', $params);
 $profesores = json_decode($resp, true);
 
-// 4) Determinar profesor actual (GET o primer elemento)
+/**
+ * 4) Determinación del profesor actual.
+ *    Usa parámetro GET o el primer elemento de la lista si no se ha especificado.
+ */
 $profNombre = $_GET['profesor'] ?? $profesores[0][1] ?? null;
 if (!$profNombre) {
   echo '<p>No hay profesores disponibles.</p>';
   exit;
 }
 
-// 5) Buscar datos del profesor actual
+/**
+ * 5) Búsqueda de datos completos del profesor seleccionado.
+ *
+ * @var array|null \$profActual Datos del profesor actual (id, nombre).
+ * @var int|null   \$profesorId  ID numérico del profesor actual.
+ */
 $profActual = null;
 $profesorId = null;
 foreach ($profesores as $prof) {
@@ -47,7 +76,10 @@ if (!$profActual) {
   $profNombre = $profesores[0][1];
 }
 
-// 6) Enviar mensaje
+/**
+ * 6) Envío de un nuevo mensaje.
+ *    Procesa el formulario POST y redirige de nuevo al chat con el mismo receptor.
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mensaje'])) {
   $contenido = trim($_POST['mensaje']);
   $params = [
@@ -63,7 +95,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mensaje'])) {
   exit;
 }
 
-// 7) Cargar mensajes
+/**
+ * 7) Carga de mensajes para la conversación actual.
+ *
+ * @var array \$mensajes Arreglo de mensajes (emisor, texto, fecha, hora, leido).
+ */
 $params = [
   'accion'   => 'consultaMensajes',
   'emisor'   => $document,
@@ -349,6 +385,15 @@ $mensajes = json_decode($resp, true) ?: [];
 
   
 <script>
+  /**
+     * Script principal para manejar la interacción del chat:
+     * 1) Alternar modo edición
+     * 2) Mostrar/ocultar menú de opciones
+     * 3) Editar un mensaje seleccionado
+     * 4) Preparar y mostrar el diálogo de eliminación de mensajes
+     * 5) Confirmar y enviar la eliminación
+     * 6) Auto-scroll y focus al cargar la página
+     */
 (function(){
   // Elementos clave
   const toggleBtn      = document.getElementById('toggle-edit-btn');
