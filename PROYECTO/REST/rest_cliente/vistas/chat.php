@@ -353,8 +353,10 @@ $mensajes = json_decode($resp, true) ?: [];
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style=" border: 2px solid; 
+   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);">Cancelar</button>   
+      <button type="submit" class="btn btn-primary"  style=" border: 2px solid; 
+   background:linear-gradient(135deg, #0f1f2d, #18362f);">Asignarme guardia</button>   
       </div>
     </form>
   </div>
@@ -375,124 +377,17 @@ $mensajes = json_decode($resp, true) ?: [];
         <!-- Aquí se inyectarán inputs tipo seleccionados[0][fecha], seleccionados[0][hora], seleccionados[0][mensajeOriginal], etc. -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Eliminar</button>
-      </div>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style=" border: 2px solid; 
+   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);">Cancelar</button>   
+      <button type="submit" class="btn btn-primary"  style=" border: 2px solid; 
+   background:linear-gradient(135deg, #0f1f2d, #18362f);">Eliminar</button></div>
     </form>
   </div>
 </div>
 
 
   
-<script>
-  /**
-     * Script principal para manejar la interacción del chat:
-     * 1) Alternar modo edición
-     * 2) Mostrar/ocultar menú de opciones
-     * 3) Editar un mensaje seleccionado
-     * 4) Preparar y mostrar el diálogo de eliminación de mensajes
-     * 5) Confirmar y enviar la eliminación
-     * 6) Auto-scroll y focus al cargar la página
-     */
-(function(){
-  // Elementos clave
-  const toggleBtn      = document.getElementById('toggle-edit-btn');
-  const manualDropdown = document.getElementById('manualDropdown');
-  const editCheckboxes = () => Array.from(document.querySelectorAll('.edit-checkbox'));
-  const btnOpciones    = document.getElementById('btnOpciones');
-  const menuOpciones   = document.getElementById('menuOpciones');
-  const form           = document.getElementById('deleteForm');
-  const confirmDelete  = document.getElementById('confirmDeleteBtn');
-
-  // 1) Toggle edición
-  toggleBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    const cbs = editCheckboxes();
-    const editing = cbs[0]?.style.display !== 'inline-block';
-    cbs.forEach(cb => {
-      cb.style.display = editing ? 'inline-block' : 'none';
-      if (!editing) cb.checked = false;
-    });
-    this.textContent = editing ? 'Desactivar edición' : 'Habilitar edición';
-    manualDropdown.style.display = editing ? 'inline-block' : 'none';
-  });
-
-  // 2) Mostrar/ocultar menú de opciones
-  btnOpciones.addEventListener('click', function(e) {
-    e.stopPropagation();
-    menuOpciones.classList.toggle('show');
-  });
-  document.addEventListener('click', () => {
-    menuOpciones.classList.remove('show');
-  });
-  menuOpciones.addEventListener('click', e => e.stopPropagation());
-
-  // 3) Editar mensaje
-  document.getElementById('editarSeleccion').addEventListener('click', function(e) {
-    e.preventDefault(); e.stopPropagation();
-    const sel = editCheckboxes().filter(cb => cb.style.display==='inline-block' && cb.checked);
-    if (sel.length !== 1) {
-      document.getElementById('alertModalBody').textContent = 'Por favor selecciona un único mensaje para editar.';
-      new bootstrap.Modal(document.getElementById('alertModal')).show();
-      return;
-    }
-    const cb = sel[0];
-    document.getElementById('editModalId').value       = cb.value;
-    document.getElementById('editModalOriginal').value = cb.dataset.original;
-    document.getElementById('editModalFecha').value    = cb.dataset.fecha;
-    document.getElementById('editModalHora').value     = cb.dataset.hora;
-    document.getElementById('editModalTextarea').value = cb.dataset.original;
-    new bootstrap.Modal(document.getElementById('editModal')).show();
-  });
-
-  // 4) Borrar mensajes
-  document.getElementById('borrarSeleccion').addEventListener('click', function(e) {
-    e.preventDefault(); e.stopPropagation();
-    const sel = editCheckboxes().filter(cb => cb.style.display==='inline-block' && cb.checked);
-    if (sel.length === 0) {
-      document.getElementById('alertModalBody').textContent = 'Por favor selecciona al menos un mensaje para eliminar.';
-      new bootstrap.Modal(document.getElementById('alertModal')).show();
-      return;
-    }
-    document.getElementById('deleteModalBody').textContent =
-      `¿Seguro que quieres eliminar ${sel.length} mensaje${sel.length>1?'s':''}?`;
-
-    // Limpiar inputs previos
-    form.querySelectorAll('input[name^="seleccionados"]').forEach(i => i.remove());
-
-    // Añadir inputs para cada mensaje seleccionado, usando data-original
-    sel.forEach((cb, idx) => {
-      const mapping = {
-        fecha: 'fecha',
-        hora: 'hora',
-        mensajeOriginal: 'original'
-      };
-      Object.entries(mapping).forEach(([fieldName, dataAttr]) => {
-        const inp = document.createElement('input');
-        inp.type  = 'hidden';
-        inp.name  = `seleccionados[${idx}][${fieldName}]`;
-        inp.value = cb.dataset[dataAttr];
-        form.appendChild(inp);
-      });
-    });
-
-    new bootstrap.Modal(document.getElementById('deleteModal')).show();
-  });
-
-  // 5) Confirmar y enviar borrado
-  confirmDelete.addEventListener('click', function() {
-    form.submit();
-  });
-
-  // 6) Auto-scroll y focus en el input al cargar
-  window.addEventListener('load', function(){
-    const win = document.getElementById('chatWindow');
-    if (win) win.scrollTop = win.scrollHeight;
-    document.querySelector('input[name="mensaje"]').focus();
-  });
-
-})();
-</script>
+<script src="../src/chat.js"></script>
 
 
 
