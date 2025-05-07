@@ -356,7 +356,7 @@ $mensajes = json_decode($resp, true) ?: [];
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style=" border: 2px solid; 
    background:linear-gradient(135deg, #1e3a5f, #0f1f2d);">Cancelar</button>   
       <button type="submit" class="btn btn-primary"  style=" border: 2px solid; 
-   background:linear-gradient(135deg, #0f1f2d, #18362f);">Asignarme guardia</button>   
+   background:linear-gradient(135deg, #0f1f2d, #18362f);">Editar</button>   
       </div>
     </form>
   </div>
