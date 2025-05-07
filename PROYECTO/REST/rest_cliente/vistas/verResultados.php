@@ -1,20 +1,49 @@
 <?php
+/**
+ * verResultados.php
+ *
+ * Muestra los resultados de la consulta de ausencias generada en verInformes.php,
+ * con opción de exportar a PDF o volver atrás para cambiar filtros.
+ *
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/vistas/verResultados.php
+ * @warning    **Atención:** Este script solo funciona si viene redireccionado desde verInformes.php
+ *
+ * @function initSession
+ * @description Inicia la sesión y valida que el usuario esté autenticado.
+ */
 session_start();
+
+// Validar sesión activa
 if (!isset($_SESSION['document'])) {
-  header("Location: ../login.php");
-  exit();
+    header("Location: ../login.php");
+    exit();
 }
-$rol = $_SESSION['rol'];
-$nombre = $_SESSION['nombre'];
-$documento = $_SESSION['document'];
 
+/**
+ * @var string $rol       Rol del usuario ("admin" o "profesor").
+ * @var string $nombre    Nombre para mostrar en la cabecera.
+ * @var string $documento ID/documento del usuario.
+ */
+$rol        = $_SESSION['rol'];
+$nombre     = $_SESSION['nombre'];
+$documento  = $_SESSION['document'];
+
+// Obtener resultados e informe del filtro anterior
+/**
+ * @var array $resultados       Array de filas del informe obtenido.
+ * @var string $tipo            Tipo de informe (día, mes, trimestre, etc.).
+ */
 $resultados = $_SESSION['resultado_informe'] ?? [];
-$tipo = $_SESSION['tipo_informe'] ?? 'informe';
+$tipo        = $_SESSION['tipo_informe']   ?? 'informe';
 
+// Si no hay datos o formato incorrecto, mostrar alerta y detener
 if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
-    echo "<div class='alert alert-warning text-center m-5'>⚠️ No hay datos disponibles para mostrar.</div>";
+    echo "<div class='alert alert-warning text-center w-50 mx-auto my-5'>⚠️ No hay datos disponibles para mostrar.</div>";
     exit;
-  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +55,7 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
   <link rel="stylesheet" href="../src/principal.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../src/informe.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-custom">
@@ -56,67 +86,6 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
           </li>
         <?php endif; ?>
       </ul>
-
-      <style>
-        
-        .table-responsive {
-  overflow-x: auto !important;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* 2) Fuerza que aquí sí se muestre la scrollbar */
-.table-responsive::-webkit-scrollbar {
-  display: block !important;
-  height: 6px;
-}
-.table-responsive::-webkit-scrollbar-thumb {
-  background: rgba(30,58,95,0.8);
-  border-radius: 3px;
-}
-.table-responsive::-webkit-scrollbar-track {
-  background: rgba(15,31,45,0.5);
-  border-radius: 3px;
-}
-@media (max-width: 767.98px) {
-  .table-responsive table {
-    min-width: 700px; /* o el ancho que necesiten tus columnas */
-  }
-}
-
-::-webkit-scrollbar {display: none; } 
-.navbar-toggler {background-color: #0f1f2d !important;  /* tu azul custom */border: 2px solid #fff !important;     /* borde blanco */}
-
-/* 2) Icono: tres barras blancas */
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
-}
-
-
-.navbar-toggler:hover {
-  background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
-}
-        
-  table {
-    table-layout: auto !important;
-    width: 100% !important;
-  }
-
-  th, td {
-    white-space: nowrap;
-    word-break: break-word;
-    padding: 6px;
-    font-size: 11px;
-  }
-
-  .table-responsive {
-    overflow-x: auto;
-  }
-  table.table-guardias thead tr th {
-background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
-color: #fff !important;
-}
-</style>
-
 
       <div class="d-flex align-items-center ms-auto">
         <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre); ?></strong></span>
@@ -151,7 +120,6 @@ color: #fff !important;
         </div>
       </div>
       
-     <!-- DERECHA: botones en línea -->
      <div class="botones-usuario d-flex align-items-center gap-2 text-center text-md-end">
 
 
@@ -240,10 +208,8 @@ color: #fff !important;
   <!-- 1) Bootstrap Bundle (Popper + Collapse, Dropdowns, etc) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   
-  <!-- 2) Tus otros scripts (jsPDF, Flatpickr, inicializadores, etc) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-  <!-- …el resto de tus scripts… -->
 
 <script src="../src/exportarAPDF.js"></script>
 </body>

@@ -1,4 +1,20 @@
 <?php
+/**
+ * verInformes.php
+ *
+ * Pestaña con formulario dinámico en la muestra del informe respecto a las ausencias y por quien
+ * ha sido asignado, ademas de ver la cantidad de faltas que ha realizado ese profesor. Puedes generar
+ * el informe por dia, semana, mes, trimestre, curso o docente. Incluye la posibilidad de exportarlo en
+ * PDF. Incluye un alert que cancela la redirección en caso de no existir ausencias sobre esos filtros
+ *
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/vistas/verInformes.php
+ *
+ * @function initSessionAndFetchProfesores
+ * @description Inicia la sesión, valida autenticación de administrador y obtiene la lista de profesores.
+ */
 session_start();
 include("../curl_conexion.php");
 if (!isset($_SESSION['document'])) {
@@ -118,7 +134,7 @@ $profesores = $_SESSION['profesores'] ?? [];
         </div>
       </div>
       
-     <!-- DERECHA: botones en línea -->
+     
      <div class="botones-usuario d-flex align-items-center gap-2 text-center text-md-end">
 
 
@@ -148,7 +164,7 @@ $profesores = $_SESSION['profesores'] ?? [];
 </main>
 <div class="container mt-5">
     <?php if (isset($_SESSION['alert_message'])): ?>
-        <div class="alert alert-warning text-center" role="alert">
+        <div class="alert alert-warning text-center w-50 mx-auto" role="alert">
             <?php echo htmlspecialchars($_SESSION['alert_message']); ?>
         </div>
         <?php unset($_SESSION['alert_message']); ?>

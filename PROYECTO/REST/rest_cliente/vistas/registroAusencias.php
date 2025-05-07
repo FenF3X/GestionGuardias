@@ -106,7 +106,9 @@ $profesores = $_SESSION['profesores'] ?? [];
   #motivo:-ms-input-placeholder {
     color: #fff;
   }
-.navbar-toggler {background-color: #0f1f2d !important;  /* tu azul custom */border: 2px solid #fff !important;     /* borde blanco */}
+.navbar-toggler {background-color: #0f1f2d !important; 
+  border: 2px solid #fff !important;    
+}
 
 /* 2) Icono: tres barras blancas */
 .navbar-toggler-icon {
@@ -115,7 +117,7 @@ $profesores = $_SESSION['profesores'] ?? [];
 
 
 .navbar-toggler:hover {
-  background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
+  background-color: #18362f !important;  
 }
     </style>
 </head>

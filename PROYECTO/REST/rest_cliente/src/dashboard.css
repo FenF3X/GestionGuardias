@@ -65,8 +65,8 @@ table.table-guardias thead tr th {
 * @param {string} border - Borde blanco de 2px.
 */
 .navbar-toggler {
-  background-color: #0f1f2d !important;  /* tu azul custom */
-  border: 2px solid #fff !important;     /* borde blanco */
+  background-color: #0f1f2d !important;  
+  border: 2px solid #fff !important;    
 }
 
 /**

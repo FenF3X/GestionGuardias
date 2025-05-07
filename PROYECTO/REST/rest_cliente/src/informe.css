@@ -1,0 +1,110 @@
+/**
+ * @selector .table-responsive
+ * @description Permite desplazamiento horizontal cuando la tabla supera el ancho del contenedor.
+ *              Incluye suavizado táctil en dispositivos móviles.
+ */
+ .table-responsive {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+/**
+* @selector .table-responsive::-webkit-scrollbar
+* @description Muestra la barra de scroll personalizada con altura de 6px.
+*/
+.table-responsive::-webkit-scrollbar {
+  display: block !important;
+  height: 6px;
+}
+
+/**
+* @selector .table-responsive::-webkit-scrollbar-thumb
+* @description Estilo de la parte deslizable (thumb) de la barra de scroll: color y bordes redondeados.
+*/
+.table-responsive::-webkit-scrollbar-thumb {
+  background: rgba(30,58,95,0.8);
+  border-radius: 3px;
+}
+
+/**
+* @selector .table-responsive::-webkit-scrollbar-track
+* @description Fondo de la pista de la barra de scroll, con color semitransparente y bordes redondeados.
+*/
+.table-responsive::-webkit-scrollbar-track {
+  background: rgba(15,31,45,0.5);
+  border-radius: 3px;
+}
+
+/**
+* @at-media max-width: 767.98px
+* @description Para pantallas pequeñas, fuerza un ancho mínimo en la tabla para evitar que las columnas
+*              colapsen, mostrando scroll en lugar de apilar contenido.
+*/
+@media (max-width: 767.98px) {
+  .table-responsive table {
+      min-width: 700px; /* Ajustar según necesidad de columnas */
+  }
+}
+
+/**
+* @selector ::-webkit-scrollbar
+* @description Oculta la barra de scroll global en navegadores WebKit.
+*/
+::-webkit-scrollbar {
+  display: none;
+}
+
+/**
+* @selector .navbar-toggler
+* @description Estilo del botón hamburguesa: fondo oscuro y borde blanco.
+*/
+.navbar-toggler {
+  background-color: #0f1f2d !important;
+  border: 2px solid #fff !important;
+}
+
+/**
+* @selector .navbar-toggler-icon
+* @description Icono SVG en blanco para el botón de colapso de la navbar.
+*/
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
+}
+
+/**
+* @selector .navbar-toggler:hover
+* @description Cambio de color de fondo al pasar el ratón por encima del botón hamburguesa.
+*/
+.navbar-toggler:hover {
+  background-color: #18362f !important;
+}
+
+/**
+* @selector table
+* @description Ajuste de diseño de tabla para ocupar todo el ancho disponible y tamaño automático de celdas.
+*/
+table {
+  table-layout: auto !important;
+  width: 100% !important;
+}
+
+/**
+* @selector th, td
+* @description Evita el salto de línea en espacios normales y fuerza ajuste de palabra en caso necesario;
+*              reduce padding y tamaño de fuente para mejorar la legibilidad en tablas densas.
+*/
+th, td {
+  white-space: nowrap;
+  word-break: break-word;
+  padding: 6px;
+  font-size: 11px;
+}
+
+/**
+* @selector table.table-guardias thead tr th
+* @description Degradado diagonal y texto blanco para cabeceras de la tabla de guardias.
+*/
+table.table-guardias thead tr th {
+  background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
+  color: #fff !important;
+}

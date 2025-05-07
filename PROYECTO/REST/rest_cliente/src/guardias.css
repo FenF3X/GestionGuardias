@@ -175,7 +175,8 @@ select.input-select-custom::-ms-expand {
   background: rgba(30,58,95,1) !important;
 }
 ::-webkit-scrollbar {display: none; } 
-.navbar-toggler {background-color: #0f1f2d !important;  /* tu azul custom */border: 2px solid #fff !important;     /* borde blanco */}
+.navbar-toggler {background-color: #0f1f2d !important;  
+  border: 2px solid #fff !important;     /* borde blanco */}
 
 /* 2) Icono: tres barras blancas */
 .navbar-toggler-icon {
@@ -184,12 +185,12 @@ select.input-select-custom::-ms-expand {
 
 
 .navbar-toggler:hover {
-  background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
+  background-color: #18362f !important; 
 }
 /* Meses en el monthSelectPlugin: texto siempre blanco */
 .flatpickr-calendar .flatpickr-monthSelect-month {
   color: #fff !important;
-  opacity: 1 !important; /* elimina cualquier semitransparencia */
+  opacity: 1 !important; 
 }
 
 /* Hover sobre un mes: mantiene texto blanco */
