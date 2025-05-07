@@ -1,14 +1,39 @@
 <?php
+/**
+ * verGuardiasRealizadas.php
+ *
+ * Página para consultar el historial de guardias realizadas por el docente.
+ * Permite filtrar por fecha y sesión disponibles.
+ *
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/vistas/verGuardiasRealizadas.php
+ */
+/**
+ * @function initSessionAndFetch
+ * @description Inicia la sesión, valida autenticación y realiza petición para obtener horas disponibles.
+ */
 session_start();
 include("../curl_conexion.php");
 if (!isset($_SESSION['document'])) {
   header("Location: ../login.php");
   exit();
 }
+/**
+ * @var string|array $rol        - Rol del usuario ('admin', profesor).
+ * @var string|array $nombre     - Nombre del usuario.
+ * @var string|array $documento  - Documento  del usuario.
+ */
 $rol = $_SESSION['rol'] ?? [];
 $nombre = $_SESSION['nombre'] ?? [];
 $documento = $_SESSION['document'] ?? [];
-
+/**
+ * @var array $params - Parámetros de consulta 
+ * @var string $UrlGet - URL completa con query string para la petición GET.
+ * @var string $response - Respuesta JSON de la API.
+ * @var array $horasDisponibles - Array decodificado de horas de guardia disponibles.
+ */
 $params = [
     'document' => $documento,
     'accion' => 'consultaSesiones'
@@ -33,6 +58,10 @@ $horasDisponibles = json_decode($response, TRUE);
 <link rel="stylesheet" href="../src/principal.css">
 </head>
 <body>
+  <!--
+    @section Navbar
+    Barra de navegación principal con logo, enlaces y logout.
+  -->
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container-fluid">
 
@@ -55,7 +84,7 @@ $horasDisponibles = json_decode($response, TRUE);
         </li>
         <li class="nav-item"><a class="nav-link text-white" href="../verAusencias.php?cargar_guardias=1">Consultar Ausencias</a>
         </li>
-
+      <!--SOLO ADMIN-->
         <?php if ($rol === 'admin'): ?>
           <li class="nav-item"><a class="nav-link text-white" href="verInformes.php">Generar informes</a></li>
           <li class="nav-item dropdown">
@@ -90,8 +119,11 @@ $horasDisponibles = json_decode($response, TRUE);
   </div>
 </nav>
 <main>
+  <!--
+    @section main
+    Foto de perfil con datos personales y enlace a chat
+  -->
   <div class="container mt-5">
-    <!-- Perfil: foto + datos a la izquierda, botones a la derecha -->
     <div class="perfil-contenedor 
                 d-flex flex-column flex-md-row 
                 align-items-center justify-content-between">
@@ -108,7 +140,6 @@ $horasDisponibles = json_decode($response, TRUE);
         </div>
       </div>
       
-     <!-- DERECHA: botones en línea -->
      <div class="botones-usuario d-flex align-items-center gap-2 text-center text-md-end">
  
 
@@ -136,7 +167,10 @@ $horasDisponibles = json_decode($response, TRUE);
     <?php endif; ?>
   </div>
 </main>
-
+      <!--
+    @section HistorialDeGuardias
+      Historial de las guardias realizadas
+    -->
 <section>
 <div class="container mt-4">
 <h4 class="mb-3">Guardias realizadas</h4>
@@ -247,7 +281,8 @@ $horasDisponibles = json_decode($response, TRUE);
   </script>
 <?php endif; ?>
 </body>
-
+<!--@section footer
+Enlaces y derechos  -->
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
