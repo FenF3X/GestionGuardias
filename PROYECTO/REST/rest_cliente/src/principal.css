@@ -1,206 +1,308 @@
 /* ===========================
    REGLAS GENERALES
-=========================== */
+   =========================== */
 
-/* 2) Degradado en las cabeceras (<th>) */
-table.table-guardias thead tr th {
-background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
-color: #fff !important;
+/**
+ * @selector table.table-guardias thead tr th
+ * @description Degradado diagonal en las cabeceras de la tabla de guardias y texto en blanco.
+ */
+ table.table-guardias thead tr th {
+  background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
+  color: #fff !important;
 }
-  /* ===========================
-     NAVBAR PERSONALIZADA
-  =========================== */
 
-  .navbar-custom {
-    background: linear-gradient(135deg, #0f1f2d, #18362f);
-    padding: 10px 0;
-  }
+/* ===========================
+   NAVBAR PERSONALIZADA
+   =========================== */
 
-  /* Centrado del logo */
-  .navbar-brand {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-  }
+/**
+ * @class navbar-custom
+ * @description Barra de navegación con fondo degradado y padding vertical.
+ */
+.navbar-custom {
+  background: linear-gradient(135deg, #0f1f2d, #18362f);
+  padding: 10px 0;
+}
 
-  /* Imagen del logo */
-  .navbar-brand img {
-    height: 60px;
-    object-fit: contain;
-  }
+/**
+ * @selector .navbar-brand
+ * @description Contenedor del logo centrado vertical y horizontalmente.
+ */
+.navbar-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
 
-  /* Centrar los enlaces en pantallas grandes */
-  .navbar-nav {
-    margin: 0 auto;
-    text-align: center;
-  }
+/**
+ * @selector .navbar-brand img
+ * @description Imagen del logo ajustada a altura fija y manteniendo proporción.
+ */
+.navbar-brand img {
+  height: 60px;
+  object-fit: contain;
+}
 
-  /* Estilo de los enlaces de navegación */
-  .navbar-nav .nav-link {
-    color: white !important;
-    font-weight: bold;
-  }
+/**
+ * @selector .navbar-nav
+ * @description Centrado de los enlaces de navegación en pantallas grandes.
+ */
+.navbar-nav {
+  margin: 0 auto;
+  text-align: center;
+}
 
-  /* Hover de los enlaces */
-  .navbar-nav .nav-link:hover {
-    color: #8fe3b3 !important;
-  }
+/**
+ * @selector .navbar-nav .nav-link
+ * @description Enlaces de navegación en blanco y negrita.
+ */
+.navbar-nav .nav-link {
+  color: white !important;
+  font-weight: bold;
+}
 
-  vbar-toggler {
-    background-color: #0f1f2d !important;  
-    border: 2px solid #fff !important;     
-  }
-  
-  .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
-  }
-  
-  
-  .navbar-toggler:hover {
-    background-color: #18362f !important; 
-  }
+/**
+ * @selector .navbar-nav .nav-link:hover
+ * @description Color de enlace al pasar el ratón, tono verde agua.
+ */
+.navbar-nav .nav-link:hover {
+  color: #8fe3b3 !important;
+}
 
-  /* Texto de bienvenida */
-  #bienvenida {
-    color: white !important;
-    font-weight: bold;
-    margin: 0;
-  }
+/**
+ * @selector vbar-toggler
+ * @description Botón hamburguesa con fondo oscuro y borde blanco. (Puede ser typo de .navbar-toggler)
+ */
+vbar-toggler {
+  background-color: #0f1f2d !important;
+  border: 2px solid #fff !important;
+}
 
+/**
+ * @selector .navbar-toggler-icon
+ * @description Icono SVG en blanco para el botón hamburguesa.
+ */
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
+}
 
-  .dropdown-menu li {
-    color: white;
-    font-weight: bold;
-  }
+/**
+ * @selector .navbar-toggler:hover
+ * @description Cambio de fondo al pasar el ratón sobre el botón hamburguesa.
+ */
+.navbar-toggler:hover {
+  background-color: #18362f !important;
+}
 
-  .dropdown-menu .dropdown-item {
-    color: white !important;
-    font-weight: bold;
-    background-color: transparent !important;
-    transition: color 0.3s ease;
-  }
+/**
+ * @selector #bienvenida
+ * @description Texto de bienvenida en blanco y negrita.
+ */
+#bienvenida {
+  color: white !important;
+  font-weight: bold;
+  margin: 0;
+}
 
-  .dropdown-menu .dropdown-item:hover {
-    background-color: transparent !important;
-    color: #d0f0ff !important; /* blanco azulado más claro */
-  }
+/**
+ * @selector .dropdown-menu li
+ * @description Elementos de la lista desplegable en blanco y negrita.
+ */
+.dropdown-menu li {
+  color: white;
+  font-weight: bold;
+}
 
-  .dropdown:hover .dropdown-menu {
-    display: block;
-    background: linear-gradient(135deg, #0f1f2d, #18362f);
-  }
+/**
+ * @selector .dropdown-menu .dropdown-item
+ * @description Items del dropdown con fondo transparente y transición de color.
+ */
+.dropdown-menu .dropdown-item {
+  color: white !important;
+  font-weight: bold;
+  background-color: transparent !important;
+  transition: color 0.3s ease;
+}
 
-  /* ===========================
-     ZONA CENTRAL (Perfil + Horario)
-  =========================== */
+/**
+ * @selector .dropdown-menu .dropdown-item:hover
+ * @description Cambio de color al pasar el ratón sobre un item del dropdown.
+ */
+.dropdown-menu .dropdown-item:hover {
+  background-color: transparent !important;
+  color: #d0f0ff !important;
+}
 
-  #medio {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 20px;
-  }
+/**
+ * @selector .dropdown:hover .dropdown-menu
+ * @description Muestra el menú desplegable al pasar el ratón y aplica fondo degradado.
+ */
+.dropdown:hover .dropdown-menu {
+  display: block;
+  background: linear-gradient(135deg, #0f1f2d, #18362f);
+}
 
-  /* Contenedor de perfil y texto */
-  #info {
-    display: flex;
-    align-items: center;
-  }
+/* ===========================
+   ZONA CENTRAL (Perfil + Horario)
+   =========================== */
 
-  /* Lista de información del usuario */
-  #info ul {
-    list-style: none;
-    margin-left: 20px;
-    padding: 0;
-  }
+/**
+ * @selector #medio
+ * @description Contenedor flex para perfil y horario con espacio entre ellos.
+ */
+#medio {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+}
 
-  /* Foto de perfil */
-  #info img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
+/**
+ * @selector #info
+ * @description Contenedor del perfil de usuario alineado horizontalmente.
+ */
+#info {
+  display: flex;
+  align-items: center;
+}
 
-  /* Tabla del horario */
-  #horario table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+/**
+ * @selector #info ul
+ * @description Lista sin estilo de viñetas ni padding para datos de usuario.
+ */
+#info ul {
+  list-style: none;
+  margin-left: 20px;
+  padding: 0;
+}
 
-  #horario th, #horario td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
+/**
+ * @selector #info img
+ * @description Foto de perfil circular con ajustes de tamaño y recorte.
+ */
+#info img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
-  /* ===========================
-     BOTONES DE FICHAJE
-  =========================== */
+/**
+ * @selector #horario table
+ * @description Tabla de horario con ancho completo y colapsado de bordes.
+ */
+#horario table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-  .botones-fichaje {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
+/**
+ * @selector #horario th, #horario td
+ * @description Celdas y encabezados de la tabla con padding, borde y texto centrado.
+ */
+#horario th,
+#horario td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
 
-  /* Botón estilo moderno */
-  .btn-fichar {
-    font-weight: 600;
-    font-size: 18px;
-    padding: 12px 20px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #0f1f2d, #18362f);
-    border: 0;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
+/* ===========================
+   BOTONES DE FICHAJE
+   =========================== */
 
-  /* Hover del botón de fichar */
-  .btn-fichar:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
+/**
+ * @class botones-fichaje
+ * @description Contenedor flex centrado para los botones de fichaje.
+ */
+.botones-fichaje {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
 
-  /* ===========================
-     ALERTAS / MENSAJES
-  =========================== */
+/**
+ * @class btn-fichar
+ * @description Botón de fichaje con estilo moderno, degradado y transiciones.
+ */
+.btn-fichar {
+  font-weight: 600;
+  font-size: 18px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0f1f2d, #18362f);
+  border: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-  .alert {
-    padding: 10px 16px;
-    font-size: 15px;
-    border-radius: 8px;
-    transition: opacity 0.5s ease;
-  }
+/**
+ * @selector .btn-fichar:hover
+ * @description Efecto hover en el botón de fichar: escala y sombra.
+ */
+.btn-fichar:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
 
-  
+/* ===========================
+   ALERTAS / MENSAJES
+   =========================== */
 
+/**
+ * @class alert
+ * @description Estilo general para alertas con padding, tamaño de fuente y transición.
+ */
+.alert {
+  padding: 10px 16px;
+  font-size: 15px;
+  border-radius: 8px;
+  transition: opacity 0.5s ease;
+}
 
-  .foto-circular {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 4px solid #004545;
-  }
+/* ===========================
+   FOTO DE PERFIL
+   =========================== */
 
-  /* Accion subir foto*/
-  .foto-wrapper {
+/**
+ * @class foto-circular
+ * @description Imagen circular de perfil con borde destacado.
+ */
+.foto-circular {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #004545;
+}
+
+/**
+ * @class foto-wrapper
+ * @description Contenedor relativo para la foto con dimensiones fijas.
+ */
+.foto-wrapper {
   position: relative;
   width: 120px;
   height: 120px;
 }
 
+/**
+ * @selector .foto-wrapper .foto-circular
+ * @description Ajustes de tamaño completo y cursor pointer para la foto.
+ */
 .foto-wrapper .foto-circular {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #004545;
-  cursor: pointer;
 }
 
+/**
+ * @class foto-hover
+ * @description Contenedor que permite mostrar overlay al pasar el ratón.
+ */
 .foto-hover {
   position: relative;
   display: block;
@@ -208,6 +310,10 @@ color: #fff !important;
   height: 100%;
 }
 
+/**
+ * @class overlay-text
+ * @description Capa superpuesta con texto centrado y fondo semitransparente.
+ */
 .overlay-text {
   position: absolute;
   bottom: 0;
@@ -224,31 +330,18 @@ color: #fff !important;
   transition: opacity 0.3s ease;
 }
 
+/**
+ * @selector .foto-hover:hover .overlay-text
+ * @description Hace visible el overlay al pasar el ratón sobre la foto.
+ */
 .foto-hover:hover .overlay-text {
   opacity: 1;
 }
+
+/**
+ * @class footer.custom-footer
+ * @description Footer personalizado con degradado de fondo.
+ */
 footer.custom-footer {
   background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
 }
-.dropdown-menu li {
-  color: white;
-  font-weight: bold;
-}
-
-.dropdown-menu .dropdown-item {
-  color: white !important;
-  font-weight: bold;
-  background-color: transparent !important;
-  transition: color 0.3s ease;
-}
-
-.dropdown-menu .dropdown-item:hover {
-  background-color: transparent !important;
-  color: #d0f0ff !important; /* blanco azulado más claro */
-}
-
-.dropdown:hover .dropdown-menu {
-  display: block;
-  background: linear-gradient(135deg, #0f1f2d, #18362f);
-}
-
