@@ -86,3 +86,4 @@
 06-05-2025 14:58:19 | Éxito | DNI: 016976848Q | Profesor: ESTHER S O | Log In(Entrada)
 07-05-2025 06:59:48 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
 07-05-2025 09:38:10 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
+07-05-2025 09:56:36 | Éxito | DNI: 016976848Q | Profesor: ESTHER S O | Log In(Entrada)

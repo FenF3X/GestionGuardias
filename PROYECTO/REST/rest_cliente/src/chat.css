@@ -1,171 +1,334 @@
-.chat-window { height: 70vh; }
-.msg { max-width: 75%; word-wrap: break-word; }
-.from-me { margin-left: auto; }
-.from-them { margin-right: auto; }
-/* Estilos para la lista de contactos custom */
+/**
+ * @class chat-window
+ * @description Ventana principal de chat que ocupa el 70% de la altura de la ventana.
+ */
+ .chat-window {
+  height: 70vh;
+}
+
+/**
+* @class msg
+* @description Limita el ancho de los mensajes al 75% y permite el salto de línea automático.
+*/
+.msg {
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+/**
+* @class from-me
+* @description Alinea los mensajes enviados por el usuario a la derecha.
+*/
+.from-me {
+  margin-left: auto;
+}
+
+/**
+* @class from-them
+* @description Alinea los mensajes recibidos (de otros usuarios) a la izquierda.
+*/
+.from-them {
+  margin-right: auto;
+}
+
+/**
+* @class list-group
+* @description Lista de contactos personalizada con scroll interno si supera 300px de alto.
+*/
 .list-group {
   max-height: 300px;
   overflow-y: auto;
 }
 
+/**
+* @class list-group-item
+* @description Elemento de la lista de contactos: texto multilínea y padding definido.
+*/
 .list-group-item {
   white-space: normal;
   padding: 0.75rem 1rem;
 }
-/* Contenedor relativo para el dropdown manual */
+
+/**
+* @class manual-dropdown
+* @description Contenedor relativo para desplegables manuales.
+*/
 .manual-dropdown {
-position: relative;
-display: inline-block;
+  position: relative;
+  display: inline-block;
 }
-/* Oculta el menú por defecto */
+
+/**
+* @class manual-dropdown .dropdown-menu
+* @description Menú oculto por defecto, posicionado abajo a la derecha del contenedor.
+*/
 .manual-dropdown .dropdown-menu {
-position: absolute;
-top: 100%;
-right: 0;
-display: none;
-margin-top: 0.5rem;  
-background: linear-gradient(135deg, #0f1f2d, #18362f);
-
+  position: absolute;
+  top: 100%;
+  right: 0;
+  display: none;
+  margin-top: 0.5rem;
+  background: linear-gradient(135deg, #0f1f2d, #18362f);
 }
-/* Cuando tenga la clase .show, se muestra */
+
+/**
+* @class manual-dropdown .dropdown-menu.show
+* @description Muestra el menú cuando tiene la clase `.show`.
+*/
 .manual-dropdown .dropdown-menu.show {
-display: block;
+  display: block;
 }
 
+/**
+* @class navbar-toggler
+* @description Botón de la navbar (hamburguesa) con fondo oscuro y borde blanco.
+*/
 .navbar-toggler {
-background-color: #0f1f2d !important;  
-border: 2px solid #fff !important;     
+  background-color: #0f1f2d !important;
+  border: 2px solid #fff !important;
 }
 
+/**
+* @class navbar-toggler-icon
+* @description Icono SVG en blanco para el botón hamburguesa.
+*/
 .navbar-toggler-icon {
-background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
 }
 
-
+/**
+* @class navbar-toggler:hover
+* @description Cambio de fondo al pasar el ratón sobre el botón hamburguesa.
+*/
 .navbar-toggler:hover {
-background-color: #18362f !important; 
+  background-color: #18362f !important;
 }
+
+/**
+* @selector ::-webkit-scrollbar
+* @description Oculta la barra de scroll en navegadores WebKit.
+*/
 ::-webkit-scrollbar {
-display: none; 
+  display: none;
 }
 
+/* === Estilos para los mensajes del usuario en la lista de contactos === */
 
-/* === LIST-GROUP (Mis mensajes) === */
+/**
+* @class list-group-item
+* @description Fondo oscuro, texto blanco y barra lateral verde-azulada.
+*/
 .list-group-item {
-    background-color: #0f1f2d;               /* fondo oscuro base */
-    color: #fff;                             /* texto blanco */
-    border-left: 4px solid #1e3a5f;          /* barra verde-azulada */
-    transition: background 0.2s, border-color 0.2s;
-  }
-  .list-group-item small.text-muted {
-    color: #fff !important;
-  }
-  /* ====== Eliminar foco azul de los list-group-item ====== */
+  background-color: #0f1f2d;
+  color: #fff;
+  border-left: 4px solid #1e3a5f;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+/**
+* @class list-group-item small.text-muted
+* @description Texto en blanco para los elementos secundarios.
+*/
+.list-group-item small.text-muted {
+  color: #fff !important;
+}
+
+/**
+* @selector .list-group-item:focus, .list-group-item:focus-visible
+* @description Quita el borde azul y sombra al enfocar un elemento de la lista.
+*/
 .list-group-item:focus,
 .list-group-item:focus-visible {
   outline: none !important;
   box-shadow: none !important;
 }
 
-/* ====== Eliminar foco azul del select de Otros Contactos ====== */
+/**
+* @selector .form-select:focus, .form-select:focus-visible
+* @description Quita el borde azul y sombra al enfocar el select de Otros Contactos.
+*/
 .form-select:focus,
 .form-select:focus-visible {
   outline: none !important;
   box-shadow: none !important;
 }
 
-/* Si quieres además que al hacer clic no cambie fondo ni borde */
+/**
+* @selector .list-group-item:focus, .form-select:focus
+* @description Mantiene el fondo y borde al enfocar sin cambios.
+*/
 .list-group-item:focus,
 .form-select:focus {
   background: none;
   border-color: inherit;
 }
-  .list-group-item:hover {
-    background: linear-gradient(135deg, #1e3a5f, #0f1f2d);
-    border-left-color: #0f1f2d;
-    color:white;
-  }
-  .list-group-item.active {
-    background: linear-gradient(135deg, #1e3a5f, #0f1f2d);
-    border-left-color: #0f1f2d;
-    color: white;
-  }
-  
- /* === FORM-SELECT (Otros Contactos) unificado === */
-.form-select {
-    background-color: #0f1f2d;      /* mismo fondo oscuro */
-    color: #fff;                    /* texto blanco */
-    border: 2px solid #1e3a5f;      /* borde verde-azulado */
-    border-radius: 0.25rem;
-    /* Quita cualquier apariencia nativa extra */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    /* Forzar caja sobre el background al abrir */
-    background-image: none !important;
-  }
-  
-  /* Opciones */
-  .form-select option {
-    background-color: #0f1f2d;      /* mismo fondo que el select */
-    color: #fff;                    /* texto blanco */
-    padding:5px;
+
+/**
+* @class list-group-item:hover
+* @description Fondo degradado y cambio de color de borde al pasar el ratón.
+*/
+.list-group-item:hover {
+  background: linear-gradient(135deg, #1e3a5f, #0f1f2d);
+  border-left-color: #0f1f2d;
+  color: white;
 }
-  
-  /* Hover sobre opción */
-  .form-select option:hover {
-    background-color: #486c9c;      /* degradado sólido intermedio */
-  }
-  
-  /* Cuando esté enfocado, mostrar degradado */
-  .form-select:focus {
-    outline: none;
-    box-shadow: none;
-    background: linear-gradient(135deg, #1e3a5f, #0f1f2d);
-    border-color: #0f1f2d;
-  }
-  
-  /* Scrollbar interno en WebKit */
-  .form-select::-webkit-scrollbar {
-    width: 6px;
-  }
-  .form-select::-webkit-scrollbar-thumb {
-    background-color: #1e3a5f;
-    border-radius: 3px;
-  }
-  .form-select::-webkit-scrollbar-track {
-    background-color: #0f1f2d;
-  }
-  
-  /* Ajuste para que el scrollbar interno no se vea raro */
-  .form-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-  }
-  
-  /* Flecha del select en blanco */
-  .form-select::-ms-expand {
-    color: #fff;
-  }
-  
-  /* Tamaño dinámico según variable $tamaño */
-  .form-select[size] {
-    height: auto; /* deja que Bootstrap adapte bien el size */
-  }
-  /* ====== Input de mensaje sin foco azul y con borde igual que el botón ====== */
+
+/**
+* @class list-group-item.active
+* @description Estilo activo con mismo degradado que el hover.
+*/
+.list-group-item.active {
+  background: linear-gradient(135deg, #1e3a5f, #0f1f2d);
+  border-left-color: #0f1f2d;
+  color: white;
+}
+
+/* === Estilos para el select de Otros Contactos === */
+
+/**
+* @class form-select
+* @description Select unificado con fondo oscuro, texto blanco y borde verde-azulado.
+*/
+.form-select {
+  background-color: #0f1f2d;
+  color: #fff;
+  border: 2px solid #1e3a5f;
+  border-radius: 0.25rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none !important;
+}
+
+/**
+* @class form-select option
+* @description Opciones del select con fondo oscuro y texto blanco.
+*/
+.form-select option {
+  background-color: #0f1f2d;
+  color: #fff;
+  padding: 5px;
+}
+
+/**
+* @class form-select option:hover
+* @description Fondo más claro al pasar el ratón sobre una opción.
+*/
+.form-select option:hover {
+  background-color: #486c9c;
+}
+
+/**
+* @class form-select:focus
+* @description Degradado y cambio de borde al enfocar el select.
+*/
+.form-select:focus {
+  outline: none;
+  box-shadow: none;
+  background: linear-gradient(135deg, #1e3a5f, #0f1f2d);
+  border-color: #0f1f2d;
+}
+
+/**
+* @selector .form-select::-webkit-scrollbar
+* @description Scrollbar interno del select en WebKit con customización.
+*/
+.form-select::-webkit-scrollbar {
+  width: 6px;
+}
+.form-select::-webkit-scrollbar-thumb {
+  background-color: #1e3a5f;
+  border-radius: 3px;
+}
+.form-select::-webkit-scrollbar-track {
+  background-color: #0f1f2d;
+}
+
+/**
+* @selector form-select::-ms-expand
+* @description Flecha del select en IE/Edge en blanco.
+*/
+.form-select::-ms-expand {
+  color: #fff;
+}
+
+/**
+* @selector .form-select[size]
+* @description Ajuste de altura dinámica para selects con atributo size.
+*/
+.form-select[size] {
+  height: auto;
+}
+
+/* === Estilo del input de mensaje === */
+
+/**
+* @selector input[name="mensaje"]
+* @description Input de texto para mensaje sin foco azul y con borde degradado.
+*/
 input[name="mensaje"] {
-    /* Borde con el mismo degradado del botón */
-    border: 2px solid transparent;
-    border-image: linear-gradient(135deg, #9d4edd, #1e3a5f) 1;
-    /* Evitar que salga sombra o outline al hacer foco */
-    outline: none;
-    box-shadow: none;
-  }
-  
-  input[name="mensaje"]:focus {
-    outline: none !important;
-    box-shadow: none !important;
-    /* Mantener el borde degradado igual */
-    border-image: linear-gradient(135deg, #9d4edd, #1e3a5f) 1;
-  }
+  border: 2px solid transparent;
+  border-image: linear-gradient(135deg, #9d4edd, #1e3a5f) 1;
+  outline: none;
+  box-shadow: none;
+}
+
+/**
+* @selector input[name="mensaje"]:focus
+* @description Mantiene el borde degradado al enfocar el input de mensaje.
+*/
+input[name="mensaje"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-image: linear-gradient(135deg, #9d4edd, #1e3a5f) 1;
+}
+/**
+ * @selector input[type="checkbox"]
+ * @description Checkbox personalizado: elimina apariencia nativa, define tamaño, borde y fondo transparente.
+ */
+ input[type="checkbox"] {
+  appearance: none;
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 0.5em;
+  border: 2px solid #1e3a5f;
+  border-radius: 0.25em;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  vertical-align: middle;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+/**
+ * @selector input[type="checkbox"]:hover
+ * @description Cambio de color de borde al pasar el ratón sobre el checkbox.
+ */
+input[type="checkbox"]:hover {
+  border-color: #0f1f2d;
+}
+
+/**
+ * @selector input[type="checkbox"]:checked
+ * @description Estado marcado: cambia el borde y el fondo a un degradado.
+ */
+input[type="checkbox"]:checked {
+  border-color: #0f1f2d;
+  background: linear-gradient(135deg, #1e3a5f, #0f1f2d);
+}
+
+/**
+ * @selector input[type="checkbox"]:checked::after
+ * @description Dibuja la marca interna (tick) cuando el checkbox está marcado.
+ */
+input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 4px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
