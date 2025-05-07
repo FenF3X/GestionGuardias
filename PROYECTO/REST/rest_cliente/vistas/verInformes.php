@@ -51,38 +51,7 @@ $profesores = $_SESSION['profesores'] ?? [];
 
 <link rel="stylesheet" href="../src/guardias.css">
 <link rel="stylesheet" href="../src/principal.css">
-  <style> 
-::-webkit-scrollbar {display: none; } 
-.navbar-toggler {background-color: #0f1f2d !important;  /* tu azul custom */border: 2px solid #fff !important;     /* borde blanco */}
 
-/* 2) Icono: tres barras blancas */
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' d='M4 7H26 M4 15H26 M4 23H26'/%3E%3C/svg%3E");
-}
-
-
-.navbar-toggler:hover {
-  background-color: #18362f !important;  /* un tono ligeramente distinto si quieres */
-}
-/* Meses en el monthSelectPlugin: texto siempre blanco */
-.flatpickr-calendar .flatpickr-monthSelect-month {
-  color: #fff !important;
-  opacity: 1 !important; /* elimina cualquier semitransparencia */
-}
-
-/* Hover sobre un mes: mantiene texto blanco */
-.flatpickr-calendar .flatpickr-monthSelect-month:hover {
-  color: #fff !important;
-  background: rgba(30, 58, 95, 0.8) !important;
-}
-
-/* Mes seleccionado: fondo más destacado, texto blanco */
-.flatpickr-calendar .flatpickr-monthSelect-month.selected,
-.flatpickr-calendar .flatpickr-monthSelect-month.selected:hover {
-  background: #00ffc3 !important;  /* o el color que quieras */
-  color: #fff !important;
-}
-</style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-custom">
@@ -245,61 +214,8 @@ $profesores = $_SESSION['profesores'] ?? [];
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
+<script src="../src/calendar.js"></script>
 
-<!-- 2) Inicializaciones -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const commonOpts = {
-    disableMobile: true,
-    altInput: true,
-    altInputClass: "input-select-custom",
-    locale: "es",
-    onReady(_, __, instance) {
-      instance.calendarContainer.style.border = "2px solid #1e3a5f";
-    }
-  };
-
-  // Campo “fecha” (ya lo tenías)
-  flatpickr("#fecha", {
-    ...commonOpts,
-    dateFormat: "Y-m-d",
-    altFormat: "j F, Y",
-    monthSelectorType: "dropdown"
-  });
-
-  // **** Campo “dia” – ahora también tendrá tu Flatpickr ****
-  flatpickr("#dia", {
-    ...commonOpts,
-    dateFormat: "Y-m-d",
-    altFormat: "j F, Y"
-  });
-
-  flatpickr("#semana", {
-    ...commonOpts,
-    dateFormat: "Y-m-d",
-    altFormat: "j F, Y"
-  });
-  
-  flatpickr("#mes", {
-  disableMobile: true,
-  altInput: true,
-  altInputClass: "input-select-custom",
-  locale: "es",
-  plugins: [
-    new monthSelectPlugin({
-      shorthand: false,    // meses completos (“Enero”, “Febrero”…)
-      dateFormat: "Y-m",   // valor que se envía: “2025-05”
-      altFormat:  "Y-m"    // formato visible en el input: “2025-05”
-    })
-  ],
-  onReady(_, __, instance) {
-    instance.calendarContainer.style.border = "2px solid #1e3a5f";
-  }
-});
-
-  });
-</script>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {

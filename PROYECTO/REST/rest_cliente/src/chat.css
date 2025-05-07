@@ -1,4 +1,13 @@
 /**
+ *  ==========================
+ *       chat.css
+ *  ==========================
+ * Hoja de estilos para la pestaña del chat
+ *
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ *
  * @class chat-window
  * @description Ventana principal de chat que ocupa el 70% de la altura de la ventana.
  */

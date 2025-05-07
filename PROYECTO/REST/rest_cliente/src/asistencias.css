@@ -1,0 +1,187 @@
+/**
+ *  ==========================
+ *       asistencias.css
+ *  ==========================
+ * Hoja de estilo para la ventana de verAsistencia  
+ *
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ */
+
+
+::-webkit-scrollbar {display: none; } 
+
+.table-responsive {
+  max-width: 800px; /* ajusta el ancho máximo según prefieras */
+  margin: 0 auto; /* centra la tabla horizontalmente */
+}
+
+.table th, .table td {
+  white-space: nowrap; /* evita que el contenido se desborde en múltiples líneas */
+}
+ /**
+
+ * @selector table.table-guardias thead tr th
+ * @description Degradado diagonal en las cabeceras de la tabla de guardias y texto en blanco.
+ */
+table.table-guardias thead tr th {
+background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
+color: #fff !important;
+}
+/**
+ * @selector .input-select-custom option
+ * @description Opciones del select personalizado con fondo oscuro y texto en blanco.
+ */
+ .input-select-custom option {
+    background-color: #0f1f2d;
+    color: #fff;
+  }
+  
+  /**
+   * @class input-select-custom
+   * @description Select personalizado con degradado de fondo, flecha SVG, padding personalizado, borde degradado y transiciones para hover y focus.
+   */
+  .input-select-custom {
+    /* quita estilos nativos */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  
+    /* bloque inline para poder controlar ancho/alto */
+    display: inline-block;
+    width: 100%;
+  
+    /* Padding igual al de Bootstrap + espacio para la flecha */
+    padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+  
+    /* degradado de fondo + flecha SVG blanca a la derecha */
+    background-image:
+      url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16'><path fill='white' d='M4 6l4 4 4-4z'/></svg>"),
+      linear-gradient(135deg, #1e3a5f, #0f1f2d);
+    background-repeat: no-repeat, no-repeat;
+    background-position: right 0.75rem center, center center;
+    background-size: 1rem auto, 100% 100%;
+  
+    /* borde degradado y radios */
+    border: 2px solid transparent;
+    border-image: linear-gradient(135deg, #1e3a5f, #0f1f2d) 1;
+    border-radius: 0.5rem;
+  
+    color: #fff;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  
+  /**
+   * @selector select.input-select-custom::-ms-expand
+   * @description Oculta la flecha nativa en IE/Edge para el select personalizado.
+   */
+  select.input-select-custom::-ms-expand {
+    display: none;
+  }
+  
+  /**
+   * @selector .input-select-custom:hover
+   * @description Estado hover para el select personalizado, aplica sombra.
+   */
+  .input-select-custom:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+  
+  /**
+   * @selector .input-select-custom:focus
+   * @description Estado focus para el select personalizado, cambia borde y aplica sombra de foco.
+   */
+  .input-select-custom:focus {
+    outline: none;
+    border-color: #1e3a5f;
+    box-shadow: 0 0 0 3px rgba(30,58,95,0.6);
+  }
+  
+  /**
+   * @selector .input-select-custom option
+   * @description Opciones desplegadas con fondo oscuro y texto en blanco.
+   */
+  .input-select-custom option {
+    background-color: #0f1f2d;
+    color: #fff;
+  }
+  
+  /**
+   * @class flatpickr-calendar
+   * @description Fondo degradado y texto blanco para el calendario de Flatpickr.
+   */
+  .flatpickr-calendar {
+    background: linear-gradient(135deg, #1e3a5f, #0f1f2d) !important;
+    color: #fff !important;
+  }
+  
+  /**
+   * @selector .flatpickr-months .flatpickr-month
+   * @description Color blanco para el encabezado de mes en Flatpickr.
+   */
+  .flatpickr-months .flatpickr-month {
+    color: #fff !important;
+  }
+  
+  /**
+   * @selector .flatpickr-prev-month, .flatpickr-next-month
+   * @description Bordes blancos para los botones de navegación del calendario.
+   */
+  .flatpickr-prev-month,
+  .flatpickr-next-month {
+    border-color: #fff !important;
+  }
+  
+  /**
+   * @selector .flatpickr-prev-month svg path, .flatpickr-next-month svg path
+   * @description Iconos SVG blancos para las flechas de navegación del calendario.
+   */
+  .flatpickr-prev-month svg path,
+  .flatpickr-next-month svg path {
+    stroke: #fff !important;
+  }
+  
+  /**
+   * @selector .flatpickr-weekdays .flatpickr-weekday
+   * @description Color blanco para los nombres de los días de la semana.
+   */
+  .flatpickr-weekdays .flatpickr-weekday {
+    color: #fff !important;
+  }
+  
+  /**
+   * @selector .flatpickr-days .flatpickr-day
+   * @description Color blanco para las celdas de los días en Flatpickr.
+   */
+  .flatpickr-days .flatpickr-day {
+    color: #fff !important;
+  }
+  
+  /**
+   * @selector .flatpickr-day.today, .flatpickr-day.selected
+   * @description Estilo destacado para el día actual y el seleccionado (fondo y texto).
+   */
+  .flatpickr-day.today,
+  .flatpickr-day.selected {
+    background: #1e3a5f !important;
+    color: #fff !important;
+  }
+  
+  /**
+   * @selector .flatpickr-day:hover
+   * @description Estado hover sobre las celdas de día, aplica fondo semitransparente.
+   */
+  .flatpickr-day:hover {
+    background: rgba(30,58,95,0.5) !important;
+  }
+  
+  /**
+   * @class flatpickr-monthDropdown-month
+   * @description Estilo de fondo para el dropdown de meses en Flatpickr.
+   */
+  .flatpickr-monthDropdown-month {
+    background: rgba(30,58,95,1) !important;
+  }

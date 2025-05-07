@@ -56,24 +56,10 @@ if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_as
     <link rel="stylesheet" href="../src/principal.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<link rel="stylesheet" href="../src/guardias.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
+<link rel="stylesheet" href="../src/asistencias.css">
 
-<style>
-  ::-webkit-scrollbar {display: none; } 
-
-  .table-responsive {
-    max-width: 800px; /* ajusta el ancho máximo según prefieras */
-    margin: 0 auto; /* centra la tabla horizontalmente */
-  }
-
-  .table th, .table td {
-    white-space: nowrap; /* evita que el contenido se desborde en múltiples líneas */
-  }
-  table.table-guardias thead tr th {
-background: linear-gradient(135deg, #0f1f2d, #18362f) !important;
-color: #fff !important;
-}
-</style>
 
 </head>
 <body>
@@ -215,7 +201,7 @@ color: #fff !important;
       <div class="col-12 col-md-6">
         <label for="fecha" class="form-label">Fecha:</label>
         <input type="date" name="fecha" id="fecha"
-               class="form-select" value="<?= date('Y-m-d') ?>">
+        class="input-select-custom w-100" value="<?= date('Y-m-d') ?>">
       </div>
     </div>
 
@@ -223,7 +209,7 @@ color: #fff !important;
       <div class="col-12 col-md-6">
         <label for="mes" class="form-label">Mes:</label>
         <input type="month" name="mes" id="mes"
-               class="form-select" value="<?= date('Y-m') ?>">
+        class="input-select-custom w-100" value="<?= date('Y-m') ?>">
       </div>
     </div>
 
@@ -271,6 +257,13 @@ color: #fff !important;
 <?php endif; ?>
 <?php endif; ?>
 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+<script src="../src/calendar.js"></script>
+
 <script>
 document.getElementById('tipoConsulta').addEventListener('change', function () {
     const inputFecha = document.getElementById('inputFecha');
@@ -283,9 +276,6 @@ document.getElementById('tipoConsulta').addEventListener('change', function () {
     if (this.value === 'mes') inputMes.style.display = 'block';
 });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
