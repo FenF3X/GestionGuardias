@@ -100,3 +100,5 @@
 07-05-2025 11:03:35 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
 07-05-2025 11:43:41 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
 07-05-2025 11:50:43 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
+07-05-2025 12:24:09 | Éxito | DNI: 017959408Z | Profesor: MARIA DE BEGOÑA E C | Log In(Entrada)
+07-05-2025 12:46:53 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)

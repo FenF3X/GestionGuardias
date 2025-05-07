@@ -238,8 +238,14 @@ $horasDisponibles = json_decode($response, TRUE);
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 
-  <script src="../src/calendar.js"></script>
-
+ <script src="../src/calendar.js"></script>
+ <?php if (isset($_GET['auto']) && $_GET['auto'] === '1'): ?>
+  <script>
+    window.addEventListener('load', function() {
+      document.getElementById('cargar_guardias').click();
+    });
+  </script>
+<?php endif; ?>
 </body>
 
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">

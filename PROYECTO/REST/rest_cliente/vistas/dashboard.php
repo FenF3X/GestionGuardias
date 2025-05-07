@@ -1,20 +1,53 @@
 <?php
+/**
+ * dashboard.php
+ *
+ * Página principal donde se incluye el fichaje del profesor y el horario del dia actual, en caso de no tener
+ * sesiones trata con un mensaje que marca sin sesiones y ademas proteje de que no pueda fichar en caso de no
+ * tener sesiones 
+ * 
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/vistas/dashboard.php
+ */
+
+ /**
+ * @function initSession
+ * @description Inicia la sesión y valida que el usuario esté autenticado.
+ */
 session_start();
 if (!isset($_SESSION['document'])) {
   header("Location: ../login.php");
   exit();
 }
+
+/**
+ * @var string $rol        - Rol del usuario actual (e.g., 'profesor', 'admin').
+ * @var string $nombre     - Nombre completo del usuario para mostrar en la cabecera.
+ * @var string $documento  - Identificador/documento del usuario.
+ * @var array|null $mensaje - Mensaje flash para mostrar alertas (['tipo'=>'exito','mensaje'=>'...']).
+ */
 $rol = $_SESSION['rol'];
 $nombre = $_SESSION['nombre'];
 $documento = $_SESSION['document'];
 $mensaje = isset($_SESSION['mensaje']) ? $_SESSION['mensaje'] : null;
+
+/**
+ * @var bool $mostrarModal - Control para mostrar modal de confirmación tras fichaje.
+ */
 if (isset($_SESSION['registro_exitoso']) && $_SESSION['registro_exitoso']) {
   unset($_SESSION['registro_exitoso']);
   $mostrarModal = true; 
 } else {
   $mostrarModal = false;
 }
+// Limpiar mensaje flash para no repetirlo
+
 unset($_SESSION['mensaje']); 
+
+// Si no hay sesiones hoy, elimina la sesion de horario para mostrar alert
+
 if (isset($_SESSION["alertSinSesiones"])) {
   unset($_SESSION["sesiones_hoy"]);
 }
@@ -32,7 +65,10 @@ if (isset($_SESSION["alertSinSesiones"])) {
 <link rel="stylesheet" href="../src/dashboard.css">
 </head>
 <body>
-    
+    <!--
+    @section Navbar
+    Barra de navegación principal con logo, enlaces y logout.
+  -->
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container-fluid">
 
@@ -55,6 +91,7 @@ if (isset($_SESSION["alertSinSesiones"])) {
         </li>
         <li class="nav-item"><a class="nav-link text-white" href="../verAusencias.php?cargar_guardias=1">Consultar Ausencias</a>
 
+      <!-- SOLO ADMIN -->
 
         <?php if ($rol === 'admin'): ?>
           <li class="nav-item"><a class="nav-link text-white" href="verInformes.php">Generar informes</a></li>
@@ -92,8 +129,10 @@ if (isset($_SESSION["alertSinSesiones"])) {
 </nav>
 <main>
   <div class="container mt-5">
-    <!-- Perfil: foto + datos a la izquierda, botones a la derecha -->
-    <div class="perfil-contenedor 
+   <!--
+    @section main
+    Foto de perfil con datos personales y enlace a chat
+  -->    <div class="perfil-contenedor 
                 d-flex flex-column flex-md-row 
                 align-items-center justify-content-between">
       
@@ -127,7 +166,7 @@ if (isset($_SESSION["alertSinSesiones"])) {
 </div>
 
 
-
+        <!-- alert sin sesiones-->
     <?php if ($mensaje): ?>
       <div class="alert-container">
         <div class="alert alert-<?php echo htmlspecialchars($mensaje['type']); ?> text-center" id="mensajeAlert">
@@ -138,7 +177,10 @@ if (isset($_SESSION["alertSinSesiones"])) {
   </div>
 </main>
 
-
+<!--
+    @section horario
+    Mostrar horario
+  -->
 <section>
 <?php if (!empty($_SESSION["sesiones_hoy"])): ?>
   <div class="container mt-4">
@@ -171,6 +213,8 @@ if (isset($_SESSION["alertSinSesiones"])) {
         </tbody>
       </table>
       <br>
+
+          <!--FICHAJE-->
       <div class="d-flex justify-content-center">
         <form action="../fichar.php" method="POST">
           <button 
@@ -217,15 +261,13 @@ if (isset($_SESSION["alertSinSesiones"])) {
   </div>
 </div>
 
-
+ <?php /**Funcion específica de redirección después de asignarme una guardia para mostrar el modal */?>
 <?php if ($mostrarModal): ?>
-    <!-- Mostrar el modal automáticamente después de 5 segundos -->
     <script>
-        // Mostrar el modal después de 5 segundos
         setTimeout(function() {
             var myModal = new bootstrap.Modal(document.getElementById("modalConfirmacion"));
             myModal.show();
-        }, 1000); // 5000 milisegundos = 5 segundos
+        }, 1000); 
     </script>
 <?php endif; ?>
 <script src="../src/app.js"></script>
@@ -248,7 +290,10 @@ if (isset($_SESSION["alertSinSesiones"])) {
     });
 </script>
 
-
+   <!--
+    @section Footer
+    Pie de página con derechos y redes sociales.
+  -->
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>

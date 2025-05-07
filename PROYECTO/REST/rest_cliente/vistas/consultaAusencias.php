@@ -107,10 +107,9 @@ $documento = $_SESSION['document'];
 <main>
    <!--
     @section main
-    Foto de perfil con datos personales
+    Foto de perfil con datos personales y enlace a chat
   -->
   <div class="container mt-5">
-    <!-- Perfil: foto + datos a la izquierda, botones a la derecha -->
     <div class="perfil-contenedor 
                 d-flex flex-column flex-md-row 
                 align-items-center justify-content-between">
