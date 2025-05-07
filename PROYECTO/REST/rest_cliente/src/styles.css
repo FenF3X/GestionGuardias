@@ -1,48 +1,114 @@
+/**
+ *  ==========================
+ *       style.css
+ *  ==========================
+ * Hoja de estilos para la pestaña del login
+ *
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+  * @selector body
+ * @description Contenedor principal de la página de login: ocupa toda la altura, con fondo degradado y centra su contenido.
+ * @param {string} min-height – Altura mínima al 100vh para cubrir la ventana.
+ * @param {string} margin – Elimina márgenes por defecto.
+ * @param {string} background – Degradado diagonal de fondo.
+ * @param {string} display – Flexbox para centrar elementos.
+ * @param {string} justify-content – Centrado horizontal de los hijos.
+ * @param {string} align-items – Centrado vertical de los hijos.
+ * @param {string} flex-direction – Dirección en columna.
+ */
 body {
-    min-height: 100vh;
-    margin: 0;
-    background: linear-gradient(135deg, #0f1f2d, #18362f);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  
-  .login-box {
-    background: white;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  img {
-    max-width: 200px;
-    margin-bottom: 1.5rem;
-  }
-  .btn-gradient {
-    background: linear-gradient(135deg, #0f1f2d, #18362f); /* mismo fondo que body */
-    color: #fff !important;
-    border: none;
-    padding: 0.75rem 1.25rem;
-    border-radius: 0.5rem;
-    font-weight: bold;
-    transition: background 0.3s ease, transform 0.2s;
-  }
-  
-  .btn-gradient:hover {
-    background: linear-gradient(135deg, #18362f, #0f1f2d); /* invertimos colores */
-    transform: scale(1.03);
-  }
-  .fecha-actual {
-    color: white;
-    font-weight: bold;
-    font-size: 2rem;
-    text-transform: lowercase;
-  }
-  
-  /* Primera letra en mayúscula */
-  .fecha-actual::first-letter {
-    text-transform: uppercase;
-  }
+  min-height: 100vh;
+  margin: 0;
+  background: linear-gradient(135deg, #0f1f2d, #18362f);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/**
+* @class login-box
+* @description Caja blanca de login con padding, bordes redondeados y sombra para destacar sobre el fondo.
+* @param {string} background – Color de fondo blanco.
+* @param {string} padding – Espacio interior de la caja.
+* @param {string} border-radius – Bordes redondeados.
+* @param {string} box-shadow – Sombra para efecto de elevación.
+* @param {string} width – Ancho al 100% del contenedor padre.
+* @param {string} max-width – Ancho máximo de 400px.
+*/
+.login-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+}
+
+/**
+* @selector img
+* @description Imagen del logo dentro de login-box, con ancho máximo y margen inferior.
+* @param {string} max-width – Ancho máximo de 200px.
+* @param {string} margin-bottom – Separación inferior.
+*/
+img {
+  max-width: 200px;
+  margin-bottom: 1.5rem;
+}
+
+/**
+* @class btn-gradient
+* @description Botón con fondo degradado, texto blanco, sin borde y con transiciones para hover.
+* @param {string} background – Degradado diagonal igual al fondo de body.
+* @param {string} color – Texto en blanco.
+* @param {string} border – Sin borde.
+* @param {string} padding – Espaciado interno.
+* @param {string} border-radius – Bordes redondeados.
+* @param {string} font-weight – Texto en negrita.
+* @param {string} transition – Transición suave de fondo y transform.
+*/
+.btn-gradient {
+  background: linear-gradient(135deg, #0f1f2d, #18362f);
+  color: #fff !important;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+/**
+* @selector .btn-gradient:hover
+* @description Efecto hover invirtiendo los colores del degradado y escalando ligeramente el botón.
+* @param {string} background – Degradado invertido.
+* @param {string} transform – Escala al 103%.
+*/
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #18362f, #0f1f2d);
+  transform: scale(1.03);
+}
+
+/**
+* @class fecha-actual
+* @description Muestra la fecha actual en texto blanco, grande y con la primera letra en mayúscula.
+* @param {string} color – Texto en blanco.
+* @param {string} font-weight – Negrita.
+* @param {string} font-size – Tamaño de fuente de 2rem.
+* @param {string} text-transform – Convierte todo a minúsculas.
+*/
+.fecha-actual {
+  color: white;
+  font-weight: bold;
+  font-size: 2rem;
+  text-transform: lowercase;
+}
+
+/**
+* @selector .fecha-actual::first-letter
+* @description Convierte la primera letra de .fecha-actual en mayúscula para estilo tipográfico.
+* @param {string} text-transform – Primera letra en mayúscula.
+*/
+.fecha-actual::first-letter {
+  text-transform: uppercase;
+}

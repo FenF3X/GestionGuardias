@@ -1,8 +1,16 @@
-/* ===========================
-   REGLAS GENERALES
-   =========================== */
+
 
 /**
+ *  ==========================
+ *       principal.css
+ *  ==========================
+ * Hoja de estilos para todas las pestañas que incorporen el nav, solo
+ * solo se excepciona el registroAusencias
+ *
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ *
  * @selector table.table-guardias thead tr th
  * @description Degradado diagonal en las cabeceras de la tabla de guardias y texto en blanco.
  */
