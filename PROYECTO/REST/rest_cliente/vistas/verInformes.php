@@ -215,35 +215,7 @@ $profesores = $_SESSION['profesores'] ?? [];
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
 <script src="../src/calendar.js"></script>
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const tipoSelect = document.getElementById('tipoInforme');
-
-    const campos = {
-      dia: document.getElementById('campo-dia'),
-      semana: document.getElementById('campo-semana'),
-      mes: document.getElementById('campo-mes'),
-      trimestre: document.getElementById('campo-trimestre'),
-      docent: document.getElementById('campo-docent')
-    };
-
-    function actualizarCampos() {
-      Object.values(campos).forEach(campo => {
-        campo.style.display = 'none';
-      });
-
-      const seleccionado = tipoSelect.value;
-      if (seleccionado && campos[seleccionado]) {
-        campos[seleccionado].style.display = 'block';
-      }
-    }
-
-    tipoSelect.addEventListener('change', actualizarCampos);
-    actualizarCampos();
-  });
-</script>
+<script src="../src/verInformes.js"></script>
 
 </body>
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">

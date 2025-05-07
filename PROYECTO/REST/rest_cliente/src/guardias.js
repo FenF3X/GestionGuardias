@@ -1,4 +1,13 @@
 /**
+ *  ==========================
+ *       guardias.js
+ *  ==========================
+ * Script que realiza las asignaciones de las guardias y el control de estas
+ *
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+
  * @function window.onload
  * @description Simula un clic en el botón de "Cargar Guardias" cuando la página termina de cargar.
  */
