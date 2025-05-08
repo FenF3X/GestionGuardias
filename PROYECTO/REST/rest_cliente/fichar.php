@@ -1,46 +1,66 @@
 <?php
-session_start();
-include("curl_conexion.php"); // Asegúrate de que tienes esta función configurada
+/**
+ * =====================
+ *  fichaje.php
+ * =====================
+ * 
+ * Este script gestiona el fichaje de entrada y salida del usuario.
+ * Recibe datos desde un formulario y realiza peticiones POST al servidor 
+ * usando cURL, según el botón pulsado (entrada o salida).
+ * 
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ * @includes   curl_conexion.php  Fichero de configuración de conexión mediante cURL, 
+ *                                maneja peticiones, cabeceras y/o parámetros necesarios.
+ */
 
+session_start(); 
+include("curl_conexion.php"); 
+
+// =======================
 // Fichaje de entrada
+// =======================
 if (isset($_POST['fentrada'])) {
-    // Datos para la petición POST
-    $document = $_SESSION['document'];
-    $fecha = date('Y-m-d');
-    $hora_entrada = date('H:i:s');
 
-    // Parámetros para la API RESTful
+    // Datos necesarios para el fichaje de entrada
+    $document = $_SESSION['document'];              // Documento del usuario 
+    $fecha = date('Y-m-d');                         // Fecha actual en formato YYYY-MM-DD
+    $hora_entrada = date('H:i:s');                  // Hora actual
+
+    // parametros
     $params = [
         'document' => $document,
         'fecha' => $fecha,
         'hora_entrada' => $hora_entrada,
-        'accion' => 'ficharEntrada'
+        'accion' => 'ficharEntrada'                // Acción diferenciada
     ];
 
-    // Realizar la petición cURL al servidor
     $response = curl_conexion(URL, 'POST', $params); 
-    $resp = json_decode($response, true);  // Decodificar la respuesta
+    $resp = json_decode($response, true);  
 
-    // Comprobar si la respuesta es exitosa
+    // Se guarda mensaje de éxito o error en la sesión para mostrarlo después
     if (isset($resp['exito'])) {
-        $_SESSION['mensaje'] = ['type' => 'success', 'text' => $resp['exito']]; // Almacenar el mensaje de éxito en la sesión
+        $_SESSION['mensaje'] = ['type' => 'success', 'text' => $resp['exito']]; 
     } elseif (isset($resp['error'])) {
-        $_SESSION['mensaje'] = ['type' => 'danger', 'text' => $resp['error']]; // Almacenar el mensaje de error en la sesión
+        $_SESSION['mensaje'] = ['type' => 'danger', 'text' => $resp['error']]; 
     }
 
-    // Redirigir a la página de dashboard
+    // Redirige al dashboard tras fichar
     header("location: vistas/dashboard.php");
     exit();
 }
 
+// =======================
 // Fichaje de salida
+// =======================
 if (isset($_POST['fsalida'])) {
-    // Datos para la petición POST
+
     $document = $_SESSION['document'];
     $fecha = date('Y-m-d');
     $hora_salida = date('H:i:s');
 
-    // Parámetros para la API RESTful
+    // Parámetros 
     $params = [
         'document' => $document,
         'fecha' => $fecha,
@@ -48,18 +68,16 @@ if (isset($_POST['fsalida'])) {
         'accion' => 'ficharSalida'
     ];
 
-    // Realizar la petición cURL al servidor
     $response = curl_conexion(URL, 'POST', $params); 
-    $resp = json_decode($response, true);  // Decodificar la respuesta
+    $resp = json_decode($response, true);  
 
-    // Comprobar si la respuesta es exitosa
+    // Mensaje para mostrar en la vista
     if (isset($resp['exito'])) {
-        $_SESSION['mensaje'] = ['type' => 'success', 'text' => $resp['exito']]; // Almacenar el mensaje de éxito en la sesión
+        $_SESSION['mensaje'] = ['type' => 'success', 'text' => $resp['exito']]; 
     } elseif (isset($resp['error'])) {
-        $_SESSION['mensaje'] = ['type' => 'danger', 'text' => $resp['error']]; // Almacenar el mensaje de error en la sesión
+        $_SESSION['mensaje'] = ['type' => 'danger', 'text' => $resp['error']]; 
     }
 
-    // Redirigir a la página de dashboard
     header("location: vistas/dashboard.php");
     exit();
 }
