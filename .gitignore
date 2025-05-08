@@ -8,3 +8,5 @@ PROYECTO/REST/composer.lock
 PROYECTO/REST/vendor
 PROYECTO/phpDocumentor.phar
 PROYECTO/docs
+PROYECTO/phpdoc.xml
+PROYECTO/.phpdoc
