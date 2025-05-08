@@ -82,6 +82,19 @@ if (strlen($limpio) === 8) {
                     $_SESSION["alertSinSesiones"] = "No hay sesiones";
                 }
 
+                $paramsProf = ["accion" => "consultaProfes"];
+                $respuesta = curl_conexion(URL, "POST", $paramsProf);
+                $profesores = json_decode($respuesta, true);
+
+                /**
+                 * @var array|SESSION $profesores -- En el servidor si falla se establece clave error y su valor
+                 * como mensaje de error, si no esta definido la clave error se crea esta sesion y se almacenan los valores
+                 */
+                if (isset($profesores['error'])) {
+                    $_SESSION['mensaje'] = ['type' => 'danger', 'text' => $profesores['error']];
+                } else {
+                    $_SESSION['profesores'] = $profesores;
+                }
 
                 header("Location: vistas/dashboard.php");
                 exit;

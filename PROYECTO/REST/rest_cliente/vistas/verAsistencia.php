@@ -27,10 +27,13 @@ if (!isset($_SESSION['document'])) {
  * @var string $rol         Rol del usuario ('admin' o 'profesor').
  * @var string $nombre      Nombre a mostrar en la cabecera.
  * @var string $documento   Documento/ID del usuario.
+ * @var array $profesores Conjunto de profesores para manejarlos en el select
+
  */
 $rol        = $_SESSION['rol'] ?? '';
 $nombre     = $_SESSION['nombre'] ?? '';
 $documento  = $_SESSION['document'] ?? '';
+$profesores = $_SESSION['profesores'] ?? [];
 
 // Solo administradores pueden acceder
 if ($rol !== 'admin') {
@@ -38,20 +41,6 @@ if ($rol !== 'admin') {
     exit;
 }
 
-// Petición a la API para obtener la lista de profesores
-$params    = ['accion' => 'consultaProfes'];
-$response  = curl_conexion(URL, 'POST', $params);
-$profesores = json_decode($response, true);
-
-// Manejo de error en respuesta
-if (isset($profesores['error'])) {
-    $_SESSION['mensaje'] = ['type' => 'danger', 'text' => $profesores['error']];
-} else {
-    $_SESSION['profesores'] = $profesores;
-}
-
-// Preparar los datos de profesores para el formulario
-$profesores = $_SESSION['profesores'] ?? [];
 
 // Filtrar registros válidos de la consulta previa (si existen)
 $datosValidos = [];

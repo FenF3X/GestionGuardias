@@ -23,33 +23,18 @@ if (!isset($_SESSION['document'])) {
 /**
  * @var string $rol      Rol del usuario ("admin" o "profesor").
  * @var string $nombre   Nombre del usuario para mostrar en la cabecera.
+ * @var array $profesores Conjunto de profesores para manejarlos en el select
  */
 
 $rol = $_SESSION['rol'];
 $nombre = $_SESSION['nombre'];
-$params = [
-    'accion' => 'consultaProfes'
-];
-$response = curl_conexion(URL, 'POST', $params); // Realizamos la consulta usando POST
-
-// Decodificar la respuesta JSON
-$profesores = json_decode($response, true);
-
-// Verificar si hay errores en la respuesta
-if (isset($profesores['error'])) {
-    $_SESSION['mensaje'] = ['type' => 'danger', 'text' => $profesores['error']];
-} else {
-    $_SESSION['profesores'] = $profesores;
-}
-
+$profesores = $_SESSION['profesores'];
 // Verificar si el usuario está autenticado y tiene permisos de administrador
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
     header("Location: login.php"); // Redirigir si no es un admin
     exit();
 }
 
-// Obtener los datos de los profesores desde la sesión
-$profesores = $_SESSION['profesores'] ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="en">
