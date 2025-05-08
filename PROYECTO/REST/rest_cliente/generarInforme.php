@@ -39,6 +39,10 @@ switch ($tipo) {
     case 'mes':
         $params['mes'] = $_GET['mes'] ?? '';
         break;
+    case 'plazo':
+        $params['plazoInicio'] = $_GET['plazoInicio'] ?? '';
+        $params['plazoFin'] = $_GET['plazoFin'] ?? '';
+        break;
     case 'trimestre':
         $params['trimestre'] = $_GET['trimestre'] ?? '';
         break;

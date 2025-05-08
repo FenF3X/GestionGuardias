@@ -167,6 +167,7 @@ if ($rol !== 'admin') {
         <option value="dia">Por día</option>
         <option value="semana">Por semana</option>
         <option value="mes">Por mes</option>
+        <option value="dia">Por plazo de tiempo</option>
         <option value="trimestre">Por trimestre</option>
         <option value="docent">Por docente</option>
         <option value="curs">Todo el curso</option>
@@ -188,6 +189,8 @@ if ($rol !== 'admin') {
       <input type="month" name="mes" id="mes" class="input-select-custom w-100" value="<?php echo date('Y-m'); ?>">
     </div>
 
+   
+      
     <div id="campo-trimestre" class="campo-dinamico mb-3">
       <label for="trimestre" class="form-label">Selecciona un trimestre:</label>
       <select name="trimestre" id="trimestre" class="form-select input-select-custom">

@@ -203,6 +203,17 @@ if ($metodo === 'GET') {
                     WHERE DATE_FORMAT(fecha, '%Y-%m') = '$mes'
                 ";
             break;
+            case 'plazo':
+                $inicio = $_GET['plazoInicio'];
+                $fin = $_GET['plazoFin'];
+                
+                $sql = "SELECT fecha,nombreProfe, nombreProfeReempl,
+                aula, grupo, asignatura, sesion_orden,dia_semana,
+                CONCAT(hora_inicio, '--', hora_fin),total_guardias 
+                FROM registro_guardias
+                WHERE fecha BETWEEN '$inicio' AND '$fin'
+            ";
+            break;
             case 'trimestre':
                 $trimestre = $_GET['trimestre'] ?? '';
 
