@@ -1,15 +1,4 @@
 <?php
-/**
- * consultaAusencias.php
- *
- * Página de consulta de las Ausencias de los profesores por día actual. Preparado para horas de guardia
- * para el docente 
- *
- * @package    GestionGuardias
- * @author     Adrian Pascual Marschal
- * @license    MIT
- * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/vistas/consultaAusencias.php
- */
 session_start();
 if (!isset($_SESSION['document'])) {
   header("Location: ../login.php");
@@ -18,12 +7,7 @@ if (!isset($_SESSION['document'])) {
 $rol = $_SESSION['rol'];
 $nombre = $_SESSION['nombre'];
 $documento = $_SESSION['document'];
-
-/**
- * @var string $rol      - Rol del usuario actual (p.ej. 'admin').
- * @var string $nombre   - Nombre del usuario mostrado en cabecera.
- * @var string $documento- Documento o ID del usuario.
- */
+$usuarioId = $_SESSION['document'];
 
 
 ?>
@@ -35,18 +19,12 @@ $documento = $_SESSION['document'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagina principal de <?php echo htmlspecialchars($nombre); ?></title>
     <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../src/principal.css">
-    <link rel="stylesheet" href="../src/guardias.css">
-
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<style>::-webkit-scrollbar {display: none; }</style>
 </head>
 <body class="d-flex flex-column min-vh-100">
-  <!--
-    @section Navbar
-    Barra de navegación principal con logo, enlaces y logout.
-  -->
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container-fluid">
 
@@ -71,7 +49,6 @@ $documento = $_SESSION['document'];
 
 
         </li>
-      <!-- SOLO ADMIN -->
 
         <?php if ($rol === 'admin'): ?>
           <li class="nav-item"><a class="nav-link text-white" href="verInformes.php">Generar informes</a></li>
@@ -105,15 +82,12 @@ $documento = $_SESSION['document'];
   </div>
 </nav>
 <main>
-   <!--
-    @section main
-    Foto de perfil con datos personales y enlace a chat
-  -->
   <div class="container mt-5">
+    <!-- Perfil: foto + datos a la izquierda, botones a la derecha -->
     <div class="perfil-contenedor 
                 d-flex flex-column flex-md-row 
                 align-items-center justify-content-between">
-      
+
       <!-- IZQUIERDA: foto + datos -->
       <div class="d-flex align-items-center mb-3 mb-md-0">
         <div class="foto-wrapper me-4">
@@ -125,7 +99,7 @@ $documento = $_SESSION['document'];
           <p><strong>Rol:</strong> <?php echo htmlspecialchars($rol); ?></p>
         </div>
       </div>
-      
+
      <!-- DERECHA: botones en línea -->
      <div class="botones-usuario d-flex align-items-center gap-2 text-center text-md-end">
 
@@ -153,14 +127,11 @@ $documento = $_SESSION['document'];
     <?php endif; ?>
   </div>
 </main>
- <!--
-    @section Carga de Guardias
-    Botón para recargar guardias pendientes mediante GET.
-  -->
+
 <section>
     <div class="d-flex justify-content-center mb-3">
         <form action="../verAusencias.php" method="GET">
-            <button type="submit" 
+        <button type="submit" 
             name="cargar_guardias" 
             class="btn btn-primary"
             style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d);border:0;">Cargar Guardias</button>
@@ -169,10 +140,10 @@ $documento = $_SESSION['document'];
     <?php if (!empty($_SESSION["guardiasPen"]) && isset($_SESSION["guardiasPen"])): ?>
         <div class="container mt-4">
             <h4 class="mb-3">Guardias pendientes de hoy (<?php echo htmlspecialchars(date('d-m-Y')); ?>):</h4>
-            
+
             <!-- Formulario para cargar guardias alineado a la derecha -->
             <div class="d-flex justify-content-end mb-3">
-                
+
             </div>
 
             <div class="table-responsive">
@@ -198,12 +169,10 @@ $documento = $_SESSION['document'];
                                 <td>
     <?php if ($sesion[6] == 0): ?>
         <span class="badge bg-danger d-inline-flex align-items-center me-2">Pendiente</span>
-        <button 
-  class="badge bg-warning btn-sm w-auto w-sm-100" 
+        <button  class="badge bg-warning btn-sm w-auto w-sm-100" 
   style="border:0;"
   data-bs-toggle="modal" 
-  data-bs-target="#coverGuardModal" 
-  data-sesion="<?php echo htmlspecialchars('Sesion: ' . $sesion[0] . ' - Aula: ' . $sesion[1] . ' - Grupo: ' . $sesion[2] . '  Asignatura: ' . $sesion[3]); ?>"
+  data-bs-target="#coverGuardModal"data-sesion="<?php echo htmlspecialchars('Sesion: ' . $sesion[0] . ' - Aula: ' . $sesion[1] . ' - Grupo: ' . $sesion[2] . '  Asignatura: ' . $sesion[3]); ?>"
   data-sesion-id="<?php echo htmlspecialchars($sesion[0]); ?>"
   data-document="<?php echo htmlspecialchars($sesion[4]); ?>">
     Cubrir Guardia
@@ -229,9 +198,8 @@ $documento = $_SESSION['document'];
 <?php endif; ?>
 
 
-<!--@section Modal Cobertura
-      Modal de Bootstrap para confirmar cobertura de guardia.-->
-      <div class="modal fade" id="coverGuardModal" tabindex="-1" aria-labelledby="coverGuardModalLabel" aria-hidden="true">
+    <!-- Modal de confirmación para cubrir la guardia -->
+<div class="modal fade" id="coverGuardModal" tabindex="-1" aria-labelledby="coverGuardModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -242,7 +210,7 @@ $documento = $_SESSION['document'];
         <p id="sesion-info"></p> <!-- Aquí se mostrará la sesión que se va a cubrir -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style=" border: 2px solid; 
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style=" border: 2px solid; 
    background:linear-gradient(135deg, #1e3a5f, #0f1f2d);">Cancelar guardia</button>
         <form action="../verAusencias.php" method="POST" class="d-inline">
   <input type="hidden" id="sesion_id_input" name="sesion_id" value="">
@@ -273,10 +241,7 @@ $documento = $_SESSION['document'];
 <script src="../src/guardias.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!--
-    @section Footer
-    Pie de página con derechos y redes sociales.
-  -->
+
 <footer class="bg-dark text-white py-4 mt-auto" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
