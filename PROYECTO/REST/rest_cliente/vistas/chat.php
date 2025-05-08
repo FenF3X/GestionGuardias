@@ -374,7 +374,6 @@ $mensajes = json_decode($resp, true) ?: [];
 
       <div class="modal-body">
         <p id="deleteModalBody">¿Seguro que quieres eliminar estos mensajes?</p>
-        <!-- Aquí se inyectarán inputs tipo seleccionados[0][fecha], seleccionados[0][hora], seleccionados[0][mensajeOriginal], etc. -->
       </div>
       <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style=" border: 2px solid; 

@@ -215,7 +215,6 @@ if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_as
       
     </div>
 
-    <!-- INPUTS dinámicos -->
     <div class="row g-3 mb-3" id="inputFecha" style="display: none;">
       <div class="col-12 col-md-6">
         <label for="fecha" class="form-label">Fecha:</label>
@@ -236,7 +235,7 @@ if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_as
    background:linear-gradient(135deg, #0f1f2d, #18362f);">Consultar asistencia</button>
   </form>
 </div>
-
+    <?php if(isset($_GET["resultado"]) && $_GET["resultado"] == 1 ):?>
 <?php if (isset($_SESSION['resultado_asistencia'])): ?>
     <hr class="my-5">
 <h2 class="mb-4 mt-5 text-center">Resultado de la consulta</h2>
@@ -276,6 +275,7 @@ if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_as
 <?php endif; ?>
 <?php endif; ?>
 
+<?php endif; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
