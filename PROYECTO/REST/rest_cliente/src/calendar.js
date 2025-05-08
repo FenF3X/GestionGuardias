@@ -117,5 +117,17 @@ document.addEventListener('DOMContentLoaded', () => {
       instance.calendarContainer.style.border = "2px solid #1e3a5f";
     }
   });
+  flatpickr("#fecha_inicio", {
+    ...commonOpts,
+    dateFormat: "Y-m-d",
+    altFormat:  "j F, Y"
+  });
+
+  // Picker para fecha fin de plazo
+  flatpickr("#fecha_fin", {
+    ...commonOpts,
+    dateFormat: "Y-m-d",
+    altFormat:  "j F, Y"
+  });
   
     });

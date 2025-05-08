@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     semana: document.getElementById('campo-semana'),
     mes: document.getElementById('campo-mes'),
     trimestre: document.getElementById('campo-trimestre'),
-    docent: document.getElementById('campo-docent')
+    docent: document.getElementById('campo-docent'),
+    plazo: document.getElementById('campo-plazo')    
   };
 
   /**
