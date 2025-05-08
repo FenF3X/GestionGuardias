@@ -1,53 +1,100 @@
 
-<?php 
-include("config.php");
-session_start(); 
+<?php
+/**
+ * =========================
+ *  index.php (REST Server)
+ * =========================
+ * 
+ * servidor REST.
+ * Interpreta las peticiones HTTP entrantes,
+ * determina el método (GET, POST, PUT, DELETE, etc.),
+ * y segun la accion maneja de forma diferente la peticion
+ * 
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ * @includes   config.php  Archivo con la función de conexión a la BD.
+ */
 
-$metodo = $_SERVER['REQUEST_METHOD']; 
-$recurso = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);  
+include("config.php"); 
+session_start();        
 
+// Obtener el método de la petición (GET, POST, PUT, DELETE...)
+$metodo = $_SERVER['REQUEST_METHOD'];
+
+// Obtener el recurso solicitado (ruta completa)
+$recurso = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
+
+    // =====================================
+    // PETICIONES **GET**
+    // =====================================
 if ($metodo === 'GET') {
-    // Verificación de parámetros
+    // =====================================
+    // Verificación del parámetro obligatorio
+    // =====================================    
+    
     $document = $_GET['document'] ?? null;
     if (!$document) {
         echo json_encode(["error" => "documento requerido"]);
         exit;
     }
-    // Manejo de diferentes acciones
+    // ==========================================
+    //  acción diferenciada de la misma petición
+    // ==========================================
     $accion = $_GET['accion'] ?? null;
+    /**
+     * Acción: consultaSesiones
+     * 
+     * @description Devuelve todas las sesiones horarias posibles para cualquier grupo.
+     * 
+     * @return JSON  Array de sesiones con su orden y rango horario.
+     */
     if($accion === "consultaSesiones"){
-        $sql = "SELECT DISTINCT sessio_orde, CONCAT('Sesion ', sessio_orde, ': ', hora_desde, ' - ', hora_fins) AS horario_completo 
+        $sql = "SELECT DISTINCT sessio_orde, 
+            CONCAT('Sesion ', sessio_orde, ': ', hora_desde, ' - ', hora_fins) AS horario_completo 
             FROM sessions_horari 
             ORDER BY sessio_orde ASC";
+
         $result = conexion_bd(SERVIDOR,USER,PASSWD,BASE_DATOS,$sql);
+
         if (is_array($result)) {
             if (!empty($result)) {
                 echo json_encode($result);
             } else{
                 echo json_encode(["error" => "Sesiones vacias"]);
             }
-        } else{
+        } 
+        else{
                 echo json_encode(["error" => "Error en la consulta"]);
-            }
+        }
     }
+    /**
+     * Acción: verHorario
+     * 
+     * @description Devuelve el horario del docente para un día concreto.
+     * 
+     * @param string document  DNI del docente
+     * @param string dia       Día de la semana (L, M, X, J, V)
+     * @return JSON            Lista de sesiones del día
+     */
     elseif ($accion === "verHorario") {
         if (isset($_GET['dia'])) {
             $dia = $_GET['dia'];
-
-            // Consulta de horario por día
+            
             $sql = "SELECT 
-                        hg.dia_setmana,
-                        hg.hora_desde,
-                        hg.hora_fins,
-                        c.nom_cas AS asignatura,
-                        hg.grup AS grupo,
-                        hg.aula AS aula,
-                        hg.sessio_orde AS sesion
-                    FROM horari_grup hg
-                    LEFT JOIN continguts c ON c.codi = hg.contingut
-                    WHERE hg.docent = '$document'
-                    AND hg.dia_setmana = '$dia'
-                    ORDER BY FIELD(hg.dia_setmana, 'L', 'M', 'X', 'J', 'V'), hg.hora_desde";
+                hg.dia_setmana,
+                hg.hora_desde,
+                hg.hora_fins,
+                c.nom_cas AS asignatura,
+                hg.grup AS grupo,
+                hg.aula AS aula,
+                hg.sessio_orde AS sesion
+                FROM horari_grup hg
+                LEFT JOIN continguts c ON c.codi = hg.contingut
+                WHERE hg.docent = '$document'
+                AND hg.dia_setmana = '$dia'
+                ORDER BY FIELD(hg.dia_setmana, 'L', 'M', 'X', 'J', 'V'), hg.hora_desde
+            ";
 
             $resultado_horario = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
 
@@ -59,54 +106,106 @@ if ($metodo === 'GET') {
         } else {
             echo json_encode(["error" => "Día no proporcionado"]);
         }
-    } elseif ($accion === "verGuardias") {
-        $fecha = date('Y-m-d');  // Obtener la fecha de hoy
+    } 
+    /**
+     * Acción: verGuardias
+     * 
+     * @description Devuelve las ausencias (guardias) registradas en la fecha actual.
+     * 
+     * @param string document  DNI del docente
+     * @return JSON            Lista de ausencias del día actual
+     */
+    elseif ($accion === "verGuardias") {
+        $fecha = date('Y-m-d');  
 
-        // Consulta para obtener las guardias
-        $sql = "SELECT sesion, aula, grupo, asignatura, document,nombreProfe,cubierto FROM ausencias WHERE fecha = '$fecha'";
+        $sql = "SELECT 
+            sesion, aula, grupo, asignatura, 
+            document,nombreProfe,cubierto 
+            FROM ausencias WHERE fecha = '$fecha'
+        ";
         $respuesta = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
         if (is_array($respuesta)) {
-            echo json_encode($respuesta);  // Devolver la respuesta con las guardias
+            echo json_encode($respuesta);  
         } else {
             echo json_encode(["error" => "No se encontraron guardias para hoy"]);
         }
-    } elseif ($accion === "verGuardiasPorFecha") {
+    }
+    /**
+     * Acción: verGuardiasPorFecha
+     * 
+     * @description Devuelve las ausencias (guardias) registradas en la fecha seleccionada.
+     * 
+     * @param string document  DNI del docente
+     * @param string fecha     Fecha seleccionada en formato Y-m-d
+     * @return JSON            Lista de ausencias de ese día
+     */  
+    elseif ($accion === "verGuardiasPorFecha") {
         $fecha = $_GET['fecha'] ?? null;
         if (!$fecha) {
             echo json_encode(["error" => "Fecha no proporcionada"]);
             exit;
         }
-        // Consulta para obtener las guardias
-        $sql = "SELECT sesion, aula, grupo, asignatura, document,nombreProfe,fecha FROM ausencias WHERE fecha = '$fecha'";
+
+        $sql = "SELECT 
+            sesion, aula, grupo, 
+            asignatura, document,
+            nombreProfe,fecha 
+            FROM ausencias WHERE fecha = '$fecha'
+        ";
         $respuesta = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
+
         if (is_array($respuesta)) {
-            echo json_encode($respuesta);  // Devolver la respuesta con las guardias
+            echo json_encode($respuesta);  
         } else {
             echo json_encode(["error" => "No se encontraron guardias para " . $fecha]);
         }
-    } elseif ($accion === "generarInforme") {
+    }
+    /**
+     * Acción: generarInforme
+     * 
+     * @description Genera un informe filtrado de guardias registradas.
+     * 
+     * @param string tipo      Tipo de filtro (dia, semana, mes, trimestre, docent, curs)
+     * @param mixed  fecha     Fecha concreta, semana (YYYY-MM-DD), mes (YYYY-MM), etc.
+     * @return JSON            Datos del informe según el tipo solicitado
+     */
+    elseif ($accion === "generarInforme") {
         $tipo = $_GET['tipo'] ?? [];
 
         switch ($tipo) {
             case 'dia':
                 $fecha = $_GET['fecha'];
-                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin),total_guardias 
-                 FROM  registro_guardias WHERE  fecha = '$fecha'; ";
-                break;
+
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl,
+                    aula, grupo, asignatura, sesion_orden,dia_semana, 
+                    CONCAT(hora_inicio, '--', hora_fin),total_guardias 
+                    FROM  registro_guardias WHERE  fecha = '$fecha'; 
+                ";
+            break;
             case 'semana':  
                 $diaSemana = $_GET['semana'];
                 $inicioSemana = date('Y-m-d', strtotime('monday this week', strtotime($diaSemana)));
                 $finSemana = date('Y-m-d', strtotime('sunday this week', strtotime($diaSemana)));
-                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin),total_guardias
-                 FROM registro_guardias WHERE fecha BETWEEN '$inicioSemana' AND '$finSemana'";
-                break;
+
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, 
+                    aula, grupo, asignatura, sesion_orden,dia_semana, 
+                    CONCAT(hora_inicio, '--', hora_fin),total_guardias
+                    FROM registro_guardias 
+                    WHERE fecha BETWEEN '$inicioSemana' AND '$finSemana'
+                ";
+            break;
             case 'mes':
                 $mes = $_GET['mes'];
-                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin),total_guardias
-                 FROM registro_guardias WHERE DATE_FORMAT(fecha, '%Y-%m') = '$mes'";
-                 break;
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, 
+                    aula, grupo, asignatura, sesion_orden,dia_semana, 
+                    CONCAT(hora_inicio, '--', hora_fin),total_guardias
+                    FROM registro_guardias 
+                    WHERE DATE_FORMAT(fecha, '%Y-%m') = '$mes'
+                ";
+            break;
             case 'trimestre':
                 $trimestre = $_GET['trimestre'] ?? '';
+
                 if ($trimestre == 1) {
                     $inicio = "2024-09-09";
                     $fin = "2024-12-22";
@@ -117,23 +216,38 @@ if ($metodo === 'GET') {
                     $inicio = "2025-04-29";
                     $fin = "2025-06-21";
                 }
-                $sql = "SELECT fecha,nombreProfe, nombreProfeReempl,aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin),total_guardias 
-                FROM registro_guardias WHERE fecha BETWEEN '$inicio' AND '$fin'";
-                break;
+
+                $sql = "SELECT fecha,nombreProfe, nombreProfeReempl,
+                    aula, grupo, asignatura, sesion_orden,dia_semana,
+                    CONCAT(hora_inicio, '--', hora_fin),total_guardias 
+                    FROM registro_guardias
+                    WHERE fecha BETWEEN '$inicio' AND '$fin'
+                ";
+            break;
             case 'docent':
-                    $docente = $_GET['docente'] ?? '';
-                    $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin),total_guardias
-                     FROM registro_guardias WHERE docente_guardia = '$docente'";
-                break;
+                $docente = $_GET['docente'] ?? '';
+
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl,
+                    aula, grupo, asignatura, sesion_orden,dia_semana,
+                    CONCAT(hora_inicio, '--', hora_fin),total_guardias
+                    FROM registro_guardias 
+                    WHERE docente_guardia = '$docente'
+                ";
+            break;
             case 'curs':
                 $inicio = "2024-09-09";
                 $fin = "2025-06-21";
-                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, aula, grupo, asignatura, sesion_orden,dia_semana, CONCAT(hora_inicio, '--', hora_fin),total_guardias
-                 FROM registro_guardias WHERE fecha BETWEEN '$inicio' AND '$fin'";
-                break;
+
+                $sql = "SELECT fecha,nombreProfe,nombreProfeReempl,
+                    aula, grupo, asignatura, sesion_orden,dia_semana, 
+                    CONCAT(hora_inicio, '--', hora_fin),total_guardias
+                    FROM registro_guardias 
+                    WHERE fecha BETWEEN '$inicio' AND '$fin'
+                ";
+            break;
             default:
-            error_log("tipo no valido");
-                break;
+                error_log("tipo no valido");
+            break;
         }
         $result = conexion_bd(SERVIDOR,USER,PASSWD,BASE_DATOS,$sql);
         if (is_array($result)) {
@@ -143,14 +257,24 @@ if ($metodo === 'GET') {
         }
     }
 }
+    // =====================================
+    // PETICIONES **POST**
+    // =====================================
 elseif ($metodo === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
     $accion = $data['accion'] ?? ($_POST['accion'] ?? null);
-   // error_log("ACCION RECIBIDA: " . $accion . "\n", 3, "errores.log");
 
-    
+    /**
+    * Acción: InicioSesion
+    * 
+    * @description Verifica las credenciales del usuario (documento + contraseña).
+    * Si son válidas, devuelve nombre, documento y rol. Registra el acceso.
+    * 
+    * @param string document  DNI del usuario
+    * @param string password  Fecha de nacimiento o contraseña codificada
+    * @return JSON            { loggeado: bool, nombre: string, document: string, rol: string }
+    */
     if ($accion === "InicioSesion") {
-        // Manejo de inicio de sesión
         $document = $_POST['document'] ?? null;         
         $password = $_POST['password'] ?? null;          
 
@@ -159,7 +283,10 @@ elseif ($metodo === 'POST') {
             $resultado = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);              
 
             if (is_array($resultado)) {                 
-                $sqlNom = "SELECT CONCAT(nom,' ',cognom1,' ',cognom2) FROM docent WHERE document = '$document'";                 
+                $sqlNom = "SELECT 
+                    CONCAT(nom,' ',cognom1,' ',cognom2) 
+                    FROM docent WHERE document = '$document'
+                ";                 
                 $resultadoNom = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlNom);                  
 
                 if (is_array($resultadoNom)) {                     
@@ -170,7 +297,9 @@ elseif ($metodo === 'POST') {
 
                 if (password_verify($password, $resultado[0][2])) {                     
                     $fechaHora = date('d-m-Y H:i:s');                     
-                    $linea = "$fechaHora | Éxito | DNI: $document | Profesor: $nombre_profesor | Log In(Entrada)\n";                     
+                    $linea = "$fechaHora | Éxito | DNI: $document 
+                    | Profesor: $nombre_profesor | Log In(Entrada)\n";
+
                     $archivo = fopen("registroAccesos.txt", "a");                     
                     if ($archivo) {                         
                         fwrite($archivo, $linea);                         
@@ -178,10 +307,17 @@ elseif ($metodo === 'POST') {
                     } else {                         
                         error_log("Error al abrir el archivo");                     
                     }                     
-                    echo json_encode(["loggeado" => true, "nombre" => $nombre_profesor, "document" => $resultado[0][1], "rol" => $resultado[0][3]]);                 
-                } else {                     
+                    echo json_encode(["loggeado" => true, 
+                                        "nombre" => $nombre_profesor, 
+                                        "document" => $resultado[0][1], 
+                                        "rol" => $resultado[0][3]
+                                    ]);                 
+                } 
+                else {                     
                     $fechaHora = date('d-m-Y H:i:s');                     
-                    $linea = "$fechaHora | Fallo | DNI: $document | Profesor: $nombre_profesor | Log In(Entrada)\n";                     
+                    $linea = "$fechaHora | Fallo | DNI: $document |
+                    Profesor: $nombre_profesor | Log In(Entrada)\n";                     
+                    
                     $archivo = fopen("registroAccesos.txt", "a");                     
                     if ($archivo) {                         
                         fwrite($archivo, $linea);                         
@@ -189,25 +325,42 @@ elseif ($metodo === 'POST') {
                     } else {                         
                         error_log("Error al abrir el archivo");                     
                     }                     
-                    echo json_encode(["loggeado" => false, "error" => "Contraseña errónea"]);                 
+                    echo json_encode(["loggeado" => false, 
+                                        "error" => "Contraseña errónea"
+                                    ]);                 
                 }              
             } else {                 
                 echo json_encode(["loggeado" => false, "error" => "Usuario inexistente"]);             
             }          
         } else {             
             echo json_encode(["loggeado" => false, "error" => "Faltan datos del usuario"]);         
-        } 
-    } elseif ($accion === "ficharEntrada" || $accion === "ficharSalida") {
-        // Manejo de fichaje de entrada o salida
+        }
+    }
+    /**
+    * Acción: ficharEntrada / ficharSalida
+    * 
+    * @description Registra la entrada o salida del docente en el sistema.
+    * 
+    * @param string document       DNI del docente
+    * @param string hora_entrada   Hora de entrada (solo para entrada)
+    * @param string hora_salida    Hora de salida (solo para salida)
+    * @return JSON                 { exito: string } o { error: string }
+    */
+    elseif ($accion === "ficharEntrada" || $accion === "ficharSalida") {
+
         $document = $_POST['document'] ?? null;         
-        $fecha = date('Y-m-d');  // Obtén la fecha actual
+        $fecha = date('Y-m-d');  
         $hora_entrada = $_POST['hora_entrada'] ?? null;
         $hora_salida = $_POST['hora_salida'] ?? null;
 
         if ($document) {
             if ($accion === "ficharEntrada") {
                 // Comprobar si ya fichó la entrada hoy
-                $sqlCheckEntrada = "SELECT * FROM registro_jornada WHERE document = '$document' AND fecha = '$fecha' AND hora_entrada IS NOT NULL";
+                $sqlCheckEntrada = "SELECT * FROM registro_jornada 
+                    WHERE document = '$document' 
+                    AND fecha = '$fecha' 
+                    AND hora_entrada IS NOT NULL
+                ";
                 $resultadoEntrada = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlCheckEntrada);
 
                 if (is_array($resultadoEntrada) && count($resultadoEntrada) > 0) {
@@ -216,11 +369,20 @@ elseif ($metodo === 'POST') {
                 } else {
                     // Fichaje de entrada
                     if ($hora_entrada) {
-                        $sqlNombre = "SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2) AS nombre FROM docent WHERE document = '$document'";
+
+                        $sqlNombre = "SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2) 
+                            AS nombre FROM docent 
+                            WHERE document = '$document'
+                        ";
+
                         $resultadoNombre = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlNombre);
                         $nombre = is_array($resultadoNombre) ? $resultadoNombre[0][0] : 'Desconocido';
 
-                        $sql = "INSERT INTO registro_jornada (document, fecha, hora_entrada, hora_salida, nombre) VALUES ('$document', '$fecha', '$hora_entrada', NULL, '$nombre')";
+                        $sql = "INSERT INTO registro_jornada 
+                            (document, fecha, hora_entrada, hora_salida, nombre) 
+                            VALUES 
+                            ('$document', '$fecha', '$hora_entrada', NULL, '$nombre')
+                        ";
                         $resultFicharEnt = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
 
                         if ($resultFicharEnt > 0) {
@@ -234,13 +396,23 @@ elseif ($metodo === 'POST') {
                 }
             } elseif ($accion === "ficharSalida") {
                 // Comprobar si existe un registro de entrada para poder registrar la salida
-                $sqlCheckSalida = "SELECT * FROM registro_jornada WHERE document = '$document' AND fecha = '$fecha' AND hora_entrada IS NOT NULL AND hora_salida IS NULL";
+                $sqlCheckSalida = "SELECT * FROM registro_jornada 
+                    WHERE document = '$document'
+                    AND fecha = '$fecha' 
+                    AND hora_entrada IS NOT NULL 
+                    AND hora_salida IS NULL
+                ";
                 $resultadoSalida = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlCheckSalida);
 
                 if (is_array($resultadoSalida) && count($resultadoSalida) > 0) {
                     // Si existe un registro de entrada, actualizamos con la salida
                     if ($hora_salida) {
-                        $sqlUpdateSalida = "UPDATE registro_jornada SET hora_salida = '$hora_salida' WHERE document = '$document' AND fecha = '$fecha' AND hora_salida IS NULL";
+                        $sqlUpdateSalida = "UPDATE registro_jornada 
+                            SET hora_salida = '$hora_salida' 
+                            WHERE document = '$document' 
+                            AND fecha = '$fecha' 
+                            AND hora_salida IS NULL
+                        ";
                         $resultFicharSal = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlUpdateSalida);
 
                         if ($resultFicharSal > 0) {
@@ -260,18 +432,39 @@ elseif ($metodo === 'POST') {
         } else {
             echo json_encode(["error" => "Faltan datos del usuario"]);
         }
-    } elseif ($accion === "consultaProfes") {
-        // Consulta para obtener todos los profesores de la tabla 'docent'
-        $sql = "SELECT document, CONCAT(nom, ' ', cognom1, ' ', cognom2) AS nombre_completo FROM docent";
+    }
+    /**
+    * Acción: consultaProfes
+    * 
+    * @description Devuelve la lista de todos los profesores registrados.
+    * 
+    * @return JSON  Lista de profesores con su documento y nombre completo.
+    */
+    elseif ($accion === "consultaProfes") {
+
+        $sql = "SELECT document, 
+        CONCAT(nom, ' ', cognom1, ' ', cognom2) 
+        AS nombre_completo FROM docent";
+
         $resultado = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
     
-        // Verificar si la consulta fue exitosa
         if (is_array($resultado)) {
-            echo json_encode($resultado);  // Devolver los datos de los profesores
+            echo json_encode($resultado);  
         } else {
-            echo json_encode(["error" => "No se encontraron docentes"]);  // Error en caso de no encontrar docentes
+            echo json_encode(["error" => "No se encontraron docentes"]);  
         }
-    } elseif ($accion === "verSesiones") {
+    }
+    /**
+    * Acción: verSesiones
+    * 
+    * @description Devuelve el horario del docente para un día concreto.
+    * 
+    * @param string document  DNI del profesor
+    * @param string dia       Día de la semana en formato corto (L, M, X, etc.)
+    * @return JSON            Lista de sesiones del día
+    */
+
+    elseif ($accion === "verSesiones") {
         $document = $_POST['document'];
         $dia = $_POST['dia'];
 
@@ -286,17 +479,30 @@ elseif ($metodo === 'POST') {
         FROM horari_grup hg
         LEFT JOIN continguts c ON c.codi = hg.contingut
         WHERE hg.docent = '$document'
-         AND hg.dia_setmana = '$dia'
+        AND hg.dia_setmana = '$dia'
         ORDER BY FIELD(hg.dia_setmana, 'L', 'M', 'X', 'J', 'V'), hg.hora_desde";
 
         $resultado_horario = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
+
         if (is_array($resultado_horario)) {
             echo json_encode($resultado_horario);
         } else {
             echo json_encode(["error" => "No se encontraron datos de horario"]);
         }
-    } elseif ($accion === "registrarAusencia") {
-        error_log("Entrando en registrarAusencia");
+    }
+    /**
+    * Acción: registrarAusencia
+    * 
+    * @description Registra una ausencia parcial o completa del docente con sus sesiones afectadas.
+    * 
+    * @param string fecha               Fecha de la ausencia
+    * @param string document            DNI del profesor
+    * @param bool   justificada         Si está justificada
+    * @param bool   jornada_completa    Si es jornada completa
+    * @param array  sesiones            Lista de sesiones codificadas en JSON
+    * @return JSON                      { exito: string } o { error: string }
+    */
+    elseif ($accion === "registrarAusencia") {
     
         $data = json_decode(file_get_contents("php://input"), true);
     
@@ -308,8 +514,11 @@ elseif ($metodo === 'POST') {
     
         $resultadoIn = true;
     
-        // Obtener nombre del profesor
-        $sqlNombre = "SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2) AS nombreProfe FROM docent WHERE document = '$document'";
+        $sqlNombre = "SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2) 
+            AS nombreProfe 
+            FROM docent 
+            WHERE document = '$document'
+        ";
         $resultadoNombre = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlNombre);
         $nombreProfe = is_array($resultadoNombre) ? $resultadoNombre[0][0] : 'Desconocido';
     
@@ -318,7 +527,6 @@ elseif ($metodo === 'POST') {
                 $sesion = json_decode($sesionJson, true);
     
                 if (!is_array($sesion) || count($sesion) < 7) {
-                    error_log("Sesión malformada: " . print_r($sesionJson, true));
                     $resultadoIn = false;
                     break;
                 }
@@ -332,12 +540,15 @@ elseif ($metodo === 'POST') {
                 $sesion_orden = $sesion[6];
     
                 $sql = "INSERT INTO ausencias (
-                            hora_inicio, hora_fin, dia, aula, grupo, asignatura, sesion,
-                            document, nombreProfe, justificada, jornada_completa, fecha
-                        ) VALUES (
-                            '$hora_inicio', '$hora_fin', '$dia', '$aula', '$grupo', '$asignatura', '$sesion_orden',
-                            '$document', '$nombreProfe', '$justificada', '$jornada_completa', '$fecha'
-                        )";
+                    hora_inicio, hora_fin, dia, aula, grupo, asignatura, sesion,
+                    document, nombreProfe, justificada, jornada_completa, fecha
+                    ) VALUES (
+                    '$hora_inicio', '$hora_fin', '$dia', '$aula', 
+                    '$grupo', '$asignatura', '$sesion_orden',
+                    '$document', '$nombreProfe', '$justificada', 
+                    '$jornada_completa', '$fecha'
+                    )
+                ";
     
                 $resultadoConsulta = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
     
@@ -360,82 +571,94 @@ elseif ($metodo === 'POST') {
             echo json_encode(["error" => "No se seleccionaron sesiones"]);
         }
     }
-    
+    /**
+    * Acción: asignarGuardia
+    * 
+    * @description Marca una guardia como cubierta por un docente. Dispara un trigger en BD.
+    * 
+    * @param string sesion             Número de sesión
+    * @param string documentAus        Profesor que falta
+    * @param string document           Profesor que cubre
+    * @param int    cubierto           Valor 1 para marcar como cubierta
+    * @return JSON                     { exito: string } o { error: string }
+    */
     elseif ($accion === "asignarGuardia") {
-        // Fecha actual (no se usa en PHP para el INSERT, el trigger tomará NEW.fecha)
         $fecha = date('Y-m-d');
     
-        // Lee y decodifica JSON de la petición
         $datos = json_decode(file_get_contents("php://input"), true);
+
         if (!is_array($datos)) {
-            error_log("Error: los datos recibidos no son JSON válido");
             echo json_encode(["error" => "Datos no válidos"]);
             exit;
         }
     
-        // Parámetros necesarios
+        // Parámetros 
         $sesionAus       = $datos["sesion"];
         $documentAus     = $datos["documentAus"];
         $documentCubierto= $datos["document"];
         $cubiertoAus     = $datos["cubierto"];
 
-        // Actualiza la ausencia — el trigger se disparará si cambias cubierto a 1
         $sql = "
             UPDATE ausencias
             SET 
-              cubierto          = '$cubiertoAus',
-              document_cubierto = '$documentCubierto',
-              NombreRemp        = (
-                SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2)
-                FROM docent
-                WHERE document = '$documentCubierto'
-              )
+            cubierto = '$cubiertoAus',
+            document_cubierto = '$documentCubierto',
+            NombreRemp = (
+                    SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2)
+                    FROM docent
+                    WHERE document = '$documentCubierto'
+                )
             WHERE sesion   = '$sesionAus'
-              AND document = '$documentAus';
+            AND document = '$documentAus';
         ";
 
         $resultadoAsignar = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
     
-        // Sólo comprobamos si se actualizó: el trigger de BD hará el INSERT en registro_guardias
         if ($resultado === false) {
-            // aquí hay fallo de MySQL o mysqli no afectó la query
-            error_log("asignarGuardia › UPDATE fallida (mysql error o sintaxis)\n", 3, "errores.log");
             echo json_encode(["error" => "Error al marcar la guardia como cubierta"]);
             exit;
         }
         echo json_encode(["exito" => "Guardia asignada correctamente"]);
         exit;
     }
-     
+    /**
+    * Acción: historialGuardias
+    * 
+    * @description Devuelve las guardias realizadas por un docente, con filtros opcionales.
+    * 
+    * @param string document   DNI del docente
+    * @param string fecha      (Opcional) Fecha a filtrar
+    * @param int    hora       (Opcional) Sesión a filtrar
+    * @return JSON             Lista de registros de guardias
+    */
     elseif ($accion === "historialGuardias") {
+
         $document = $_POST['document'];
         $fecha = isset($_POST["fecha"]) ? date("Y-m-d", strtotime($_POST["fecha"])) : null;
         $sesion = isset($_POST["hora"]) ? (int)trim($_POST["hora"]) : null;
     
         if ($fecha && $sesion) {
-            // Ambos seleccionados
             $sql = "SELECT * FROM registro_guardias 
-                    WHERE docente_guardia = '$document' 
-                    AND fecha = '$fecha' 
-                    AND sesion_orden = $sesion";
+                WHERE docente_guardia = '$document' 
+                AND fecha = '$fecha' 
+                AND sesion_orden = $sesion
+            ";
         } elseif ($fecha) {
-            // Solo fecha
             $sql = "SELECT * FROM registro_guardias 
-                    WHERE docente_guardia = '$document' 
-                    AND fecha = '$fecha'";
+                WHERE docente_guardia = '$document' 
+                AND fecha = '$fecha'
+            ";
         } elseif ($sesion) {
-            // Solo sesión
             $sql = "SELECT * FROM registro_guardias 
-                    WHERE docente_guardia = '$document' 
-                    AND sesion_orden = $sesion";
+                WHERE docente_guardia = '$document' 
+                AND sesion_orden = $sesion
+            ";
         } else {
-            // Ni fecha ni sesión
             $sql = "SELECT * FROM registro_guardias 
-                    WHERE docente_guardia = '$document'";
+                WHERE docente_guardia = '$document'
+            ";
         }
-    
-        error_log("SQL generado: $sql");
-    
+
         $historialGuard = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
     
         if (is_array($historialGuard)) {
@@ -444,6 +667,16 @@ elseif ($metodo === 'POST') {
             echo json_encode(["error" => "No se encontraron registros de guardias"]);
         }
     }
+    /**
+    * Acción: consultarAsistencia
+    * 
+    * @description Devuelve las asistencias de un docente con filtro por día o mes.
+    * 
+    * @param string document   DNI del docente (opcional)
+    * @param string fecha      Fecha concreta (opcional)
+    * @param string mes        Mes en formato YYYY-MM (opcional)
+    * @return JSON             Lista de asistencias
+    */
     elseif ($accion === 'consultarAsistencia') {
         $documento = $_POST['document'] ?? null;
         $fecha = $_POST['fecha'] ?? null;
@@ -461,7 +694,6 @@ elseif ($metodo === 'POST') {
         }
     
         if ($mes) {
-            // Extraemos año y mes del input tipo "2025-04"
             $anioMes = explode('-', $mes);
             $anio = $anioMes[0];
             $mesNum = $anioMes[1];
@@ -470,10 +702,11 @@ elseif ($metodo === 'POST') {
     
         $where = count($condiciones) > 0 ? 'WHERE ' . implode(' AND ', $condiciones) : '';
     
-        $sql = "SELECT nombre, fecha, hora_entrada, hora_salida FROM registro_jornada $where ORDER BY fecha, hora_entrada";
-    
-        error_log("Consulta asistencia: $sql");
-    
+        $sql = "SELECT nombre, fecha, hora_entrada, hora_salida 
+            FROM registro_jornada 
+            $where ORDER BY fecha, hora_entrada
+        ";
+        
         $resultado = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
     
         if (is_array($resultado)) {
@@ -482,116 +715,156 @@ elseif ($metodo === 'POST') {
             echo json_encode(["error" => "No se encontraron registros"]);
         }
     }
+    /**
+    * Acción: consultaProfesEscritos
+    * 
+    * @description Devuelve la lista de profesores con los que se ha intercambiado mensajes.
+    * Solo devuelve un mensaje por profesor, el más reciente.
+    * 
+    * @param string documento  DNI del usuario logueado
+    * @return JSON             Lista de conversaciones con último mensaje
+    */
     elseif ($accion === "consultaProfesEscritos") {
         $doc = $_POST['documento'];
         $sql = "SELECT DISTINCT *
-FROM (
-  -- Mensaje más reciente enviado
-  SELECT DISTINCT
-    docent_receptor AS interlocutor_id,
-    nombreReceptor   AS interlocutor_nombre,
-    mensaje,
-    fecha,
-    hora
-  FROM mensajes
-  WHERE docent_emisor  = '$doc'
-    AND docent_receptor <> '$doc'
-
-  UNION ALL
-
-  -- Mensaje más reciente recibido
-  SELECT DISTINCT
-    docent_emisor   AS interlocutor_id,
-    nombreEmisor    AS interlocutor_nombre,
-    mensaje,
-    fecha,
-    hora
-  FROM mensajes
-  WHERE docent_receptor = '$doc'
-    AND docent_emisor   <> '$doc'
-) AS todos_los_mensajes
-ORDER BY fecha DESC, hora DESC;
-
-";
+            FROM (
+                SELECT DISTINCT
+                docent_receptor AS interlocutor_id,
+                nombreReceptor   AS interlocutor_nombre,
+                mensaje,
+                fecha,
+                hora
+                FROM mensajes
+                WHERE docent_emisor  = '$doc'
+                AND docent_receptor <> '$doc'
+                UNION ALL
+                SELECT DISTINCT
+                docent_emisor   AS interlocutor_id,
+                nombreEmisor    AS interlocutor_nombre,
+                mensaje,
+                fecha,
+                hora
+                FROM mensajes
+                WHERE docent_receptor = '$doc'
+                AND docent_emisor   <> '$doc'
+            ) AS todos_los_mensajes
+            ORDER BY fecha DESC, hora DESC;
+        ";
         $resultado = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
-        // Verificar si la consulta fue exitosa
         if (is_array($resultado)) {
-           // 1) Asumimos que $resultado ya viene ordenado por fecha DESC, hora DESC
-$unicos = [];
+            $unicos = [];
 
-// 2) Recorremos todos los mensajes
-foreach ($resultado as $mensaje) {
-    $dni = $mensaje[0]; // índice 0 = dni/interlocutor_id
-    
-    // Si aún no hemos guardado nada para este DNI, lo guardamos
-    // (como vienen ordenados, la primera vez será el más reciente).
-    if (!isset($unicos[$dni])) {
-        $unicos[$dni] = $mensaje;
-    }
-}
+            foreach ($resultado as $mensaje) {
+                $dni = $mensaje[0]; 
 
-// 3) Reconstruimos un array indexado con solo los mensajes únicos
-$resultadoFiltrado = array_values($unicos);
+                if (!isset($unicos[$dni])) {
+                $unicos[$dni] = $mensaje;
+                }
+            }
 
-// Ahora $resultadoFiltrado solo contiene un mensaje (el más reciente) por cada DNI
-            echo json_encode($resultadoFiltrado);  // Devolver los datos de los profesores
+            $resultadoFiltrado = array_values($unicos);
+            echo json_encode($resultadoFiltrado);  
+
         } else {
-            echo json_encode(["error" => "No se encontraron docentes"]);  // Error en caso de no encontrar docentes
+            echo json_encode(["error" => "No se encontraron docentes"]);  
         }
     }
+    /**
+    * Acción: consultaProfesMensaje
+    * 
+    * @description Devuelve todos los profesores disponibles para enviar mensajes.
+    * 
+    * @return JSON  Lista de profesores con su DNI y nombre completo
+    */
     elseif ($accion === "consultaProfesMensaje") {
-        $sql = "SELECT document, CONCAT(nom, ' ', cognom1, ' ', cognom2) AS nombre_completo FROM docent";
+
+        $sql = "SELECT document, 
+            CONCAT(nom, ' ', cognom1, ' ', cognom2) 
+            AS nombre_completo FROM docent
+        ";
         $resultado = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
     
-        // Verificar si la consulta fue exitosa
         if (is_array($resultado)) {
-            echo json_encode($resultado);  // Devolver los datos de los profesores
+            echo json_encode($resultado);  
         } else {
-            echo json_encode(["error" => "No se encontraron docentes"]);  // Error en caso de no encontrar docentes
+            echo json_encode(["error" => "No se encontraron docentes"]);  
         }
     }
+    /**
+    * Acción: consultaMensajes
+    * 
+    * @description Devuelve todos los mensajes entre dos docentes, y marca como leídos los recibidos.
+    * 
+    * @param string emisor     DNI del emisor
+    * @param string receptor   DNI del receptor
+    * @return JSON             Lista de mensajes
+    */
     elseif ($accion === "consultaMensajes") {
         $docent_emisor   = $_POST['emisor'];
         $docent_receptor = $_POST['receptor'];
     
         $sql = "SELECT docent_emisor, mensaje, fecha, hora, leido
-                FROM mensajes
-                WHERE (docent_emisor = '$docent_emisor' AND docent_receptor = '$docent_receptor')
-                   OR (docent_emisor = '$docent_receptor' AND docent_receptor = '$docent_emisor')
-                ORDER BY fecha";
+            FROM mensajes
+            WHERE (
+                docent_emisor = '$docent_emisor' 
+                AND docent_receptor = '$docent_receptor'
+            )
+            OR (
+                docent_emisor = '$docent_receptor' 
+                AND docent_receptor = '$docent_emisor'
+            )
+            ORDER BY fecha
+        ";
+
         $resultMensajes = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
     
         if (is_array($resultMensajes) && !empty($resultMensajes)) {
+
             foreach ($resultMensajes as $mensaje) {
+
                 if (!($mensaje[4])) {
-                    $sqlUpd = "
-                    UPDATE mensajes
-                    SET leido = NOW()
-                    WHERE docent_emisor   = '$docent_receptor'
-                    AND docent_receptor = '$docent_emisor'
-                    AND leido IS NULL 
+                    $sqlUpd = " UPDATE mensajes
+                        SET leido = NOW()
+                        WHERE docent_emisor   = '$docent_receptor'
+                        AND docent_receptor = '$docent_emisor'
+                        AND leido IS NULL 
                     ";
                 conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlUpd);
                 }
             }
-         }
-            $sql = "SELECT docent_emisor, mensaje, fecha, hora, leido
-                FROM mensajes
-                WHERE (docent_emisor = '$docent_emisor' AND docent_receptor = '$docent_receptor')
-                   OR (docent_emisor = '$docent_receptor' AND docent_receptor = '$docent_emisor')
-                ORDER BY fecha";
-       
+        }
+        $sql = "SELECT docent_emisor, mensaje, fecha, hora, leido
+            FROM mensajes
+            WHERE (
+                docent_emisor = '$docent_emisor' 
+                AND docent_receptor = '$docent_receptor'
+            )
+            OR (
+                docent_emisor = '$docent_receptor' 
+                AND docent_receptor = '$docent_emisor'
+            )
+            ORDER BY fecha
+        ";
         if (is_array($resultMensajes) && !empty($resultMensajes)) {
-
-        $resultMensajes = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
-    
+            $resultMensajes = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
             echo json_encode($resultMensajes);
-            }
+        }
         else {
             echo json_encode("No tienes mensajes en este chat");
         }
-    
     }
+    /**
+    * Acción: enviaMensaje
+    * 
+    * @description Inserta un nuevo mensaje en la base de datos entre dos docentes.
+    * 
+    * @param string emisor           DNI del emisor
+    * @param string nombreEmisor     Nombre del emisor
+    * @param string receptor         DNI del receptor
+    * @param string nombreReceptor   Nombre del receptor
+    * @param string mensaje          Texto del mensaje
+    * @return JSON                   { success: true } o { error: string }
+    */
     elseif ($accion == "enviaMensaje") {
         $docent_emisor   = $_POST['emisor'];
         $nombreEmisor = $_POST['nombreEmisor'];
@@ -599,13 +872,16 @@ $resultadoFiltrado = array_values($unicos);
         $nombreReceptor = $_POST['nombreReceptor'];
         $mensaje         = $_POST['mensaje'];
         $fecha           = date('Y-m-d');
-        $hora            = date('H:i:s');  // guardamos la hora con segundos
+        $hora            = date('H:i:s');  
     
         $sql = "INSERT INTO mensajes
-        (docent_emisor, nombreEmisor, docent_receptor, nombreReceptor, mensaje, fecha, hora)
-      VALUES
-        ('$docent_emisor', '$nombreEmisor', '$docent_receptor', '$nombreReceptor', '"
-        . addslashes($mensaje) . "', '$fecha', '$hora')";
+            (docent_emisor, nombreEmisor, docent_receptor,
+            nombreReceptor, mensaje, fecha, hora)
+            VALUES(
+                '$docent_emisor', '$nombreEmisor', '$docent_receptor',
+                '$nombreReceptor', '" . addslashes($mensaje) . "', '$fecha', '$hora'
+            )
+        ";
 
         $mensajeEscrito = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
         if ($mensajeEscrito) {
@@ -618,9 +894,11 @@ $resultadoFiltrado = array_values($unicos);
         }
         exit;
     }
-    
-    
-}elseif ($metodo === 'PUT') {
+} 
+    // =====================================
+    // PETICIONES **PUT**
+    // =====================================
+elseif ($metodo === 'PUT') {
 
     $raw = file_get_contents('php://input');
 
@@ -628,18 +906,35 @@ $resultadoFiltrado = array_values($unicos);
     if (!is_array($datos)) {
         parse_str($raw, $datos);
     }
+    /**
+    * Acción: EditarMensaje 
+    * 
+    * @description Permite editar un mensaje ya enviado. Se localiza por emisor, fecha, hora y contenido original.
+    * 
+    * @param string docentEmisor     DNI del emisor del mensaje
+    * @param string fecha            Fecha del mensaje (formato Y-m-d)
+    * @param string hora             Hora exacta del mensaje (formato H:i:s)
+    * @param string mOriginal        Texto original del mensaje
+    * @param string mEditado         Texto editado que se quiere guardar
+    * 
+    * @return JSON                   { exito: true } si se actualizó correctamente, false si no
+    */
     if ($datos["accion"] == "EditarMensaje") {
         error_log("entro en editar");
-    $docentEmisor       = $datos['docentEmisor']  ?? null;
-    $fecha           = $datos['fecha']         ?? null;
-    $hora            = $datos['hora']          ?? null;
-    $mensajeOriginal = $datos['mOriginal']     ?? null;
-    $mensajeEditado  = $datos['mEditado']      ?? null;
+        $docentEmisor       = $datos['docentEmisor']  ?? null;
+        $fecha           = $datos['fecha']         ?? null;
+        $hora            = $datos['hora']          ?? null;
+        $mensajeOriginal = $datos['mOriginal']     ?? null;
+        $mensajeEditado  = $datos['mEditado']      ?? null;
 
-        $sql = "UPDATE mensajes SET mensaje = '$mensajeEditado' WHERE docent_emisor = '$docentEmisor' AND
-        fecha = '$fecha' AND hora ='$hora' AND mensaje = '$mensajeOriginal'";
+        $sql = "UPDATE mensajes 
+            SET mensaje = '$mensajeEditado' 
+            WHERE docent_emisor = '$docentEmisor' 
+            AND fecha = '$fecha' 
+            AND hora ='$hora' 
+            AND mensaje = '$mensajeOriginal'
+        ";
 
-        error_log($sql);
         $result = conexion_bd(SERVIDOR, USER,PASSWD,BASE_DATOS,$sql);
 
         if ($result) {
@@ -649,6 +944,9 @@ $resultadoFiltrado = array_values($unicos);
         }
     }
 } 
+    // =====================================
+    // PETICIONES **DELETE**
+    // =====================================
 elseif ($metodo === 'DELETE') {         
     $raw = file_get_contents('php://input');
 
@@ -656,17 +954,36 @@ elseif ($metodo === 'DELETE') {
     if (!is_array($datos)) {
         parse_str($raw, $datos);
     }
+    /**
+    * Acción: BorrarMensaje
+    * 
+    * @description Elimina uno o varios mensajes enviados. Cada mensaje se identifica por fecha, hora y contenido exacto.
+    * 
+    * @param array mensajes[]        Lista de mensajes a borrar (con fecha, hora y mensajeOriginal)
+    * 
+    * @example JSON esperado:
+    * {
+    *   "accion": "BorrarMensaje",
+    *   "mensajes": [
+    *     { "fecha": "2025-05-08", "hora": "09:30:00", "mensajeOriginal": "Hola" },
+    *     { "fecha": "2025-05-08", "hora": "09:31:00", "mensajeOriginal": "¿Estás ahí?" }
+    *   ]
+    * }
+    * 
+    * @return JSON                   { exito: true } si se borraron, false si falló
+    */
     if ($datos["accion"] == "BorrarMensaje") {
-
         $wheres = [];
-foreach ($datos["mensajes"] as $m) {
-    $fecha   = $m['fecha'];
-    $hora    = $m['hora'];
-    $texto   = $m['mensajeOriginal'];
-    $wheres[] = "(`fecha` = '$fecha' AND `hora` = '$hora' AND `mensaje` = '$texto')";
+
+        foreach ($datos["mensajes"] as $m) {
+            $fecha   = $m['fecha'];
+            $hora    = $m['hora'];
+            $texto   = $m['mensajeOriginal'];
+            $wheres[] = "(`fecha` = '$fecha' AND `hora` = '$hora' AND `mensaje` = '$texto')";
         }
-    
-        $sql = "DELETE FROM `mensajes` WHERE " . implode(' OR ', $wheres);
+        
+        $sql = "DELETE FROM `mensajes`
+            WHERE " . implode(' OR ', $wheres);
         $result = conexion_bd(SERVIDOR,USER,PASSWD,BASE_DATOS,$sql);
 
         if ($result) {
@@ -675,7 +992,7 @@ foreach ($datos["mensajes"] as $m) {
             echo json_encode(["exito" => false]);
         }
     }
-    } 
+} 
 else {         
     echo json_encode(["error" => "Opción incorrecta!!!!"]); 
 }
