@@ -131,7 +131,7 @@ $usuarioId = $_SESSION['document'];
 <section>
     <div class="d-flex justify-content-center mb-3">
         <form action="../verAusencias.php" method="GET">
-        <button type="submit" 
+        <button type="submit" id="cargaGuardias" 
             name="cargar_guardias" 
             class="btn btn-primary"
             style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d);border:0;">Cargar Guardias</button>
@@ -231,12 +231,23 @@ $usuarioId = $_SESSION['document'];
 </section>
 
 <?php if (isset($_GET['success']) && $_GET['success'] == 1): ?>
-  <div class="position-fixed top-0 start-50 translate-middle-x mt-4" style="z-index: 1050; width: 100%; max-width: 500px;">
-    <div class="alert alert-primary text-center fw-bold mb-0" role="alert">
-      Guardia asignada correctamente. Pulsa 👇 para ver los cambios.
-    </div>
-  </div>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("cargaGuardias");
+      if (btn) btn.click();
+    });
+
+    
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        const url = new URL(window.location.href);
+        url.searchParams.delete("success");
+        window.history.replaceState({}, document.title, url.pathname + url.search);
+      }, 1000); 
+    });
+  </script>
 <?php endif; ?>
+
 
 <script src="../src/guardias.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
