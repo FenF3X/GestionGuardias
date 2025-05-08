@@ -1,4 +1,16 @@
 <?php
+/**
+ * login.php
+ *
+ * Pagina de inicio de sesión preparada para tratar errores de contraseña, errores de DNI,
+ * envio vacio de formulario y control de vista de contraseña por botón
+ * 
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/login.php
+ */
+
 session_start();
 $error = $_SESSION["error_login"] ?? null;
 unset($_SESSION["error_login"]);
@@ -13,33 +25,11 @@ unset($_SESSION["error_login"]);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="src/images/favicon.png" type="image/x-icon">      
     <link rel="stylesheet" href="src/styles.css">
-    <style>
-  * {
-    box-sizing: border-box;
-  }
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-  body {
-    background: linear-gradient(135deg, #0f1f2d, #18362f);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  #logo{
-    margin-top:50px;
-  }
-</style>
-
 </head>
 <body>
     <div class="fecha-actual text-center mt-3"></div>
     <div class="text-center">
-        <img id="logo" src="src/images/logoenUno2.png" alt="Logo de AsistGuard">
+        <img id="logo" src="src/images/logoenUno2.png" alt="Logo de AsistGuard" style="margin-top:50px;">
     </div>
 
     <div class="login-box">

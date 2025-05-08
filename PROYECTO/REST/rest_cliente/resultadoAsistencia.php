@@ -1,4 +1,19 @@
 <?php
+/**
+ * ===============================
+ *  resultadoAsistencia.php
+ * ===============================
+ * 
+ * Consulta de ausencia de un profesor determinado en una fecha o un mes determinado
+ * o bien consulta de ausencia de todos los profesores en una fecha o un mes determinado
+ * 
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ * @includes   curl_conexion.php  Fichero de configuración de conexión mediante cURL, 
+ *                                maneja peticiones, cabeceras y/o parámetros necesarios. 
+ */
+
 session_start();
 
 include("curl_conexion.php");
@@ -9,7 +24,7 @@ $fecha = $_POST['fecha'] ?? '';
 $mes = $_POST['mes'] ?? '';
 
 $params = [
-    'accion' => 'consultarAsistencia'
+    'accion' => 'consultarAsistencia'       //accion diferenciada
 ];
 
 // Añadir filtros

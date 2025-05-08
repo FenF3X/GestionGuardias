@@ -1,7 +1,7 @@
 <?php
 /**
  * =====================
- *  borrarMensaje.php
+ *  eliminarMensaje.php
  * =====================
  * 
  * Realiza una petición de borrado de uno o varios mensajes seleccionados

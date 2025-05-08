@@ -1,12 +1,26 @@
 <?php
-session_start();
+/**
+ * =====================
+ *  logout.php
+ * =====================
+ * 
+ * Cierra la sesión del usuario actual.
+ * Elimina todas las variables de sesión, destruye la sesión y
+ * redirige al usuario de vuelta al formulario de login.
+ * 
+ * @package    GestionGuardias
+ * @author     Adrian Pascual Marschal
+ * @license    MIT
+ */
 
-// Eliminar todas las variables de sesión
+session_start(); // Inicia la sesión si no estaba activa
+
+// Elimina todas las variables de sesión
 session_unset();
 
-// Destruir la sesión
+// Destruye la sesión actual
 session_destroy();
 
-// Redirigir al login
+// Redirige al formulario de login
 header("Location: login.php");
 exit;

@@ -1,7 +1,7 @@
 <?php
 /**
  * =====================
- *  fichaje.php
+ *  fichar.php
  * =====================
  * 
  * Este script gestiona el fichaje de entrada y salida del usuario.
