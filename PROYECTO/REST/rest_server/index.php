@@ -206,7 +206,7 @@ if ($metodo === 'GET') {
             case 'plazo':
                 $inicio = $_GET['plazoInicio'];
                 $fin = $_GET['plazoFin'];
-                
+
                 $sql = "SELECT fecha,nombreProfe, nombreProfeReempl,
                 aula, grupo, asignatura, sesion_orden,dia_semana,
                 CONCAT(hora_inicio, '--', hora_fin),total_guardias 
@@ -245,16 +245,17 @@ if ($metodo === 'GET') {
                     WHERE docente_guardia = '$docente'
                 ";
             break;
-            case 'curs':
-                $inicio = "2024-09-09";
-                $fin = "2025-06-21";
-
+            case 'curso':
+                $ano = $_GET['ano'] ?? '';
+                $inicio = $ano."-09-01";
+                $fin = ($ano + 1) ."-07-1";
                 $sql = "SELECT fecha,nombreProfe,nombreProfeReempl,
                     aula, grupo, asignatura, sesion_orden,dia_semana, 
                     CONCAT(hora_inicio, '--', hora_fin),total_guardias
                     FROM registro_guardias 
                     WHERE fecha BETWEEN '$inicio' AND '$fin'
                 ";
+                error_log($sql);
             break;
             default:
                 error_log("tipo no valido");

@@ -170,7 +170,7 @@ if ($rol !== 'admin') {
         <option value="plazo">Por plazo de tiempo</option>
         <option value="trimestre">Por trimestre</option>
         <option value="docent">Por docente</option>
-        <option value="curs">Todo el curso</option>
+        <option value="curso">Todo el curso</option>
       </select>
     </div>
 
@@ -233,6 +233,21 @@ if ($rol !== 'admin') {
                     <?php endforeach; ?>
       </select>
     </div>
+    <!-- Campo para “Todo el curso”: selector de año -->
+    <div id="campo-curso" class="campo-dinamico mb-3">
+      <label for="anoCurso" class="form-label fw-bold">Selecciona el año:</label>
+      <select name="anoCurso" id="anoCurso" class="form-select input-select-custom w-25">
+        <?php
+          $current = date('Y');
+          for ($y = $current - 5; $y <= $current + 5; $y++) {
+            $next = $y + 1;
+            $sel = $y === $current ? ' selected' : '';
+            echo "<option value=\"$y\"{$sel}>{$y}/{$next}</option>";
+          }
+        ?>
+      </select>
+    </div>
+
 
     <button type="submit" class="btn btn-primary mt-3" style=" border: 2px solid; 
    background:linear-gradient(135deg, #1e3a5f, #0f1f2d);">Generar informe</button>
@@ -246,39 +261,7 @@ if ($rol !== 'admin') {
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
 <script src="../src/calendar.js"></script>
 <script src="../src/verInformes.js"></script>
-<script>
-  /**
- * flatpickcalendar.js
- * Inicializa Flatpickr para campos de plazo de tiempo: fecha_inicio y fecha_fin
- */
 
-document.addEventListener('DOMContentLoaded', () => {
-  const commonOpts = {
-    disableMobile: true,
-    altInput: true,
-    altInputClass: "input-select-custom",
-    locale: "es",
-    onReady(_, __, instance) {
-      instance.calendarContainer.style.border = "2px solid #1e3a5f";
-    }
-  };
-
-  // Inicializa Flatpickr en 'Desde'
-  flatpickr("#fecha_inicio", {
-    ...commonOpts,
-    dateFormat: "Y-m-d",
-    altFormat: "j F, Y"
-  });
-
-  // Inicializa Flatpickr en 'Hasta'
-  flatpickr("#fecha_fin", {
-    ...commonOpts,
-    dateFormat: "Y-m-d",
-    altFormat: "j F, Y"
-  });
-});
-
-</script>
 </body>
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">

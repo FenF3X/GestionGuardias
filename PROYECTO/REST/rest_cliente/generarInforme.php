@@ -49,8 +49,9 @@ switch ($tipo) {
     case 'docent':
         $params['docente'] = $_GET['docent'] ?? '';
         break;
-    case 'curs':
-        $params['curso'] = '2025'; 
+    case 'curso':
+        error_log($_GET['anoCurso']);
+        $params['ano'] = trim($_GET['anoCurso']) ?? ''; 
         break;
     default:
         echo "Error: tipo de informe no válido.";

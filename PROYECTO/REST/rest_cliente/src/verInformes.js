@@ -32,7 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     mes: document.getElementById('campo-mes'),
     trimestre: document.getElementById('campo-trimestre'),
     docent: document.getElementById('campo-docent'),
-    plazo: document.getElementById('campo-plazo')    
+    plazo: document.getElementById('campo-plazo'),
+    curso: document.getElementById('campo-curso')    
   };
 
   /**

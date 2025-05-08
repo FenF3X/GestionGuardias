@@ -117,19 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
       instance.calendarContainer.style.border = "2px solid #1e3a5f";
     }
   });
-  flatpickr("#fecha_inicio", {
-    ...commonOpts,
-    dateFormat: "Y-m-d",
-    altFormat:  "j F, Y"
-  });
 
-  // Picker para fecha fin de plazo
-  flatpickr("#fecha_fin", {
-    ...commonOpts,
-    dateFormat: "Y-m-d",
-    altFormat:  "j F, Y"
-  });
-  
 });
 document.addEventListener('DOMContentLoaded', () => {
   const commonOpts = {
@@ -154,5 +142,42 @@ document.addEventListener('DOMContentLoaded', () => {
     ...commonOpts,
     dateFormat: "Y-m-d",
     altFormat: "j F, Y"
+  });
+  
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Añadimos CSS para ocultar meses y días en el calendario
+  const style = document.createElement('style');
+  style.textContent = `
+    .flatpickr-calendar .flatpickr-months .flatpickr-monthDropdown-months,
+    .flatpickr-calendar .flatpickr-days {
+      display: none !important;
+    }
+  `;
+  document.head.appendChild(style);
+
+  const commonOpts = {
+    disableMobile: true,
+    altInput: true,
+    altInputClass: "input-select-custom",
+    locale: "es",
+    onReady(_, __, instance) {
+      instance.calendarContainer.style.border = "2px solid #1e3a5f";
+    }
+  };
+
+  // Inicializamos Flatpickr para que muestre solo el año
+  flatpickr("#anio", {
+    ...commonOpts,
+    dateFormat: "Y",
+    altFormat: "Y",
+    defaultDate: new Date(),
+    onOpen(_, __, instance) {
+      // Ocultar repetidamente al abrir, en caso de re-render
+      instance.calendarContainer.querySelectorAll(
+        ".flatpickr-months .flatpickr-monthDropdown-months,.flatpickr-days"
+      ).forEach(el => el.style.display = 'none');
+    }
   });
 });
