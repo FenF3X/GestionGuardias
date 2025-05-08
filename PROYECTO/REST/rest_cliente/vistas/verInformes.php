@@ -188,20 +188,32 @@ if ($rol !== 'admin') {
       <label for="mes" class="form-label">Selecciona un mes:</label>
       <input type="month" name="mes" id="mes" class="input-select-custom w-100" value="<?php echo date('Y-m'); ?>">
     </div>
-
     <div id="campo-plazo" class="campo-dinamico mb-3">
-      <label class="form-label fw-bold">Selecciona un plazo:</label>
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label for="fecha_inicio" class="form-label">Desde:</label>
-          <input type="date" name="fecha_inicio" id="fecha_inicio" class="input-select-custom w-100" />
-        </div>
-        <div class="col-md-6">
-          <label for="fecha_fin" class="form-label">Hasta:</label>
-          <input type="date" name="fecha_fin" id="fecha_fin" class="input-select-custom w-100" />
-        </div>
-      </div>
+  <label class="form-label fw-bold d-block mb-2">Selecciona un plazo:</label>
+  <div class="d-flex flex-wrap align-items-end gap-4">
+    <div class="d-flex flex-column">
+      <label for="fecha_inicio" class="form-label mb-1">Desde:</label>
+      <input
+        type="date"
+        name="fecha_inicio"
+        id="fecha_inicio"
+        class="input-select-custom"
+        value="<?php echo date('Y-m-d'); ?>"
+      />
     </div>
+    <div class="d-flex flex-column">
+      <label for="fecha_fin" class="form-label mb-1">Hasta:</label>
+      <input
+        type="date"
+        name="fecha_fin"
+        id="fecha_fin"
+        class="input-select-custom"
+        value="<?php echo date('Y-m-d', strtotime('+3 days')); ?>"
+      />
+    </div>
+  </div>
+</div>
+
       
     <div id="campo-trimestre" class="campo-dinamico mb-3">
       <label for="trimestre" class="form-label">Selecciona un trimestre:</label>
@@ -234,7 +246,39 @@ if ($rol !== 'admin') {
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
 <script src="../src/calendar.js"></script>
 <script src="../src/verInformes.js"></script>
+<script>
+  /**
+ * flatpickcalendar.js
+ * Inicializa Flatpickr para campos de plazo de tiempo: fecha_inicio y fecha_fin
+ */
 
+document.addEventListener('DOMContentLoaded', () => {
+  const commonOpts = {
+    disableMobile: true,
+    altInput: true,
+    altInputClass: "input-select-custom",
+    locale: "es",
+    onReady(_, __, instance) {
+      instance.calendarContainer.style.border = "2px solid #1e3a5f";
+    }
+  };
+
+  // Inicializa Flatpickr en 'Desde'
+  flatpickr("#fecha_inicio", {
+    ...commonOpts,
+    dateFormat: "Y-m-d",
+    altFormat: "j F, Y"
+  });
+
+  // Inicializa Flatpickr en 'Hasta'
+  flatpickr("#fecha_fin", {
+    ...commonOpts,
+    dateFormat: "Y-m-d",
+    altFormat: "j F, Y"
+  });
+});
+
+</script>
 </body>
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">

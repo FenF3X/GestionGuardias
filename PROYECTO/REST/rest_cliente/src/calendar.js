@@ -130,4 +130,29 @@ document.addEventListener('DOMContentLoaded', () => {
     altFormat:  "j F, Y"
   });
   
-    });
+});
+document.addEventListener('DOMContentLoaded', () => {
+  const commonOpts = {
+    disableMobile: true,
+    altInput: true,
+    altInputClass: "input-select-custom",
+    locale: "es",
+    onReady(_, __, instance) {
+      instance.calendarContainer.style.border = "2px solid #1e3a5f";
+    }
+  };
+
+  // Inicializa Flatpickr en 'Desde'
+  flatpickr("#fecha_inicio", {
+    ...commonOpts,
+    dateFormat: "Y-m-d",
+    altFormat: "j F, Y"
+  });
+
+  // Inicializa Flatpickr en 'Hasta'
+  flatpickr("#fecha_fin", {
+    ...commonOpts,
+    dateFormat: "Y-m-d",
+    altFormat: "j F, Y"
+  });
+});
