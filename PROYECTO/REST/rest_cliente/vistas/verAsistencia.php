@@ -185,7 +185,7 @@ footer {
   </div>
 </main>
 
-<div class="container" style="margin-top: 100px;">
+<div class="container" style="margin-top: 50px;">
   <h2 class="mb-4">Consulta de asistencia del profesorado</h2>
   <form action="../resultadoAsistencia.php" method="POST">
     <div class="row g-3 align-items-end mb-3">
