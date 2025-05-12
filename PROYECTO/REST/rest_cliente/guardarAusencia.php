@@ -1,4 +1,5 @@
 <?php
+ini_set("error_log", __DIR__ . "/pruebas.txt");
 /**
  * =============================
  *  guardarAusencia.php
