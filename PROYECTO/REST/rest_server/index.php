@@ -1,5 +1,7 @@
 
 <?php
+ini_set("error_log", __DIR__ . "pruebas.txt");
+
 /**
  * =========================
  *  index.php (REST Server)
@@ -525,7 +527,7 @@ elseif ($metodo === 'POST') {
         $sesionesSeleccionadas = $data['sesiones'] ?? [];
     
         $resultadoIn = true;
-    
+        error_log(print_r($data,true));
         $sqlNombre = "SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2) 
             AS nombreProfe 
             FROM docent 
@@ -553,11 +555,11 @@ elseif ($metodo === 'POST') {
     
                 $sql = "INSERT INTO ausencias (
                     hora_inicio, hora_fin, dia, aula, grupo, asignatura, sesion,
-                    document, nombreProfe, justificada, jornada_completa, fecha
+                    document, document_cubierto, nombreProfe, justificada, jornada_completa, fecha
                     ) VALUES (
                     '$hora_inicio', '$hora_fin', '$dia', '$aula', 
                     '$grupo', '$asignatura', '$sesion_orden',
-                    '$document', '$nombreProfe', '$justificada', 
+                    '$document',NULL ,'$nombreProfe', '$justificada', 
                     '$jornada_completa', '$fecha'
                     )
                 ";
@@ -570,7 +572,7 @@ elseif ($metodo === 'POST') {
                     break;
                 }
             }
-    
+            error_log($sql);
             if ($resultadoIn) {
                 
                 echo json_encode(["exito" => "Entrada registrada correctamente"]);

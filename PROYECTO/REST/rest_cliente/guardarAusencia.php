@@ -45,7 +45,8 @@ if (isset($_POST['sesiones']) && !empty($_POST['sesiones'])) {
     // Preparación de parámetros
     // ============================
 
-    $jornadaC = isset($_POST["jornada_completa"]) ? true : false;
+    $jornadaC = isset($_POST['jornada_completa']) ? 1 : 2;
+    error_log($jornadaC);
 
     // Se preparan todos los datos necesarios para la petición
     $params = [
@@ -72,7 +73,7 @@ if (isset($_POST['sesiones']) && !empty($_POST['sesiones'])) {
         $_SESSION['registro_exitoso'] = false;
         error_log("Error del servidor: " . $estado["error"]);
     } else {
-        error_log("Respuesta inválida del backend: " . $estado);
+        error_log("Respuesta inválida del backend: " . $response);
     }
 
     // Redirigir siempre al dashboard tras la petición

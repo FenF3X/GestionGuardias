@@ -1,0 +1,9 @@
+
+[12-May-2025 13:39:12 Europe/Berlin] 1
+[12-May-2025 13:39:12 Europe/Berlin] Respuesta inválida del backend: 
+
+[12-May-2025 13:43:12 Europe/Berlin] 0
+[12-May-2025 13:43:12 Europe/Berlin] Respuesta inválida del backend: 
+
+[12-May-2025 13:47:02 Europe/Berlin] 1
+[12-May-2025 13:47:19 Europe/Berlin] 2

@@ -1,0 +1,174 @@
+[12-May-2025 13:28:31 Europe/Berlin] Array
+(
+    [document] => 013962048R
+    [fecha] => 2025-05-12
+    [justificada] => 
+    [jornada_completa] => 
+    [sesiones] => Array
+        (
+            [0] => ["L","12:05","12:55","Matem\u00e1ticas aplicadas a las CCSS I","1BAHA","C12","5"]
+        )
+
+    [accion] => registrarAusencia
+)
+
+[12-May-2025 13:28:31 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Incorrect integer value: '' for column `guardias`.`ausencias`.`justificada` at row 1 in /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php:48
+Stack trace:
+#0 /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php(48): mysqli_query(Object(mysqli), 'INSERT INTO aus...')
+#1 /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/index.php(567): conexion_bd('localhost', 'root', '', 'guardias', 'INSERT INTO aus...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php on line 48
+[12-May-2025 13:32:30 Europe/Berlin] Array
+(
+    [document] => 013962048R
+    [fecha] => 2025-05-12
+    [justificada] => 0
+    [jornada_completa] => 
+    [sesiones] => Array
+        (
+            [0] => ["L","12:05","12:55","Matem\u00e1ticas aplicadas a las CCSS I","1BAHA","C12","5"]
+        )
+
+    [accion] => registrarAusencia
+)
+
+[12-May-2025 13:32:30 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Incorrect integer value: '' for column `guardias`.`ausencias`.`jornada_completa` at row 1 in /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php:48
+Stack trace:
+#0 /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php(48): mysqli_query(Object(mysqli), 'INSERT INTO aus...')
+#1 /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/index.php(567): conexion_bd('localhost', 'root', '', 'guardias', 'INSERT INTO aus...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php on line 48
+[12-May-2025 13:34:17 Europe/Berlin] Array
+(
+    [document] => 013962048R
+    [fecha] => 2025-05-12
+    [justificada] => 0
+    [jornada_completa] => 
+    [sesiones] => Array
+        (
+            [0] => ["L","12:05","12:55","Matem\u00e1ticas aplicadas a las CCSS I","1BAHA","C12","5"]
+        )
+
+    [accion] => registrarAusencia
+)
+
+[12-May-2025 13:34:17 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Incorrect integer value: '' for column `guardias`.`ausencias`.`jornada_completa` at row 1 in /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php:48
+Stack trace:
+#0 /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php(48): mysqli_query(Object(mysqli), 'INSERT INTO aus...')
+#1 /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/index.php(567): conexion_bd('localhost', 'root', '', 'guardias', 'INSERT INTO aus...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php on line 48
+[12-May-2025 13:37:27 Europe/Berlin] Array
+(
+    [document] => 013962048R
+    [fecha] => 2025-05-12
+    [justificada] => 0
+    [jornada_completa] => 
+    [sesiones] => Array
+        (
+            [0] => ["L","12:05","12:55","Matem\u00e1ticas aplicadas a las CCSS I","1BAHA","C12","5"]
+        )
+
+    [accion] => registrarAusencia
+)
+
+[12-May-2025 13:37:27 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Incorrect integer value: '' for column `guardias`.`ausencias`.`jornada_completa` at row 1 in /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php:48
+Stack trace:
+#0 /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php(48): mysqli_query(Object(mysqli), 'INSERT INTO aus...')
+#1 /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/index.php(567): conexion_bd('localhost', 'root', '', 'guardias', 'INSERT INTO aus...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php on line 48
+[12-May-2025 13:39:12 Europe/Berlin] Array
+(
+    [document] => 013962048R
+    [fecha] => 2025-05-12
+    [justificada] => 1
+    [jornada_completa] => 
+    [sesiones] => Array
+        (
+            [0] => ["L","14:00","14:50","Matem\u00e1ticas A","4ESOB","B04","7"]
+            [1] => ["L","14:00","14:50","Matem\u00e1ticas A","4ESOC","B04","7"]
+        )
+
+    [accion] => registrarAusencia
+)
+
+[12-May-2025 13:39:12 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Incorrect integer value: '' for column `guardias`.`ausencias`.`jornada_completa` at row 1 in /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php:48
+Stack trace:
+#0 /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php(48): mysqli_query(Object(mysqli), 'INSERT INTO aus...')
+#1 /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/index.php(567): conexion_bd('localhost', 'root', '', 'guardias', 'INSERT INTO aus...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php on line 48
+[12-May-2025 13:43:12 Europe/Berlin] Array
+(
+    [document] => 013931868S
+    [fecha] => 2025-05-12
+    [justificada] => 0
+    [jornada_completa] => 
+    [sesiones] => Array
+        (
+            [0] => ["L","08:20","09:10","Seguridad inform\u00e1tica","2CFMI","A04","1"]
+        )
+
+    [accion] => registrarAusencia
+)
+
+[12-May-2025 13:43:12 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Incorrect integer value: '' for column `guardias`.`ausencias`.`jornada_completa` at row 1 in /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php:48
+Stack trace:
+#0 /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php(48): mysqli_query(Object(mysqli), 'INSERT INTO aus...')
+#1 /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/index.php(567): conexion_bd('localhost', 'root', '', 'guardias', 'INSERT INTO aus...')
+#2 {main}
+  thrown in /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_server/config.php on line 48
+[12-May-2025 13:47:02 Europe/Berlin] Array
+(
+    [document] => 012950628N
+    [fecha] => 2025-05-12
+    [justificada] => 0
+    [jornada_completa] => 1
+    [sesiones] => Array
+        (
+            [0] => ["L","12:05","12:55","Religi\u00f3n","3ESOC","D15","5"]
+            [1] => ["L","16:20","17:10","Servicios de Red e Internet","2CFSI","A18","8"]
+            [2] => ["L","17:10","18:00","Servicios de Red e Internet","2CFSI","A18","9"]
+            [3] => ["L","20:00","20:50","Servicios en red","2CFMV","A04","12"]
+            [4] => ["L","20:50","21:40","Servicios en red","2CFMV","A04","13"]
+        )
+
+    [accion] => registrarAusencia
+)
+
+[12-May-2025 13:47:02 Europe/Berlin] INSERT INTO ausencias (
+                    hora_inicio, hora_fin, dia, aula, grupo, asignatura, sesion,
+                    document, document_cubierto, nombreProfe, justificada, jornada_completa, fecha
+                    ) VALUES (
+                    '20:50', '21:40', 'L', 'A04', 
+                    '2CFMV', 'Servicios en red', '13',
+                    '012950628N',NULL ,'PASCUAL MIGUEL P B', '0', 
+                    '1', '2025-05-12'
+                    )
+                
+[12-May-2025 13:47:19 Europe/Berlin] Array
+(
+    [document] => 011973418Z
+    [fecha] => 2025-05-12
+    [justificada] => 0
+    [jornada_completa] => 2
+    [sesiones] => Array
+        (
+            [0] => ["L","10:00","10:50","Griego II","2BAHA","D14","3"]
+            [1] => ["L","11:15","12:05","Lat\u00edn","4ESOB","D14","4"]
+        )
+
+    [accion] => registrarAusencia
+)
+
+[12-May-2025 13:47:19 Europe/Berlin] INSERT INTO ausencias (
+                    hora_inicio, hora_fin, dia, aula, grupo, asignatura, sesion,
+                    document, document_cubierto, nombreProfe, justificada, jornada_completa, fecha
+                    ) VALUES (
+                    '11:15', '12:05', 'L', 'D14', 
+                    '4ESOB', 'Latín', '4',
+                    '011973418Z',NULL ,'GABRIEL C A', '0', 
+                    '2', '2025-05-12'
+                    )
+                

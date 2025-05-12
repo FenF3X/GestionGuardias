@@ -20,8 +20,9 @@
 
 session_start();
 include("curl_conexion.php");
+ini_set("error_log", __DIR__ . "/pruebas.txt");
 
-$justificada = false;
+$justificada = 0;
 
 if (isset($_POST["fecha"]) && isset($_POST["document"])) {
 
@@ -34,10 +35,9 @@ if (isset($_POST["fecha"]) && isset($_POST["document"])) {
 
     // Determinar si la ausencia es justificada en base al campo "motivo"
     if (!empty($_POST["motivo"])) {
-        $justificada = true;
+        $justificada = 1;
     }
     $_SESSION["justificada"] = $justificada;
-
     // Traducir el día de la semana a formato de letra
     $dayMap = [
         'Monday'    => 'L',

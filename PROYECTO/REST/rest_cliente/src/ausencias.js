@@ -49,10 +49,10 @@ function actualizarHoras() {
         document.querySelector('input[name="hora_fin"]').value   = horas[horas.length - 1][1];
     } else {
         // Sin sesiones seleccionadas: limpiar campos
-        document.getElementById('hora_inicio').value = '';
-        document.getElementById('hora_fin').value   = '';
-        document.querySelector('input[name="hora_inicio"]').value = '';
-        document.querySelector('input[name="hora_fin"]').value   = '';
+        document.getElementById('hora_inicio').value = null;
+        document.getElementById('hora_fin').value   = null;
+        document.querySelector('input[name="hora_inicio"]').value = null;
+        document.querySelector('input[name="hora_fin"]').value   = null;
     }
 }
 

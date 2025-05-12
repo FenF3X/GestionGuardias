@@ -100,7 +100,7 @@ $fecha     = $_SESSION["fechaAusencia"];
           <!-- Campos ocultos para las horas -->
           <input type="hidden" name="hora_inicio" id="hora_inicio">
           <input type="hidden" name="hora_fin" id="hora_fin">
-
+          <input type="hidden" name ="justificada" id="justificada" value="<?=$_SESSION["justificada"] ?>">
           <div class="table-responsive mb-3">
             <table class="table table-bordered table-striped text-center align-middle table-guardias">
               <thead class="table-dark">
