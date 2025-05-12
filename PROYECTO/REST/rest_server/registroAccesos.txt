@@ -126,3 +126,23 @@
                     | Profesor: ANGEL A C | Log In(Entrada)
 12-05-2025 11:45:26 | Éxito | DNI: 010960328X 
                     | Profesor: ANGEL A C | Log In(Entrada)
+12-05-2025 12:24:17 | Éxito | DNI: 010960328X 
+                    | Profesor: ANGEL A C | Log In(Entrada)
+12-05-2025 12:24:27 | Éxito | DNI: 010960328X 
+                    | Profesor: ANGEL A C | Log In(Entrada)
+12-05-2025 12:24:44 | Éxito | DNI: 010960328X 
+                    | Profesor: ANGEL A C | Log In(Entrada)
+12-05-2025 12:25:04 | Éxito | DNI: 010960328X 
+                    | Profesor: ANGEL A C | Log In(Entrada)
+12-05-2025 12:25:18 | Éxito | DNI: 010960328X 
+                    | Profesor: ANGEL A C | Log In(Entrada)
+12-05-2025 12:25:43 | Éxito | DNI: 010960328X 
+                    | Profesor: ANGEL A C | Log In(Entrada)
+12-05-2025 12:26:11 | Éxito | DNI: 010960328X 
+                    | Profesor: ANGEL A C | Log In(Entrada)
+12-05-2025 12:26:56 | Fallo | DNI: 010960328X |
+                    Profesor: ANGEL A C | Log In(Entrada)
+12-05-2025 12:26:59 | Fallo | DNI: 010960328X |
+                    Profesor: ANGEL A C | Log In(Entrada)
+12-05-2025 12:27:07 | Éxito | DNI: 010960328X 
+                    | Profesor: ANGEL A C | Log In(Entrada)

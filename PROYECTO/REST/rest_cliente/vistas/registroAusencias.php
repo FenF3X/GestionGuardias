@@ -191,7 +191,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
 
             <div class="form-group">
                 <label for="fecha">Fecha de la Ausencia</label>
-                <input type="date" id="fecha" name="fecha" class="form-control" required value="<?php echo date('Y-m-d'); ?>">
+                <input type="date" id="fecha" name="fecha" class="input-select-custom w-100" required value="<?php echo date('Y-m-d'); ?>">
             </div>
 
             <div class="form-group">

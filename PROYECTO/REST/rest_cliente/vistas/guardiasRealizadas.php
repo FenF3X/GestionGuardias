@@ -55,6 +55,27 @@ $horasDisponibles = json_decode($response, TRUE);
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <link rel="stylesheet" href="../src/guardias.css">
 <link rel="stylesheet" href="../src/principal.css">
+<style>
+  /* 1) Asegúrate de que el html y el body ocupen todo el alto */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* 2) Body como flex-column */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+/* 4) El footer se queda en su lugar */
+footer {
+  flex-shrink: 0;
+}
+
+</style>
 </head>
 <body>
   <!--
@@ -227,7 +248,7 @@ $horasDisponibles = json_decode($response, TRUE);
 
 <!-- Tabla responsiva -->
 <?php if (!empty($_SESSION['historial']) && is_array($_SESSION['historial']) && empty($_SESSION['error'])): ?>
-    <div class="table-responsive">
+    <div class="table-responsive" style="padding:35px;">
   <table class="table table-guardias text-center align-middle">
     <thead class="table-dark">
       <tr>
@@ -278,22 +299,22 @@ $horasDisponibles = json_decode($response, TRUE);
 </body>
 <!--@section footer
 Enlaces y derechos  -->
-<footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
-   <div class="container text-center">
-     <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
-     <p>
-       <a href="https://www.instagram.com/" style="color: white; text-decoration: none;">
-         <img src="../src/images/instagram.png" alt="Instagram" width="24" height="24" style="background: transparent;">
-       </a> |
-       <a href="https://www.facebook.com/?locale=es_ES" style="color: white; text-decoration: none;">
-         <img src="../src/images/facebook.png" alt="Facebook" width="24" height="24" style="background: transparent;">
-       </a> |
-       <a href="https://x.com/?lang=es" style="color: white; text-decoration: none;">
-         <img src="../src/images/twitter.png" alt="Twitter" width="24" height="24" style="background: transparent;">
-       </a> |
-       <a href="https://es.linkedin.com/" style="color: white; text-decoration: none;">
-         <img src="../src/images/linkedin.png" alt="LinkedIn" width="24" height="24" style="background: transparent;">
-       </a></p>
-   </div>
+<footer class="bg-dark text-white py-4 mt-auto" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
+  <div class="container text-center">
+    <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
+    <p>
+     <a href="https://www.instagram.com/" style="color: white; text-decoration: none;">
+      <img src="../src/images/instagram.png" alt="Instagram" width="24" height="24" style="background: transparent;">
+     </a> |
+     <a href="https://www.facebook.com/?locale=es_ES" style="color: white; text-decoration: none;">
+      <img src="../src/images/facebook.png" alt="Facebook" width="24" height="24" style="background: transparent;">
+     </a> |
+     <a href="https://x.com/?lang=es" style="color: white; text-decoration: none;">
+      <img src="../src/images/twitter.png" alt="Twitter" width="24" height="24" style="background: transparent;">
+     </a> |
+     <a href="https://es.linkedin.com/" style="color: white; text-decoration: none;">
+      <img src="../src/images/linkedin.png" alt="LinkedIn" width="24" height="24" style="background: transparent;">
+     </a></p>
+  </div>
  </footer>
 </html>

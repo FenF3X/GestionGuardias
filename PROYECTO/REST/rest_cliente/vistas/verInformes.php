@@ -52,7 +52,27 @@ if ($rol !== 'admin') {
 
 <link rel="stylesheet" href="../src/guardias.css">
 <link rel="stylesheet" href="../src/principal.css">
+<style>
+  /* 1) Asegúrate de que el html y el body ocupen todo el alto */
+html, body {
+  height: 100%;
+  margin: 0;
+}
 
+/* 2) Body como flex-column */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+/* 4) El footer se queda en su lugar */
+footer {
+  flex-shrink: 0;
+}
+
+</style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-custom">
@@ -258,7 +278,7 @@ if ($rol !== 'admin') {
 <script src="../src/verInformes.js"></script>
 
 </body>
-<footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
+<footer class="bg-dark text-white py-4 mt-auto" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
      <p>

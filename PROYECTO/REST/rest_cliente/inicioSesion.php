@@ -25,37 +25,37 @@ if (isset($_POST["validar"])) {
 
         // Sanear entradas
         $document = filter_input(INPUT_POST, "document", FILTER_SANITIZE_SPECIAL_CHARS);
-        $passwordInput = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
 
-        // Limpiamos la contraseña para quedarnos solo con números
-        $limpio = preg_replace('/[^0-9]/', '', $passwordInput);
+        // // Limpiamos la contraseña para quedarnos solo con números
+        // $limpio = preg_replace('/[^0-9]/', '', $passwordInput);
 
-        // Si tiene 8 dígitos, detectamos si es YYYYMMDD o DDMMYYYY
-        if (strlen($limpio) === 8) {
-            if (substr($limpio, 0, 4) > 1900) {
-                // Formato: YYYYMMDD
-                $anio = substr($limpio, 0, 4);
-                $mes  = substr($limpio, 4, 2);
-                $dia  = substr($limpio, 6, 2);
-            } else {
-                // Formato: DDMMYYYY
-                $dia  = substr($limpio, 0, 2);
-                $mes  = substr($limpio, 2, 2);
-                $anio = substr($limpio, 4, 4);
-            }
-            $password = "$dia/$mes/$anio";
-        } else {
-            // Si contiene separadores, intentamos parsear varios formatos comunes
-            $password = $passwordInput;
-            $formatos = ['d-m-Y', 'Y-m-d', 'd/m/Y', 'Y/m/d'];
-            foreach ($formatos as $formato) {
-                $fecha = DateTime::createFromFormat($formato, $passwordInput);
-                if ($fecha && $fecha->format($formato) === $passwordInput) {
-                    $password = $fecha->format('d/m/Y');
-                    break;
-                }
-            }
-        }
+        // // Si tiene 8 dígitos, detectamos si es YYYYMMDD o DDMMYYYY
+        // if (strlen($limpio) === 8) {
+        //     if (substr($limpio, 0, 4) > 1900) {
+        //         // Formato: YYYYMMDD
+        //         $anio = substr($limpio, 0, 4);
+        //         $mes  = substr($limpio, 4, 2);
+        //         $dia  = substr($limpio, 6, 2);
+        //     } else {
+        //         // Formato: DDMMYYYY
+        //         $dia  = substr($limpio, 0, 2);
+        //         $mes  = substr($limpio, 2, 2);
+        //         $anio = substr($limpio, 4, 4);
+        //     }
+        //     $password = "$dia/$mes/$anio";
+        // } else {
+        //     // Si contiene separadores, intentamos parsear varios formatos comunes
+        //     $password = $passwordInput;
+        //     $formatos = ['d-m-Y', 'Y-m-d', 'd/m/Y', 'Y/m/d'];
+        //     foreach ($formatos as $formato) {
+        //         $fecha = DateTime::createFromFormat($formato, $passwordInput);
+        //         if ($fecha && $fecha->format($formato) === $passwordInput) {
+        //             $password = $fecha->format('d/m/Y');
+        //             break;
+        //         }
+        //     }
+        // }
 
         $params = [
             'document' => $document,
