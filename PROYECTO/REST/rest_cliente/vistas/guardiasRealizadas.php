@@ -53,7 +53,6 @@ $horasDisponibles = json_decode($response, TRUE);
     <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <link rel="stylesheet" href="../src/guardias.css">
 <link rel="stylesheet" href="../src/principal.css">
 </head>
@@ -268,11 +267,7 @@ $horasDisponibles = json_decode($response, TRUE);
   <!-- 1) Bootstrap JS para dropdowns, collapse, etc -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- 2) Flatpickr y locale -->
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
 
- <script src="../src/calendar.js"></script>
  <?php if (isset($_GET['auto']) && $_GET['auto'] === '1'): ?>
   <script>
     window.addEventListener('load', function() {

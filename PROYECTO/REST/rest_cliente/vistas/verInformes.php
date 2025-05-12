@@ -49,8 +49,6 @@ if ($rol !== 'admin') {
   <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
 
 <link rel="stylesheet" href="../src/guardias.css">
 <link rel="stylesheet" href="../src/principal.css">
@@ -254,12 +252,9 @@ if ($rol !== 'admin') {
   </form>
 </div>
         </div>
-<!-- 1) Bootstrap JS y Flatpickr -->
+<!-- 1) Bootstrap JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
-<script src="../src/calendar.js"></script>
+
 <script src="../src/verInformes.js"></script>
 
 </body>

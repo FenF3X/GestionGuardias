@@ -98,83 +98,6 @@ select.input-select-custom::-ms-expand {
   color: #fff;
 }
 
-/**
- * @class flatpickr-calendar
- * @description Fondo degradado y texto blanco para el calendario de Flatpickr.
- */
-.flatpickr-calendar {
-  background: linear-gradient(135deg, #1e3a5f, #0f1f2d) !important;
-  color: #fff !important;
-}
-
-/**
- * @selector .flatpickr-months .flatpickr-month
- * @description Color blanco para el encabezado de mes en Flatpickr.
- */
-.flatpickr-months .flatpickr-month {
-  color: #fff !important;
-}
-
-/**
- * @selector .flatpickr-prev-month, .flatpickr-next-month
- * @description Bordes blancos para los botones de navegación del calendario.
- */
-.flatpickr-prev-month,
-.flatpickr-next-month {
-  border-color: #fff !important;
-}
-
-/**
- * @selector .flatpickr-prev-month svg path, .flatpickr-next-month svg path
- * @description Iconos SVG blancos para las flechas de navegación del calendario.
- */
-.flatpickr-prev-month svg path,
-.flatpickr-next-month svg path {
-  stroke: #fff !important;
-}
-
-/**
- * @selector .flatpickr-weekdays .flatpickr-weekday
- * @description Color blanco para los nombres de los días de la semana.
- */
-.flatpickr-weekdays .flatpickr-weekday {
-  color: #fff !important;
-}
-
-/**
- * @selector .flatpickr-days .flatpickr-day
- * @description Color blanco para las celdas de los días en Flatpickr.
- */
-.flatpickr-days .flatpickr-day {
-  color: #fff !important;
-}
-
-/**
- * @selector .flatpickr-day.today, .flatpickr-day.selected
- * @description Estilo destacado para el día actual y el seleccionado (fondo y texto).
- */
-.flatpickr-day.today,
-.flatpickr-day.selected {
-  background: #1e3a5f !important;
-  color: #fff !important;
-}
-
-/**
- * @selector .flatpickr-day:hover
- * @description Estado hover sobre las celdas de día, aplica fondo semitransparente.
- */
-.flatpickr-day:hover {
-  background: rgba(30,58,95,0.5) !important;
-}
-
-/**
- * @class flatpickr-monthDropdown-month
- * @description Estilo de fondo para el dropdown de meses en Flatpickr.
- */
-.flatpickr-monthDropdown-month {
-  background: rgba(30,58,95,1) !important;
-}
-::-webkit-scrollbar {display: none; } 
 .navbar-toggler {background-color: #0f1f2d !important;  
   border: 2px solid #fff !important;     /* borde blanco */}
 
@@ -186,17 +109,6 @@ select.input-select-custom::-ms-expand {
 
 .navbar-toggler:hover {
   background-color: #18362f !important; 
-}
-/* Meses en el monthSelectPlugin: texto siempre blanco */
-.flatpickr-calendar .flatpickr-monthSelect-month {
-  color: #fff !important;
-  opacity: 1 !important; 
-}
-
-/* Hover sobre un mes: mantiene texto blanco */
-.flatpickr-calendar .flatpickr-monthSelect-month:hover {
-  color: #fff !important;
-  background: rgba(30, 58, 95, 0.8) !important;
 }
 
 
