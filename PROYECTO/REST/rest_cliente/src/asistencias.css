@@ -185,3 +185,14 @@ color: #fff !important;
   .flatpickr-monthDropdown-month {
     background: rgba(30,58,95,1) !important;
   }
+  /* Meses en el monthSelectPlugin: texto siempre blanco */
+.flatpickr-calendar .flatpickr-monthSelect-month {
+  color: #fff !important;
+  opacity: 1 !important; 
+}
+
+/* Hover sobre un mes: mantiene texto blanco */
+.flatpickr-calendar .flatpickr-monthSelect-month:hover {
+  color: #fff !important;
+  background: rgba(30, 58, 95, 0.8) !important;
+}
