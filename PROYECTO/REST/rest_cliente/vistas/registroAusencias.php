@@ -103,6 +103,20 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
 .navbar-toggler:hover {
   background-color: #18362f !important;  
 }
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  flex-shrink: 0;
+}
+
     </style>
 </head>
 <body>
@@ -165,7 +179,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
 
 <!-- Formulario para registrar la ausencia -->
 <main>
-    <div class="container mt-5 form-container">
+    <div class="container mt-5 form-container" style="margin-top: 100px !important;">
     <div class="d-flex justify-content-between align-items-center mb-3">
   <h3 class="m-0">Registrar Ausencia de Profesor</h3>
   <a href="chat.php"
@@ -235,7 +249,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
 </script>
 
 </body>
-<footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
+<footer class="bg-dark text-white py-4 mt-auto" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
      <p>

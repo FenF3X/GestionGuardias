@@ -46,7 +46,6 @@ if (isset($_POST['sesiones']) && !empty($_POST['sesiones'])) {
     // ============================
 
     $jornadaC = isset($_POST['jornada_completa']) ? 1 : 2;
-    error_log($jornadaC);
 
     // Se preparan todos los datos necesarios para la petición
     $params = [

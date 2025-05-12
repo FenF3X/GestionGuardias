@@ -67,7 +67,19 @@ if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_as
 
 <link rel="stylesheet" href="../src/asistencias.css">
 
+<style>html, body {
+  height: 100%;
+  margin: 0;
+}
 
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  flex-shrink: 0;
+}</style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-custom">
@@ -173,7 +185,7 @@ if (isset($_SESSION['resultado_asistencia']) && is_array($_SESSION['resultado_as
   </div>
 </main>
 
-<div class="container mt-5">
+<div class="container" style="margin-top: 100px;">
   <h2 class="mb-4">Consulta de asistencia del profesorado</h2>
   <form action="../resultadoAsistencia.php" method="POST">
     <div class="row g-3 align-items-end mb-3">
@@ -280,7 +292,7 @@ document.getElementById('tipoConsulta').addEventListener('change', function () {
     if (this.value === 'mes') inputMes.style.display = 'block';
 });
 </script>
-<footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
+<footer class="bg-dark text-white py-4 mt-auto" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
      <p>

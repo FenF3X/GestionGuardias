@@ -257,7 +257,7 @@ if ($metodo === 'GET') {
                     FROM registro_guardias 
                     WHERE fecha BETWEEN '$inicio' AND '$fin'
                 ";
-                error_log($sql);
+                
             break;
             default:
                 error_log("tipo no valido");
@@ -527,7 +527,6 @@ elseif ($metodo === 'POST') {
         $sesionesSeleccionadas = $data['sesiones'] ?? [];
     
         $resultadoIn = true;
-        error_log(print_r($data,true));
         $sqlNombre = "SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2) 
             AS nombreProfe 
             FROM docent 
@@ -572,7 +571,6 @@ elseif ($metodo === 'POST') {
                     break;
                 }
             }
-            error_log($sql);
             if ($resultadoIn) {
                 
                 echo json_encode(["exito" => "Entrada registrada correctamente"]);

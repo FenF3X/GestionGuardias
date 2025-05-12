@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-05-2025 a las 12:46:25
+-- Tiempo de generación: 12-05-2025 a las 13:51:30
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -100,7 +100,7 @@ CREATE TABLE `ausencias` (
   `asignatura` varchar(100) DEFAULT NULL,
   `sesion` varchar(10) DEFAULT NULL,
   `document` varchar(50) DEFAULT NULL,
-  `document_cubierto` varchar(50) NOT NULL,
+  `document_cubierto` varchar(50) DEFAULT NULL,
   `nombreProfe` varchar(255) DEFAULT NULL,
   `justificada` tinyint(1) DEFAULT NULL,
   `jornada_completa` tinyint(1) DEFAULT NULL,
@@ -131,7 +131,12 @@ INSERT INTO `ausencias` (`id`, `hora_inicio`, `hora_fin`, `dia`, `aula`, `grupo`
 (255, '09:10:00', '10:00:00', 'M', 'A11', '4ESOB', 'Biología y Geología', '2', '011078949R', '', 'ANGEL R M', 1, 0, '2025-05-13', 0, NULL),
 (256, '09:10:00', '10:00:00', 'M', 'A11', '4ESOC', 'Biología y Geología', '2', '011078949R', '', 'ANGEL R M', 1, 0, '2025-05-13', 0, NULL),
 (257, '10:00:00', '10:50:00', 'M', 'B13', '2ESOD', 'Ciencias de la Naturaleza', '3', '011078949R', '', 'ANGEL R M', 1, 0, '2025-05-13', 0, NULL),
-(258, '13:10:00', '14:00:00', 'M', 'B02', '1ESOB', 'Biología y Geología', '6', '011078949R', '', 'ANGEL R M', 1, 0, '2025-05-13', 0, NULL);
+(258, '13:10:00', '14:00:00', 'M', 'B02', '1ESOB', 'Biología y Geología', '6', '011078949R', '', 'ANGEL R M', 1, 0, '2025-05-13', 0, NULL),
+(259, '12:05:00', '12:55:00', 'L', 'C12', '1BAHA', 'Matemáticas aplicadas a las CCSS I', '5', '013962048R', NULL, 'VICENTA N B', 0, 2, '2025-05-12', 0, NULL),
+(260, '08:20:00', '09:10:00', 'L', 'B15', '3ESOD', 'Valenciano: Lengua y Literatura', '1', '012905318D', NULL, 'JOSE VICENTE G B', 0, 1, '2025-05-12', 0, NULL),
+(261, '16:20:00', '17:10:00', 'L', 'A19', '2CFMV', 'Empresa e iniciativa emprendedora', '8', '012905318D', NULL, 'JOSE VICENTE G B', 0, 1, '2025-05-12', 0, NULL),
+(262, '17:10:00', '18:00:00', 'L', 'A19', '2CFMV', 'Empresa e iniciativa emprendedora', '9', '012905318D', NULL, 'JOSE VICENTE G B', 0, 1, '2025-05-12', 0, NULL),
+(263, '20:00:00', '20:50:00', 'L', 'A18', '2CFSI', 'Empresa e Iniciativa emprendedora', '12', '012905318D', NULL, 'JOSE VICENTE G B', 0, 1, '2025-05-12', 0, NULL);
 
 --
 -- Disparadores `ausencias`
@@ -3387,7 +3392,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `ausencias`
 --
 ALTER TABLE `ausencias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=259;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
 
 --
 -- AUTO_INCREMENT de la tabla `horari_grup`

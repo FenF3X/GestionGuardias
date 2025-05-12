@@ -56,21 +56,16 @@ $horasDisponibles = json_decode($response, TRUE);
 <link rel="stylesheet" href="../src/guardias.css">
 <link rel="stylesheet" href="../src/principal.css">
 <style>
-  /* 1) Asegúrate de que el html y el body ocupen todo el alto */
 html, body {
   height: 100%;
   margin: 0;
 }
 
-/* 2) Body como flex-column */
 body {
   display: flex;
   flex-direction: column;
 }
 
-
-
-/* 4) El footer se queda en su lugar */
 footer {
   flex-shrink: 0;
 }
