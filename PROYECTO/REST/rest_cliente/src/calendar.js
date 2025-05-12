@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     const commonOpts = {
       
-      disableMobile: true,
+      disableMobile: false,
       altInput: true,
       altInputClass: "input-select-custom",
       locale: "es",
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * @param {Array} options.plugins     - Array de instancias de plugins de Flatpickr.
      */
     flatpickr("#mes", {
-    disableMobile: true,
+    disableMobile: false,
     altInput: true,
     altInputClass: "input-select-custom",
     locale: "es",
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 document.addEventListener('DOMContentLoaded', () => {
   const commonOpts = {
-    disableMobile: true,
+    disableMobile: false,
     altInput: true,
     altInputClass: "input-select-custom",
     locale: "es",
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.head.appendChild(style);
 
   const commonOpts = {
-    disableMobile: true,
+    disableMobile: false,
     altInput: true,
     altInputClass: "input-select-custom",
     locale: "es",
