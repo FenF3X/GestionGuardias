@@ -183,9 +183,8 @@ footer {
       </div>
     <?php endif; ?>
   </div>
-</main>
 
-<div class="container" style="margin-top: 50px;">
+<div class="container mt-4">
   <h2 class="mb-4">Consulta de asistencia del profesorado</h2>
   <form action="../resultadoAsistencia.php" method="POST">
     <div class="row g-3 align-items-end mb-3">
@@ -276,7 +275,8 @@ footer {
 <?php endif; ?>
 
 <?php endif; ?>
-
+</main>
+</div>  
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
