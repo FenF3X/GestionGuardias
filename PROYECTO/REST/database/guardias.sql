@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-05-2025 a las 13:51:30
+-- Tiempo de generación: 13-05-2025 a las 07:19:46
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -136,7 +136,8 @@ INSERT INTO `ausencias` (`id`, `hora_inicio`, `hora_fin`, `dia`, `aula`, `grupo`
 (260, '08:20:00', '09:10:00', 'L', 'B15', '3ESOD', 'Valenciano: Lengua y Literatura', '1', '012905318D', NULL, 'JOSE VICENTE G B', 0, 1, '2025-05-12', 0, NULL),
 (261, '16:20:00', '17:10:00', 'L', 'A19', '2CFMV', 'Empresa e iniciativa emprendedora', '8', '012905318D', NULL, 'JOSE VICENTE G B', 0, 1, '2025-05-12', 0, NULL),
 (262, '17:10:00', '18:00:00', 'L', 'A19', '2CFMV', 'Empresa e iniciativa emprendedora', '9', '012905318D', NULL, 'JOSE VICENTE G B', 0, 1, '2025-05-12', 0, NULL),
-(263, '20:00:00', '20:50:00', 'L', 'A18', '2CFSI', 'Empresa e Iniciativa emprendedora', '12', '012905318D', NULL, 'JOSE VICENTE G B', 0, 1, '2025-05-12', 0, NULL);
+(263, '20:00:00', '20:50:00', 'L', 'A18', '2CFSI', 'Empresa e Iniciativa emprendedora', '12', '012905318D', NULL, 'JOSE VICENTE G B', 0, 1, '2025-05-12', 0, NULL),
+(264, '08:20:00', '09:10:00', 'M', 'B11', '1ESOC', 'Geografía e Historia', '1', '012855339X', NULL, 'ANGELES B C', 0, 2, '2025-05-13', 0, NULL);
 
 --
 -- Disparadores `ausencias`
@@ -2991,7 +2992,7 @@ CREATE TABLE `mensajes` (
 
 INSERT INTO `mensajes` (`id`, `docent_emisor`, `nombreEmisor`, `docent_receptor`, `nombreReceptor`, `mensaje`, `fecha`, `hora`, `leido`, `total_mensajes`) VALUES
 (120, '016976848Q', 'ESTHER S O', '010960328X', 'ANGEL A C', 'hola angel habia un problema con la asignacion de guardias pero ya a sido solucionada', '2025-05-08', '11:01:40', '2025-05-08 11:02:00', 0),
-(121, '010960328X', 'ANGEL A C', '016976848Q', 'ESTHER S O', 'vale perfecto entonces ya lo notifico a admin', '2025-05-08', '11:02:22', NULL, 0);
+(123, '010960328X', 'ANGEL A C', '016976848Q', 'ESTHER S O', 'perfecto', '2025-05-13', '07:05:15', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -3392,7 +3393,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `ausencias`
 --
 ALTER TABLE `ausencias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=265;
 
 --
 -- AUTO_INCREMENT de la tabla `horari_grup`
@@ -3410,7 +3411,7 @@ ALTER TABLE `horari_ocupacions`
 -- AUTO_INCREMENT de la tabla `mensajes`
 --
 ALTER TABLE `mensajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_guardias`

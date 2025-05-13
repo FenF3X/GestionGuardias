@@ -1,12 +1,3 @@
 	# Ignorar registro de accesos
 PROYECTO/REST/rest_server/registroAccesos.txt
 
-PROYECTO/REST/rest_server/registroAccesos.txt
-PROYECTO/REST/rest_server/registroAccesos.txt
-PROYECTO/REST/composer.json
-PROYECTO/REST/composer.lock
-PROYECTO/REST/vendor
-PROYECTO/phpDocumentor.phar
-PROYECTO/docs
-PROYECTO/phpdoc.xml
-PROYECTO/.phpdoc
