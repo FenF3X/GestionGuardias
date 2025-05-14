@@ -310,8 +310,7 @@ elseif ($metodo === 'POST') {
 
                 if (password_verify($password, $resultado[0][2])) {                     
                     $fechaHora = date('d-m-Y H:i:s');                     
-                    $linea = "$fechaHora | Éxito | DNI: $document 
-                    | Profesor: $nombre_profesor | Log In(Entrada)\n";
+                    $linea = "$fechaHora | Éxito | DNI: $document | Profesor: $nombre_profesor | Log In(Entrada)\n";
 
                     $archivo = fopen("registroAccesos.txt", "a");                     
                     if ($archivo) {                         
@@ -328,8 +327,7 @@ elseif ($metodo === 'POST') {
                 } 
                 else {                     
                     $fechaHora = date('d-m-Y H:i:s');                     
-                    $linea = "$fechaHora | Fallo | DNI: $document |
-                    Profesor: $nombre_profesor | Log In(Entrada)\n";                     
+                    $linea = "$fechaHora | Fallo | DNI: $document | Profesor: $nombre_profesor | Log In(Entrada)\n";                     
                     
                     $archivo = fopen("registroAccesos.txt", "a");                     
                     if ($archivo) {                         
