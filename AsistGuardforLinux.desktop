@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type = Application
+Name = AsistGuard
+Icon = /opt/lampp/htdocs/GestionGuardias/PROYECTO/REST/rest_cliente/src/images/logoenUno.jpg
+Exec = google-chrome --new-tab http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/login.php
+Terminal = false

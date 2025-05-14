@@ -19,7 +19,6 @@ ini_set("error_log", __DIR__ . "pruebas.txt");
  */
 
 include("config.php"); 
-session_start();        
 
 // Obtener el método de la petición (GET, POST, PUT, DELETE...)
 $metodo = $_SERVER['REQUEST_METHOD'];
