@@ -160,22 +160,33 @@ $mensajes = json_decode($resp, true) ?: [];
       </div>
     </div>
   </nav>
-
   <!-- MAIN CHAT -->
   <main>
     <div class="container mt-5">
-      <div class="perfil-contenedor d-flex flex-column flex-md-row align-items-center justify-content-between mb-4">
-        <div class="d-flex align-items-center">
-          <div class="foto-wrapper me-4">
-            <img src="../src/images/default.jpg" alt="Foto de perfil" class="foto-circular">
-          </div>
-          <div class="info-usuario text-start">
-            <p><strong>Documento:</strong> <?= htmlspecialchars($document) ?></p>
-            <p><strong>Nombre:</strong> <?= htmlspecialchars($nombre) ?></p>
-            <p><strong>Rol:</strong> <?= htmlspecialchars($rol) ?></p>
-          </div>
-        </div>
-      </div>
+      <div class="perfil-contenedor d-flex align-items-center justify-content-between mb-4">
+  <!-- Bloque de foto y datos -->
+  <div class="d-flex align-items-center">
+    <div class="foto-wrapper me-4">
+      <img src="../src/images/default.jpg" alt="Foto de perfil" class="foto-circular">
+    </div>
+    <div class="info-usuario text-start">
+      <p><strong>Documento:</strong> <?= htmlspecialchars($document) ?></p>
+      <p><strong>Nombre:</strong> <?= htmlspecialchars($nombre) ?></p>
+      <p><strong>Rol:</strong> <?= htmlspecialchars($rol) ?></p>
+    </div>
+  </div>
+
+  <!-- Botón Ajustes, ahora en la misma línea y centrado verticalmente -->
+  <a 
+    href="datospersonales.php" 
+    class="btn btn-primary d-flex align-items-center justify-content-center"
+    style="border: 2px solid; background: linear-gradient(135deg, #1e3a5f, #0f1f2d);"
+    title="Usuarios"
+  >
+    <i class="bi bi-gear-fill fs-4"></i>
+    <span class="ms-2 d-none d-md-inline">Usuarios</span>
+  </a>
+</div>
 
       <div class="row">
         <!-- CONTACTOS -->

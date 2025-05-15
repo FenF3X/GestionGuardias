@@ -1,61 +1,66 @@
 <?php
 /**
- * verResultados.php
- *
- * Muestra los resultados de la consulta de ausencias generada en verInformes.php,
- * con opción de exportar a PDF o volver atrás para cambiar filtros.
- *
+
  * @package    GestionGuardias
  * @author     Adrian Pascual Marschal
  * @license    MIT
- * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/vistas/verResultados.php
- * @warning    **Atención:** Este script solo funciona si viene redireccionado desde verInformes.php
+ * @link       http://localhost/GestionGuardias/PROYECTO/REST/rest_cliente/vistas/verInformes.php
  *
- * @function initSession
- * @description Inicia la sesión y valida que el usuario esté autenticado.
+ * @function initSessionAndFetchProfesores
+ * @description Inicia la sesión, valida autenticación de administrador y obtiene la lista de profesores.
  */
 session_start();
-
-// Validar sesión activa
+include("../curl_conexion.php");
 if (!isset($_SESSION['document'])) {
-    header("Location: ../login.php");
-    exit();
+  header("Location: ../login.php");
+  exit();
 }
 
 /**
- * @var string $rol       Rol del usuario ("admin" o "profesor").
- * @var string $nombre    Nombre para mostrar en la cabecera.
- * @var string $documento ID/documento del usuario.
- */
-$rol        = $_SESSION['rol'];
-$nombre     = $_SESSION['nombre'];
-$documento  = $_SESSION['document'];
+ * @var string $rol         Rol del usuario ('admin' o 'profesor').
+ * @var string $nombre      Nombre a mostrar en la cabecera.
+ * @var string $documento   Documento/ID del usuario.
+ * @var array $profesores Conjunto de profesores para manejarlos en el select
 
-// Obtener resultados e informe del filtro anterior
-/**
- * @var array $resultados       Array de filas del informe obtenido.
- * @var string $tipo            Tipo de informe (día, mes, trimestre, etc.).
  */
-$resultados = $_SESSION['resultado_informe'] ?? [];
-$tipo        = $_SESSION['tipo_informe']   ?? 'informe';
+$rol = $_SESSION['rol'];
+$nombre = $_SESSION['nombre'];
+$documento = $_SESSION['document'];
+$profesores = $_SESSION['profesores'] ?? [];
 
-// Si no hay datos o formato incorrecto, mostrar alerta y detener
-if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
-    echo "<div class='alert alert-warning text-center w-50 mx-auto my-5'>⚠️ No hay datos disponibles para mostrar.</div>";
-    exit;
+if ($rol !== 'admin') {
+  header('Location: dashboard.php'); // Redirige si no es admin
+  exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Resultados del Informe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración de usuarios</title>
   <link rel="shortcut icon" href="../src/images/favicon.png" type="image/x-icon">
-  <link rel="stylesheet" href="../src/principal.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="../src/informe.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<link rel="stylesheet" href="../src/guardias.css">
+<link rel="stylesheet" href="../src/principal.css">
+<style>
+    html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  flex-shrink: 0;
+}
+
+</style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-custom">
@@ -87,6 +92,7 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
         <?php endif; ?>
       </ul>
 
+
       <div class="d-flex align-items-center ms-auto">
         <span class="text-white me-3"><strong>Bienvenid@ <?= htmlspecialchars($nombre); ?></strong></span>
         <form method="POST" action="../logout.php" class="mb-0">
@@ -101,7 +107,8 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
     </div>
   </div>
 </nav>
-<main>
+
+<main class="flex-grow-1">
   <div class="container mt-5">
     <!-- Perfil: foto + datos a la izquierda, botones a la derecha -->
     <div class="perfil-contenedor 
@@ -120,6 +127,7 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
         </div>
       </div>
       
+     
      <div class="botones-usuario d-flex align-items-center gap-2 text-center text-md-end">
 
 
@@ -135,19 +143,7 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
     <i class="bi bi-chat-dots-fill fs-4"></i>
     <span class="ms-2 d-none d-md-inline">Chat</span>
   </a>
-  <!-- BOTÓN DE AJUSTES DE USUARIOS -->
-  <?php if ($rol === 'admin'): ?>
-<a 
-    href="datospersonales.php" 
-    class="btn btn-primary d-flex align-items-center justify-content-center" 
-    role="button"
-    style=" border: 2px solid; 
-   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);"
-  >
-<i class="bi bi-gear-fill fs-4"></i>
-    <span class="ms-2 d-none d-md-inline">Usuarios</span>
-  </a>
-    <?php endif; ?>
+ 
     </div>
 
 
@@ -160,73 +156,44 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
       </div>
     <?php endif; ?>
   </div>
-</main>
+    </main>
 
-<div class="container mt-5 tabla2PDF">
+    <section>
+        <form action="../obtenerSesiones.php" id="busqueda"  method="POST">
+            <div class="form-group">
+                <label for="profesor">Seleccionar Profesor</label>
+                <select id="profesor" name="document" class="input-select-custom w-100" required>
+                    <option value="">Seleccione un profesor</option>
+                    <?php foreach ($profesores as $profesor): ?>
+                        <option value="<?php echo $profesor[0]; ?>"><?php echo htmlspecialchars($profesor[1]); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-<div class="mb-4 text-center d-flex justify-content-center align-items-center" id="tituloInforme">
-  <img id="iconoInforme" src="../src/images/icono-informe.png" alt="Informe" style="height: 24px; margin-right: 8px;">
-  <span style="font-size: 20px;">Informe filtrado por <?= htmlspecialchars($tipo) ?></span>
-  <input type="hidden" name="tipo" id="tipo" value="<?=$tipo?>">
-</div>
 
+            <div class="form-group">
+                <label for="fecha">Fecha de la Ausencia</label>
+                <input type="date" id="fecha" name="fecha" class="input-select-custom w-100" required value="<?php echo date('Y-m-d'); ?>">
+            </div>
 
-  
-  <div class="table-responsive ">
-    <table class="table table-bordered table-striped text-center align-middle table-guardias">
-    <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Profesor ausente</th>
-            <th>Profesor guardia</th>
-            <th>Aula</th>
-            <th>Grupo</th>
-            <th>Asignatura</th>
-            <th>Sesion</th>
-            <th>Dia</th>
-            <th>Hora Inicio -- Hora fin</th>
-            <th>Guardias totales</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($resultados as $fila): ?>
-            <tr>
-                <?php foreach ($fila as $valor): ?>
-                    <td><?= htmlspecialchars($valor) ?></td>
-                <?php endforeach; ?>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-    </table>
-  </div>
+            <div class="form-group">
+                <label for="motivo">Motivo de la Ausencia</label>
+                <textarea id="motivo"
+                 name="motivo" 
+                 class="form-control" 
+                 rows="4" 
+                 style="background: linear-gradient(135deg, #1e3a5f, #0f1f2d);border: 2px solid;color:white;"
+                 placeholder="Escriba el motivo de la ausencia"></textarea>
+            </div>
 
-  
-</div>
-<div class="mt-4 text-center">
-    <a href="verInformes.php" class="btn btn-secondary">⬅️ Volver</a>
-  </div>
-<!-- Botón flotante para exportar a PDF -->
-<button id="exportarPDF"
-        class="btn btn-danger position-fixed"
-        style="
-          right: 20px;
-          bottom: 20px;
-          z-index: 1000;
-          border: 2px solid;
-          background: linear-gradient(135deg, #1e3a5f, #0f1f2d);
-        ">
-  <i class="bi bi-file-earmark-pdf-fill"></i> Exportar a PDF
-</button>
-<img id="footerLogo" src="../src/images/logoenUno.png" alt="Imagen PDF" style="display:none; max-width: 250px;">
-
-  <!-- 1) Bootstrap Bundle (Popper + Collapse, Dropdowns, etc) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-
-<script src="../src/exportarAPDF.js"></script>
-</body>
+            <button type="submit" class="btn btn-danger mt-3" style=" border: 2px solid; 
+   background:linear-gradient(135deg, #0f1f2d, #18362f);">Buscar sesiones</button>
+        </form>
+    </section>
+    <!--
+    @section Footer
+    Pie de página con derechos y redes sociales.
+  -->
 <footer class="bg-dark text-white py-4 mt-5" style="background: linear-gradient(135deg, #0f1f2d, #18362f) !important;">
    <div class="container text-center">
      <p class="mb-0">&copy; 2025 AsistGuard. Todos los derechos reservados.</p>
@@ -245,4 +212,5 @@ if (empty($resultados) || !isset($resultados[0]) || !is_array($resultados[0])) {
        </a></p>
    </div>
  </footer>
+</body>
 </html>

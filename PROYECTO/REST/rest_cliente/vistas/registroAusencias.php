@@ -180,13 +180,19 @@ footer {
 <!-- Formulario para registrar la ausencia -->
 <main>
     <div class="container mt-5 form-container" style="margin-top: 100px !important;">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-around align-items-center mb-3">
   <h3 class="m-0">Registrar Ausencia de Profesor</h3>
   <a href="chat.php"
      class="btn btn-sm btn-primary w-auto d-flex align-items-center"
      style="border: 2px solid; background: linear-gradient(135deg, #1e3a5f, #0f1f2d); padding: .25rem .5rem;">
     <i class="bi bi-chat-dots-fill fs-5"></i>
     <span class="ms-2 d-none d-md-inline fs-6">Chat</span>
+  </a>
+  <a href="datospersonales.php"
+     class="btn btn-sm btn-primary w-auto d-flex align-items-center"
+     style="border: 2px solid; background: linear-gradient(135deg, #1e3a5f, #0f1f2d);">
+<i class="bi bi-gear-fill fs-5"></i>
+    <span class="ms-2 d-none d-md-inline fs-6">Usuarios</span>
   </a>
 </div>
 

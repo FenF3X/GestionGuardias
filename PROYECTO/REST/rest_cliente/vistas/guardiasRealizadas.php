@@ -158,7 +158,8 @@ footer {
      <div class="botones-usuario d-flex align-items-center gap-2 text-center text-md-end">
  
 
-  <!-- CHAT -->
+  
+<!-- CHAT -->
   <a 
     href="chat.php" 
     class="btn btn-primary d-flex align-items-center justify-content-center" 
@@ -169,6 +170,19 @@ footer {
     <i class="bi bi-chat-dots-fill fs-4"></i>
     <span class="ms-2 d-none d-md-inline">Chat</span>
   </a>
+  <!-- BOTÓN DE AJUSTES DE USUARIOS -->
+  <?php if ($rol === 'admin'): ?>
+<a 
+    href="datospersonales.php" 
+    class="btn btn-primary d-flex align-items-center justify-content-center" 
+    role="button"
+    style=" border: 2px solid; 
+   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);"
+  >
+<i class="bi bi-gear-fill fs-4"></i>
+    <span class="ms-2 d-none d-md-inline">Usuarios</span>
+  </a>
+    <?php endif; ?>
     </div>
 
 
