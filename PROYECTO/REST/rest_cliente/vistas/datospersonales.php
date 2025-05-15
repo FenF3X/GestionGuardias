@@ -32,7 +32,19 @@ if ($rol !== 'admin') {
   header('Location: dashboard.php'); // Redirige si no es admin
   exit;
 }
+$datosUsuario = null;
+if (!empty($_GET['document'])) {
+  $params = [
+    'accion'   => 'obtenerUsuario',
+    'document' => $_GET['document']
+  ];
+  $resp = curl_conexion(URL, 'POST', $params);
+  $datosUsuario = json_decode($resp, true);
+}
+
+
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -110,10 +122,11 @@ footer {
 
 <main class="flex-grow-1">
   <div class="container mt-5">
-    <!-- Perfil: foto + datos a la izquierda, botones a la derecha -->
+
+    <!-- 1) PERFIL + BOTÓN -->
     <div class="perfil-contenedor 
                 d-flex flex-column flex-md-row 
-                align-items-center justify-content-between">
+                align-items-center justify-content-between mb-5">
       
       <!-- IZQUIERDA: foto + datos -->
       <div class="d-flex align-items-center mb-3 mb-md-0">
@@ -121,75 +134,57 @@ footer {
           <img src="../src/images/default.jpg" alt="Foto de perfil" class="foto-circular">
         </div>
         <div class="info-usuario text-start">
-          <p><strong>Documento:</strong> <?php echo htmlspecialchars($documento); ?></p>
-          <p><strong>Nombre:</strong> <?php echo htmlspecialchars($nombre); ?></p>
-          <p><strong>Rol:</strong> <?php echo htmlspecialchars($rol); ?></p>
+          <p><strong>Documento:</strong> <?= htmlspecialchars($documento) ?></p>
+          <p><strong>Nombre:</strong>     <?= htmlspecialchars($nombre) ?></p>
+          <p><strong>Rol:</strong>        <?= htmlspecialchars($rol) ?></p>
         </div>
       </div>
       
-     
-     <div class="botones-usuario d-flex align-items-center gap-2 text-center text-md-end">
-
-
-  
-<!-- CHAT -->
-  <a 
-    href="chat.php" 
-    class="btn btn-primary d-flex align-items-center justify-content-center" 
-    role="button"
-    style=" border: 2px solid; 
-   background:linear-gradient(135deg, #1e3a5f, #0f1f2d);"
-  >
-    <i class="bi bi-chat-dots-fill fs-4"></i>
-    <span class="ms-2 d-none d-md-inline">Chat</span>
-  </a>
- 
+      <!-- DERECHA: botón Chat -->
+      <a href="chat.php" 
+         class="btn btn-primary d-flex align-items-center justify-content-center"
+         style="border:2px solid; background:linear-gradient(135deg, #1e3a5f, #0f1f2d);">
+        <i class="bi bi-chat-dots-fill fs-4"></i>
+        <span class="ms-2 d-none d-md-inline">Chat</span>
+      </a>
+      
     </div>
-
-
-
-    <?php if (isset($mensaje)): ?>
-      <div class="alert-container">
-        <div class="alert alert-<?php echo htmlspecialchars($mensaje['type']); ?> text-center" id="mensajeAlert">
-          <?php echo htmlspecialchars($mensaje['text']); ?>
-        </div>
-      </div>
-    <?php endif; ?>
+    
+    <!-- 2) FORM CENTRALIZADO -->
+    <div class="mx-auto" style="max-width:600px;">
+    <form id="selectorUsuario" method="get" class="mb-4 text-center">
+  <label for="document" class="form-label">Selecciona un usuario</label><br>
+  <select name="document" id="document"
+          class="input-select-custom w-100"
+          style="max-width:300px;"
+          onchange="this.form.submit()"
+          required>
+    <option value="">-- elige un profesor --</option>
+    <?php foreach($profesores as $prof): ?>
+      <option value="<?= htmlspecialchars($prof[0]) ?>"
+        <?= (isset($_GET['document']) && $_GET['document']==$prof[0])?'selected':'' ?>>
+        <?= htmlspecialchars($prof[1]) ?> (<?= $prof[0] ?>)
+      </option>
+    <?php endforeach; ?>
+  </select>
+</form>
+    </div>
   </div>
-    </main>
-
-    <section>
-        <form action="../obtenerSesiones.php" id="busqueda"  method="POST">
-            <div class="form-group">
-                <label for="profesor">Seleccionar Profesor</label>
-                <select id="profesor" name="document" class="input-select-custom w-100" required>
-                    <option value="">Seleccione un profesor</option>
-                    <?php foreach ($profesores as $profesor): ?>
-                        <option value="<?php echo $profesor[0]; ?>"><?php echo htmlspecialchars($profesor[1]); ?></option>
-                    <?php endforeach; ?>
-                </select>
+</main>
+<section>
+    <?php foreach ($datosUsuario as $datoUsuario): ?>
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h5>Datos personales</h5>
+                    <p><strong>Nombre:</strong> <?= htmlspecialchars($datoUsuario[3]) ?></p>
+                    <p><strong>Documento:</strong> <?= htmlspecialchars($datoUsuario[0]) ?></p>
+                    <p><strong>Rol:</strong> <?= htmlspecialchars($datoUsuario[2]) ?></p>
+                </div>
             </div>
-
-
-            <div class="form-group">
-                <label for="fecha">Fecha de la Ausencia</label>
-                <input type="date" id="fecha" name="fecha" class="input-select-custom w-100" required value="<?php echo date('Y-m-d'); ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="motivo">Motivo de la Ausencia</label>
-                <textarea id="motivo"
-                 name="motivo" 
-                 class="form-control" 
-                 rows="4" 
-                 style="background: linear-gradient(135deg, #1e3a5f, #0f1f2d);border: 2px solid;color:white;"
-                 placeholder="Escriba el motivo de la ausencia"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-danger mt-3" style=" border: 2px solid; 
-   background:linear-gradient(135deg, #0f1f2d, #18362f);">Buscar sesiones</button>
-        </form>
-    </section>
+        </div>
+        <?php endforeach; ?>
+</section>
     <!--
     @section Footer
     Pie de página con derechos y redes sociales.

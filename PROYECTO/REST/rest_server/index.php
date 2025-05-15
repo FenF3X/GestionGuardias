@@ -903,6 +903,18 @@ elseif ($metodo === 'POST') {
         }
         exit;
     }
+    elseif ($accion == "obtenerUsuario") {
+
+        $document = $_POST['document'];
+        $sql = "SELECT document,password,rol,nombre FROM usuarios WHERE document = '$document'";
+
+        $resultado = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
+        if (is_array($resultado)) {
+            echo json_encode($resultado);
+        } else {
+            echo json_encode(["error" => "No se encontraron datos del usuario"]);
+        }
+    }
 } 
     // =====================================
     // PETICIONES **PUT**
