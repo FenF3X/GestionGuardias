@@ -296,14 +296,16 @@ footer {
 </div>
 
   </div>
-  <input type="submit" value="Actualizar" class="btn btn-primary" style="background:linear-gradient(135deg, #0f1f2d, #18362f); border:2px solid;">
+<input type="submit" onclick="return enviarForm()" value="Actualizar" class="btn btn-primary" style="background:linear-gradient(135deg, #0f1f2d, #18362f); border:2px solid;">
   </form>
 </div>
 
         <?php endforeach; ?>
        <?php else: ?>
       <div class="container">
-        <p class="text-danger text-center">Debe seleccionar un profesor</p>
+        
+        <p class="text-danger text-center" style="font-size: 18px;"><i class="bi bi-exclamation-triangle-fill text-warning"></i>
+            Debe seleccionar un profesor</p>
       </div>
     <?php endif; ?>
   <?php endif; ?>
@@ -320,6 +322,17 @@ footer {
         : '<i class="bi bi-eye"></i>';
     });
   });
+
+    function enviarForm() {
+        var newPassword = document.getElementById("new_password").value;
+        var confirmPassword = document.getElementById("confirm_password").value;
+    
+        if (newPassword !== confirmPassword) {
+        alert("Las contraseñas no coinciden.");
+        return false;
+        }
+        return true; 
+    }
 </script> 
    <!--
     @section Footer
