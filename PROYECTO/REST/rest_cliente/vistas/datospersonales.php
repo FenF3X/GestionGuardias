@@ -71,6 +71,10 @@ body {
 footer {
   flex-shrink: 0;
 }
+.form-control::placeholder {
+  color: #fff;
+  opacity: 0.7; 
+}
 
 </style>
 </head>
@@ -173,19 +177,143 @@ footer {
 </main>
 <section>
     <?php foreach ($datosUsuario as $datoUsuario): ?>
-        <div class="container">
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <h5>Datos personales</h5>
-                    <p><strong>Nombre:</strong> <?= htmlspecialchars($datoUsuario[3]) ?></p>
-                    <p><strong>Documento:</strong> <?= htmlspecialchars($datoUsuario[0]) ?></p>
-                    <p><strong>Rol:</strong> <?= htmlspecialchars($datoUsuario[2]) ?></p>
-                </div>
-            </div>
-        </div>
+    <div class="container">
+    <form action="../actualizarDatos.php" method="post">
+  <div class="row mb-4">
+    <!-- Datos actuales (readonly) -->
+    <div class="col-md-6">
+      <h5>Datos actuales</h5>
+      <div class="mb-3">
+        <label for="current_nombre" class="form-label"><strong>Nombre:</strong></label>
+        <input
+          type="text"
+          id="current_nombre"
+          name="current_nombre"
+          class="form-control"
+          style="background-color: #0f1f2d;color: #fff;"
+          value="<?= htmlspecialchars($datoUsuario[3]) ?>"
+          readonly
+        >
+      </div>
+      <div class="mb-3">
+        <label for="current_documento" class="form-label"><strong>Documento:</strong></label>
+        <input
+          type="text"
+          id="current_documento"
+          name="current_documento"
+          class="form-control"
+          style="background-color: #0f1f2d;color: #fff;"
+          value="<?= htmlspecialchars($datoUsuario[0]) ?>"
+          readonly
+        >
+      </div>
+      <div class="mb-3">
+        <label for="current_rol" class="form-label"><strong>Rol:</strong></label>
+        <input
+          type="text"
+          id="current_rol"
+          name="current_rol"
+          class="form-control"
+          style="background-color: #0f1f2d;color: #fff;"
+          value="<?= htmlspecialchars($datoUsuario[2]) ?>"
+          readonly
+        >
+      </div>
+      
+    </div>
+
+    <!-- Datos nuevos (editable) -->
+<div class="col-md-6">
+  <h5>Datos nuevos</h5>
+  <div class="mb-3">
+    <label for="new_nombre" class="form-label"><strong>Nombre:</strong></label>
+    <input
+      type="text"
+      id="new_nombre"
+      name="new_nombre"
+      class="form-control"
+      style="background-color: rgb(40, 78, 112);color: #fff;"
+      placeholder="Nuevo nombre"
+    >
+  </div>
+  <div class="mb-3">
+    <label for="new_rol" class="form-label"><strong>Rol:</strong></label>
+    <input
+      type="text"
+      id="new_rol"
+      name="new_rol"
+      class="form-control"
+      style="background-color: rgb(40, 78, 112);color: #fff;"
+      placeholder="Nuevo rol (admin o profesor)"
+    >
+  </div>
+
+  <!-- Nueva fila de contraseñas -->
+  <div class="row">
+  <div class="col-md-6 mb-3">
+    <label for="new_password" class="form-label"><strong>Contraseña nueva:</strong></label>
+    <div class="input-group">
+      <input
+        type="password"
+        id="new_password"
+        name="new_password"
+        class="form-control"
+        style="background-color: rgb(40, 78, 112); color: #fff;"
+      >
+      <span
+        class="input-group-text toggle-password"
+        data-target="new_password"
+        style="cursor: pointer; background-color: rgb(40, 78, 112); color: #fff; border-left: none;"
+        title="Mostrar / Ocultar contraseña"
+      >
+        <i class="bi bi-eye"></i>
+      </span>
+    </div>
+  </div>
+  <div class="col-md-6 mb-3">
+    <label for="confirm_password" class="form-label"><strong>Confirmar contraseña:</strong></label>
+    <div class="input-group">
+      <input
+        type="password"
+        id="confirm_password"
+        name="confirm_password"
+        class="form-control"
+        style="background-color: rgb(40, 78, 112); color: #fff;"
+      >
+      <span
+        class="input-group-text toggle-password"
+        data-target="confirm_password"
+        style="cursor: pointer; background-color: rgb(40, 78, 112); color: #fff; border-left: none;"
+        title="Mostrar / Ocultar contraseña"
+      >
+        <i class="bi bi-eye"></i>
+      </span>
+    </div>
+  </div>
+</div>
+</div>
+
+  </div>
+  <input type="submit" value="Actualizar" class="btn btn-primary" style="background:linear-gradient(135deg, #0f1f2d, #18362f); border:2px solid;">
+  </form>
+</div>
+
         <?php endforeach; ?>
 </section>
-    <!--
+
+    <script>
+  document.querySelectorAll('.toggle-password').forEach(function(el){
+    el.addEventListener('click', function(){
+      const input = document.getElementById(this.dataset.target);
+      const isPassword = input.getAttribute('type') === 'password';
+      input.setAttribute('type', isPassword ? 'text' : 'password');
+      this.innerHTML = isPassword
+        ? '<i class="bi bi-eye-slash"></i>'
+        : '<i class="bi bi-eye"></i>';
+    });
+  });
+</script> 
+   <!--
     @section Footer
     Pie de página con derechos y redes sociales.
   -->
