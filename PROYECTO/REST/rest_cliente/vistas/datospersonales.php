@@ -176,6 +176,8 @@ footer {
   </div>
 </main>
 <section>
+    <?php if(isset($_GET["document"])): ?>
+        <?php if ($_GET['document'] !== ''): ?>
     <?php foreach ($datosUsuario as $datoUsuario): ?>
     <div class="container">
     <form action="../actualizarDatos.php" method="post">
@@ -299,6 +301,12 @@ footer {
 </div>
 
         <?php endforeach; ?>
+       <?php else: ?>
+      <div class="container">
+        <p class="text-danger text-center">Debe seleccionar un profesor</p>
+      </div>
+    <?php endif; ?>
+  <?php endif; ?>
 </section>
 
     <script>

@@ -1,2 +1,3 @@
 [13-May-2025 07:05:01 Europe/Berlin] entro en editar
 [15-May-2025 07:04:09 Europe/Berlin] entro en editar
+[15-May-2025 14:35:07 Europe/Berlin] PHP Warning:  Undefined variable $resultado in C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\index.php on line 626
