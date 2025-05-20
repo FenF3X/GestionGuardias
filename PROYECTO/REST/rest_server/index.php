@@ -1,6 +1,5 @@
 
 <?php
-ini_set("error_log", __DIR__ . "pruebas.txt");
 
 /**
  * =========================
@@ -939,7 +938,6 @@ elseif ($metodo === 'PUT') {
     * @return JSON                   { exito: true } si se actualizó correctamente, false si no
     */
     if ($datos["accion"] == "EditarMensaje") {
-        error_log("entro en editar");
         $docentEmisor       = $datos['docentEmisor']  ?? null;
         $fecha           = $datos['fecha']         ?? null;
         $hora            = $datos['hora']          ?? null;
