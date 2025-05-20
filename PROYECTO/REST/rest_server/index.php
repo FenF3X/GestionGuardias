@@ -964,6 +964,25 @@ elseif ($metodo === 'PUT') {
             echo json_encode(["exito" => false]);
         }
     }
+    elseif ($datos["accion"] == "actualizarDatos") {
+        $nombre = $datos['nombre'] ?? null;
+        $rol = $datos['rol'] ?? null;
+        $passwordSinCifrar = $datos['contrasena'] ?? null;
+        $documento = $datos['document'] ?? null;
+
+        // Cifrar la contraseña
+        $password = password_hash($passwordSinCifrar, PASSWORD_DEFAULT);
+
+        $sql = "UPDATE usuarios 
+            SET nombre = '$nombre', rol = '$rol', password = '$password' 
+            WHERE document = '$documento'";
+        $result = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
+        if ($result) {
+            echo json_encode(["exito" => true]);
+        } else {
+            echo json_encode(["exito" => false]);  
+        }
+    }
 } 
     // =====================================
     // PETICIONES **DELETE**

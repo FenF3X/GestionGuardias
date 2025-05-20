@@ -296,7 +296,8 @@ footer {
 </div>
 
   </div>
-<input type="submit" onclick="return enviarForm()" value="Actualizar" class="btn btn-primary" style="background:linear-gradient(135deg, #0f1f2d, #18362f); border:2px solid;">
+  <input type="hidden" name="document" value="<?= htmlspecialchars($datoUsuario[0]) ?>">
+<input type="submit" onclick="return enviarForm()" value="Actualizar" name="actualizar" class="btn btn-primary" style="background:linear-gradient(135deg, #0f1f2d, #18362f); border:2px solid;">
   </form>
 </div>
 
@@ -309,31 +310,72 @@ footer {
       </div>
     <?php endif; ?>
   <?php endif; ?>
-</section>
+  <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="messageModalLabel">Mensaje</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: linear-gradient(135deg, #0f1f2d, #18362f)">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <script>
-  document.querySelectorAll('.toggle-password').forEach(function(el){
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  function showMessageModal(mensaje, titulo = 'Mensaje') {
+    document.getElementById('messageModalLabel').textContent = titulo;
+    document.querySelector('#messageModal .modal-body').textContent = mensaje;
+    const modalEl = document.getElementById('messageModal');
+    const modal = new bootstrap.Modal(modalEl);
+    modal.show();
+  }
+
+  function enviarForm() {
+    const newPassword     = document.getElementById("new_password").value;
+    const confirmPassword = document.getElementById("confirm_password").value;
+    const newRol          = document.getElementById("new_rol").value.trim();
+    const newNombre       = document.getElementById("new_nombre").value.trim();
+
+    if (newPassword !== confirmPassword) {
+      showMessageModal("Las contraseñas no coinciden.", "Error de contraseña");
+      return false;
+    }
+    if (newNombre === "") {
+      showMessageModal("El nombre no puede estar vacío.", "Error de nombre");
+      return false;
+    }
+    if (newPassword === "" || confirmPassword === "") {
+      showMessageModal("La contraseña no puede estar vacía.", "Error de contraseña");
+      return false;
+    }
+    if (newRol !== "admin" && newRol !== "profesor") {
+      showMessageModal("El rol debe ser 'admin' o 'profesor'.", "Error de rol");
+      return false;
+    }
+
+    return true;
+  }
+
+  document.querySelectorAll('.toggle-password').forEach(el => {
     el.addEventListener('click', function(){
       const input = document.getElementById(this.dataset.target);
-      const isPassword = input.getAttribute('type') === 'password';
-      input.setAttribute('type', isPassword ? 'text' : 'password');
-      this.innerHTML = isPassword
+      const isPass = input.type === 'password';
+      input.type = isPass ? 'text' : 'password';
+      this.innerHTML = isPass
         ? '<i class="bi bi-eye-slash"></i>'
         : '<i class="bi bi-eye"></i>';
     });
   });
+</script>
 
-    function enviarForm() {
-        var newPassword = document.getElementById("new_password").value;
-        var confirmPassword = document.getElementById("confirm_password").value;
-    
-        if (newPassword !== confirmPassword) {
-        alert("Las contraseñas no coinciden.");
-        return false;
-        }
-        return true; 
-    }
-</script> 
    <!--
     @section Footer
     Pie de página con derechos y redes sociales.

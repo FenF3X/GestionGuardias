@@ -1,3 +1,21 @@
 [13-May-2025 07:05:01 Europe/Berlin] entro en editar
 [15-May-2025 07:04:09 Europe/Berlin] entro en editar
 [15-May-2025 14:35:07 Europe/Berlin] PHP Warning:  Undefined variable $resultado in C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\index.php on line 626
+[20-May-2025 10:08:22 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'UNION
+            UPDATE docent
+            SET nom = 'Raquel MM'
+        ...' at line 4 in C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\config.php:48
+Stack trace:
+#0 C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\config.php(48): mysqli_query(Object(mysqli), 'UPDATE usuarios...')
+#1 C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\index.php(983): conexion_bd('localhost', 'root', '', 'guardias', 'UPDATE usuarios...')
+#2 {main}
+  thrown in C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\config.php on line 48
+[20-May-2025 10:10:20 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':nombre,
+      u.rol      = :rol,
+      u.password = :password,
+      d.no...' at line 4 in C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\config.php:48
+Stack trace:
+#0 C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\config.php(48): mysqli_query(Object(mysqli), '\r\n    UPDATE us...')
+#1 C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\index.php(986): conexion_bd('localhost', 'root', '', 'guardias', '\r\n    UPDATE us...')
+#2 {main}
+  thrown in C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\config.php on line 48
