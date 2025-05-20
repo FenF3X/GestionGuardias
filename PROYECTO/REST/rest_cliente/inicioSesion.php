@@ -105,7 +105,6 @@ if (isset($_POST["validar"])) {
             $paramsProf = ["accion" => "consultaProfes"];
             $respuesta = curl_conexion(URL, "POST", $paramsProf);
             $profesores = json_decode($respuesta, true);
-
             /**
              * Si el backend devuelve error, se guarda en la sesión como mensaje;
              * si no, se guarda la lista de profesores para usar en otras vistas.

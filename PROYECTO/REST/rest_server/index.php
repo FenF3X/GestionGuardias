@@ -453,9 +453,7 @@ elseif ($metodo === 'POST') {
     */
     elseif ($accion === "consultaProfes") {
 
-        $sql = "SELECT document, 
-        CONCAT(nom, ' ', cognom1, ' ', cognom2) 
-        AS nombre_completo FROM docent";
+        $sql = "SELECT document, nombre FROM usuarios";
 
         $resultado = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
     
