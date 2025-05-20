@@ -37,7 +37,6 @@ if (isset($_GET["cargar_guardias"])) {
     $_SESSION["guardiasPen"] = $guardiasPen;
 } else {
     unset($_SESSION["guardiasPen"]);
-    error_log("Error al recibir las guardias: Respuesta inválida o no contiene sesiones válidas");
     header('Location: vistas/consultaAusencias.php');
     exit;
 }
