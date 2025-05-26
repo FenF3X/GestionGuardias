@@ -296,8 +296,8 @@ elseif ($metodo === 'POST') {
 
             if (is_array($resultado)) {                 
                 $sqlNom = "SELECT 
-                    CONCAT(nom,' ',cognom1,' ',cognom2) 
-                    FROM docent WHERE document = '$document'
+                    nombre
+                    FROM usuarios WHERE document = '$document'
                 ";                 
                 $resultadoNom = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sqlNom);                  
 
