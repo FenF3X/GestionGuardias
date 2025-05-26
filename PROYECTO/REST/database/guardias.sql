@@ -2992,16 +2992,6 @@ CREATE TABLE `mensajes` (
   `total_mensajes` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
---
--- Volcado de datos para la tabla `mensajes`
---
-
-INSERT INTO `mensajes` (`id`, `docent_emisor`, `nombreEmisor`, `docent_receptor`, `nombreReceptor`, `mensaje`, `fecha`, `hora`, `leido`, `total_mensajes`) VALUES
-(120, '016976848Q', 'ESTHER S O', '010960328X', 'ANGEL A C', 'hola angel habia un problema con la asignacion de guardias pero ya a sido solucionada', '2025-05-08', '11:01:40', '2025-05-08 11:02:00', 0),
-(123, '010960328X', 'ANGEL A C', '016976848Q', 'ESTHER S O', 'perfecto', '2025-05-13', '07:05:15', '2025-05-26 07:40:41', 0),
-(127, '010960328X', 'ANGEL A C', '016976848Q', 'ESTHER S O', 'esther por que no me lees los mensaje??', '2025-05-26', '07:40:10', '2025-05-26 07:40:41', 0),
-(128, '016976848Q', 'ESTHER S O', '010960328X', 'ANGEL A C', 'perdon angel no es mi intención apenas entro aquí', '2025-05-26', '07:41:04', '2025-05-26 07:41:11', 0),
-(129, '016976848Q', 'ESTHER S O', '016976848Q', 'ESTHER S O', 'holi', '2025-05-26', '07:43:44', '2025-05-26 07:43:44', 0);
 
 -- --------------------------------------------------------
 
