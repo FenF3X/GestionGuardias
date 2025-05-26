@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-05-2025 a las 07:19:46
+-- Tiempo de generación: 26-05-2025 a las 07:59:14
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -137,7 +137,13 @@ INSERT INTO `ausencias` (`id`, `hora_inicio`, `hora_fin`, `dia`, `aula`, `grupo`
 (261, '16:20:00', '17:10:00', 'L', 'A19', '2CFMV', 'Empresa e iniciativa emprendedora', '8', '012905318D', NULL, 'JOSE VICENTE G B', 0, 1, '2025-05-12', 0, NULL),
 (262, '17:10:00', '18:00:00', 'L', 'A19', '2CFMV', 'Empresa e iniciativa emprendedora', '9', '012905318D', NULL, 'JOSE VICENTE G B', 0, 1, '2025-05-12', 0, NULL),
 (263, '20:00:00', '20:50:00', 'L', 'A18', '2CFSI', 'Empresa e Iniciativa emprendedora', '12', '012905318D', NULL, 'JOSE VICENTE G B', 0, 1, '2025-05-12', 0, NULL),
-(264, '08:20:00', '09:10:00', 'M', 'B11', '1ESOC', 'Geografía e Historia', '1', '012855339X', NULL, 'ANGELES B C', 0, 2, '2025-05-13', 0, NULL);
+(264, '08:20:00', '09:10:00', 'M', 'B11', '1ESOC', 'Geografía e Historia', '1', '012855339X', NULL, 'ANGELES B C', 0, 2, '2025-05-13', 0, NULL),
+(265, '08:20:00', '09:10:00', 'J', 'A10', '1ESOC', 'Refuerzo instrumental Valenciano', '1', '011949328W', '010960328X', 'JOSEP LLUIS B C', 0, 2, '2025-05-15', 1, 'ANGEL A C'),
+(266, '10:00:00', '10:50:00', 'J', 'A10', '1ESOB', 'Refuerzo instrumental Valenciano', '3', '011949328W', NULL, 'JOSEP LLUIS B C', 0, 2, '2025-05-15', 0, NULL),
+(267, '11:15:00', '12:05:00', 'J', 'A10', '1ESOB', 'Refuerzo instrumental Castellano', '4', '011949328W', NULL, 'JOSEP LLUIS B C', 0, 2, '2025-05-15', 0, NULL),
+(268, '11:15:00', '12:05:00', 'L', 'D14', '4ESOB', 'Latín', '4', '011973418Z', '010960328X', 'GABRIEL C A', 0, 1, '2025-05-26', 1, 'ANGEL A C'),
+(269, '11:15:00', '12:05:00', 'L', 'D14', '4ESOC', 'Latín', '4', '011973418Z', '010960328X', 'GABRIEL C A', 0, 1, '2025-05-26', 1, 'ANGEL A C'),
+(270, '12:05:00', '12:55:00', 'L', 'D14', '1BAHA', 'Latín I', '5', '011973418Z', '010960328X', 'GABRIEL C A', 0, 1, '2025-05-26', 1, 'ANGEL A C');
 
 --
 -- Disparadores `ausencias`
@@ -2992,7 +2998,10 @@ CREATE TABLE `mensajes` (
 
 INSERT INTO `mensajes` (`id`, `docent_emisor`, `nombreEmisor`, `docent_receptor`, `nombreReceptor`, `mensaje`, `fecha`, `hora`, `leido`, `total_mensajes`) VALUES
 (120, '016976848Q', 'ESTHER S O', '010960328X', 'ANGEL A C', 'hola angel habia un problema con la asignacion de guardias pero ya a sido solucionada', '2025-05-08', '11:01:40', '2025-05-08 11:02:00', 0),
-(123, '010960328X', 'ANGEL A C', '016976848Q', 'ESTHER S O', 'perfecto', '2025-05-13', '07:05:15', NULL, 0);
+(123, '010960328X', 'ANGEL A C', '016976848Q', 'ESTHER S O', 'perfecto', '2025-05-13', '07:05:15', '2025-05-26 07:40:41', 0),
+(127, '010960328X', 'ANGEL A C', '016976848Q', 'ESTHER S O', 'esther por que no me lees los mensaje??', '2025-05-26', '07:40:10', '2025-05-26 07:40:41', 0),
+(128, '016976848Q', 'ESTHER S O', '010960328X', 'ANGEL A C', 'perdon angel no es mi intención apenas entro aquí', '2025-05-26', '07:41:04', '2025-05-26 07:41:11', 0),
+(129, '016976848Q', 'ESTHER S O', '016976848Q', 'ESTHER S O', 'holi', '2025-05-26', '07:43:44', '2025-05-26 07:43:44', 0);
 
 -- --------------------------------------------------------
 
@@ -3068,7 +3077,11 @@ INSERT INTO `registro_guardias` (`id`, `fecha`, `docente_ausente`, `nombreProfe`
 (182, '2025-05-08', '045989240B', 'FERRAN JOSEP R P', '010960328X', 'ANGEL A C', 'D02', '2BACA', 'Biología', 7, 'J', '14:00:00', '14:50:00', 22),
 (183, '2025-05-08', '070094824B', 'ANTONIO B P', '010960328X', 'ANGEL A C', 'A18', '2CFSI', 'Seguridad y Alta Disponibilidad', 10, 'J', '18:00:00', '18:50:00', 23),
 (184, '2025-05-12', '012905318D', 'JOSE VICENTE G B', '010960328X', 'ANGEL A C', 'B15', '3ESOD', 'Valenciano: Lengua y Literatura', 1, 'L', '08:20:00', '09:10:00', 24),
-(185, '2025-05-12', '012905318D', 'JOSE VICENTE G B', '010960328X', 'ANGEL A C', 'A19', '2CFMV', 'Empresa e iniciativa emprendedora', 8, 'L', '16:20:00', '17:10:00', 25);
+(185, '2025-05-12', '012905318D', 'JOSE VICENTE G B', '010960328X', 'ANGEL A C', 'A19', '2CFMV', 'Empresa e iniciativa emprendedora', 8, 'L', '16:20:00', '17:10:00', 25),
+(186, '2025-05-15', '011949328W', 'JOSEP LLUIS B C', '010960328X', 'ANGEL A C', 'A10', '1ESOC', 'Refuerzo instrumental Valenciano', 1, 'J', '08:20:00', '09:10:00', 26),
+(191, '2025-05-26', '011973418Z', 'GABRIEL C A', '010960328X', 'ANGEL A C', 'D14', '1BAHA', 'Latín I', 5, 'L', '12:05:00', '12:55:00', 27),
+(200, '2025-05-26', '011973418Z', 'GABRIEL C A', '010960328X', 'ANGEL A C', 'D14', '4ESOB', 'Latín', 4, 'L', '11:15:00', '12:05:00', 28),
+(201, '2025-05-26', '011973418Z', 'GABRIEL C A', '010960328X', 'ANGEL A C', 'D14', '4ESOC', 'Latín', 4, 'L', '11:15:00', '12:05:00', 29);
 
 -- --------------------------------------------------------
 
@@ -3098,7 +3111,9 @@ INSERT INTO `registro_jornada` (`id`, `document`, `fecha`, `hora_entrada`, `hora
 (28, '010960328X', '2025-05-07', '12:47:05', '12:47:11', 'ANGEL A C'),
 (29, '010960328X', '2025-05-08', '07:45:38', '10:10:55', 'ANGEL A C'),
 (30, '016976848Q', '2025-05-08', '11:01:15', NULL, 'ESTHER S O'),
-(31, '010960328X', '2025-05-12', '12:27:13', '12:27:17', 'ANGEL A C');
+(31, '010960328X', '2025-05-12', '12:27:13', '12:27:17', 'ANGEL A C'),
+(32, '010960328X', '2025-05-15', '14:35:26', '14:35:28', 'ANGEL A C'),
+(33, '010960328X', '2025-05-26', '07:06:56', '07:07:28', 'ANGEL A C');
 
 -- --------------------------------------------------------
 
@@ -3216,85 +3231,86 @@ CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `document` varchar(10) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `rol` enum('admin','profesor') NOT NULL
+  `rol` enum('admin','profesor') NOT NULL,
+  `nombre` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `document`, `password`, `rol`) VALUES
-(1, '010960328X', '$2y$12$BwlO43XmzfZU9vTZbyiWpO.vpU6Y7/cAu3DUqd/b6jDt.acGrvgm2', 'admin'),
-(2, '010969028D', '$2y$12$C2fS1dsMj5ZQTZJH7Ji6QOE.qyDpP7uBnqyf1TEPZ6fY2SC3DOoom', 'profesor'),
-(3, '011078949R', '$2y$12$geW3hegVHtcW/pARdkwq/uTNfN0TebU15W3Bqc4..VY4LUQZpn2wm', 'profesor'),
-(4, '011921608R', '$2y$12$x7.NT.TdOW.KolfE0u7l3.gwul6uGgxahWex/un/H.wbRRlLXedpC', 'profesor'),
-(5, '011939238D', '$2y$12$ikbVsgNL89qXbjNdAMz1feqPP36pepMuSLAOonq3Gtg6CLMwJptwm', 'profesor'),
-(6, '011949328W', '$2y$12$/wZfGvdQR1xuvQCPA/610e36XBP8J4kTK0UZRu4eR8JzprZclgFHi', 'profesor'),
-(7, '011973418Z', '$2y$12$6.IX3/ayvDQ4RjCqRIqQhOHxAfypCzOdahLpmkGlhPVyJsmpoD/Re', 'profesor'),
-(8, '012855339X', '$2y$12$2XbpYLGRhCs1MOo9gUUjPu7AiquoCU1AOmqz.wLsPynx3bV6sGAX6', 'profesor'),
-(9, '012905318D', '$2y$12$zs82wsiYnDzzDSf9maD1beTjSvQCc.yxQTf.Ijt9/YpsmWYk2uS1S', 'profesor'),
-(10, '012950628N', '$2y$12$NVpzIuzDIFzSgZTuzDnnLuWEFUjH72Y/l5vQuhZv5wMZbBxyHxiAe', 'profesor'),
-(11, '012951758W', '$2y$12$geSo5dmoaWgkd7BzXg4GmuMuwBq.Gqr9pR9ZDd7WS7CqEMkIM9RaG', 'profesor'),
-(12, '012986535F', '$2y$12$kMDDPB3kZOBLAFTl6X9/neW5NQJliEDDRXSyJQx.kUSHKBxrgEPE.', 'profesor'),
-(13, '013906018J', '$2y$12$zmye4Et6zNU7rjLg97oZLONgAqYiiq5pKJRqTQ56Ma5rvi2yOpHg6', 'profesor'),
-(14, '013928518A', '$2y$12$AiAtXiSGS.6ttKhMzTWJNO8gpZZoVdaiorJhS9A9UXlSQNNkjShza', 'profesor'),
-(15, '013931868S', '$2y$12$UhON7FOvxi8DHXT1TLagDenAvFXRqB11RCC9addCPguNhPEL7vVwi', 'profesor'),
-(16, '013962048R', '$2y$12$xqOEn1GSwuUAtXfm0/F7M.zRE6SOjoOYFNvlTz3fvuji/a6wCwYei', 'profesor'),
-(17, '014919208N', '$2y$12$wne7I6TiAqWQEV3r92fhcezps3mGTnz/69GG8YcfPVmavnkXuRUC.', 'profesor'),
-(18, '014985308L', '$2y$12$VrNEdTb7tUft4gNV58lVb.p0ggJW7tmCMsvDjuNBRbKm9AuouBAgG', 'profesor'),
-(19, '015965468J', '$2y$12$Ad6X91DKeS5B28zzXbXRNuanSIg3m7sUr2BsPuiRO/OW1VVWcU4ci', 'profesor'),
-(20, '016910908H', '$2y$12$Yi.4IcNKMPlcDlRl6P97vOoURpikjnp1DeKw4uPMFE0hcnVUG0rya', 'profesor'),
-(21, '016946918A', '$2y$12$FIm./qZMjVWpnIUiKJuDDO/zUj1xoHri4MXzuyncaxlR0yaDCJ4dy', 'profesor'),
-(22, '016976848Q', '$2y$12$p5IyCzR63i9Cg7N8.Kua6.Je6tB59tNklMfBkrkqMB7V8GC2C6PTu', 'profesor'),
-(23, '017050149N', '$2y$12$cwBIH7bPshvhUxgImbfvk.codih3ntt3TFQjgo4K.YuVqC2fYgKGC', 'profesor'),
-(24, '017911348P', '$2y$12$tRdFpIEG7qrImgqPqMfGluvhDAX57GDOEcd5xac5QlpI/EvHLvw1S', 'profesor'),
-(25, '017959408Z', '$2y$12$KDjSO5er5O6oLgv/lav0quMjvdGtmDqAqkancXwL4Qqh9Kyw8zq7u', 'profesor'),
-(26, '019080189D', '$2y$12$yMPP092JCShuKyJD7VepV.4F9rZThO7.NPNXDkYH4gWofOM8ZxuDi', 'profesor'),
-(27, '019825419Z', '$2y$12$lDExhEfc3TrRL0bX2A5lSeDgPn86SFVtpE00cQPlXoEZ0BiA1QY8K', 'profesor'),
-(28, '019900748V', '$2y$12$UDW.vQHs/vHNEvrvEPrwMuvc5BUX5VNoA1pD4jwWzxx3TvI2fatfi', 'profesor'),
-(29, '020446640M', '$2y$12$shr1A.Y7vU/k3YhWdZg/WOfLAh1JqgAcCRDvwHuWvzMGkfM/ioyju', 'profesor'),
-(30, '022615771H', '$2y$12$SWtFsAiJBnYlWS79IhEA1.UZ0BjksalqxECdUSH9WXovpPU4bTl7i', 'profesor'),
-(31, '023440660P', '$2y$12$EG.R7jeEJOsS25t4ArasxeMtghmF.hK5R0NyJxtv681G7xHivLMWi', 'profesor'),
-(32, '024163252T', '$2y$12$xOfP6LyYHHwgNrFaeA3H5.xynLwNABnBWiWkPJlOaLTDn1Q.vZDsO', 'profesor'),
-(33, '024389784E', '$2y$12$APCFUPZ/DuAZB.YMkdXHreF49Adw945MO3SMuO2cx1CuDTW/L4hfq', 'profesor'),
-(34, '024453065H', '$2y$12$4EdXKVcrM3MvvWmcyX.PJusk8vyHNkXItHLbLxftVu3gLweNhAOH.', 'profesor'),
-(35, '025347434A', '$2y$12$.2uKFFTWVlQGGbqpv/s/0OZF.ysTHPJBJ0i86Fb3kjnrm7e/10uYC', 'profesor'),
-(36, '025470191A', '$2y$12$0hI5Se6mOg4oqlbMDY9fYOqbdHLWSfYQ/YWzZpOrkRcvjVQUxTp3a', 'profesor'),
-(37, '026577702D', '$2y$12$QYl1gQSRRr/24TyejAjHgOzmISXoLwegJOp5w/lR7rBTehZKQFbvG', 'profesor'),
-(38, '026715900R', '$2y$12$jPQNhchAVi9Jpeeusv6qIuqfLejKVYBPxB7IZvzLS8iefkcPaqc5O', 'profesor'),
-(39, '027246470Z', '$2y$12$Ch4it6uZr2Q59MkUw0PB0ehRKwphpZbDFcPn3e5SC7VCaYV6IuSYC', 'profesor'),
-(40, '028203430W', '$2y$12$5xpn3tImufCZwCSVwyiWT.BUnRjCCpFTobmfV6APqLwlW5n9oBxAW', 'profesor'),
-(41, '028301344S', '$2y$12$z.SpmKHD0ZtfXG0ZaPChPuPk1c/rEh67tqs/qLdng023/thVLdjny', 'profesor'),
-(42, '028376971Q', '$2y$12$fskuDOBuMw1XhfTBHCe5oOOJTwrMJkJP/0XucjLzCzQ3zL22BGlXq', 'profesor'),
-(43, '029218450V', '$2y$12$93LmVWzjvdw8xvxkrZ6T3.3S7kkgL9CjrEIvcYAOeqwV8Q75df78S', 'profesor'),
-(44, '031478003M', '$2y$12$K.gAIjKE4m4au105CMonW.TtHa3o35ikgMeUMbq5.SjjVbHMGo4Lu', 'profesor'),
-(45, '033580118G', '$2y$12$/FeUbPKszjrazg.SwFG9Fu.LmVwcxwrywuQq3cDx7DkLtj8kpbGnK', 'profesor'),
-(46, '039660939E', '$2y$12$EDqF25Mf9B/C/WQiYcugEuwi1bQwi9eO/PHf8HeTMsaj6C7fH0zGe', 'profesor'),
-(47, '041346258R', '$2y$12$SlPuwN98a3sSAQarnONEAOF2FBRNPdaAOWcmyMoax.nTtEEuimqB2', 'profesor'),
-(48, '045760203C', '$2y$12$vjF/g891aDvui3xQ1.v3Ae82SkYVqovA2IiR9O2om37HhioEDRp0G', 'profesor'),
-(49, '045989240B', '$2y$12$mxjvtjo7iqrww1yDziWEkekY5PVFC2MvVlwhBh34hDlUH.MfJcni.', 'profesor'),
-(50, '046417441L', '$2y$12$.YC16Da6281saS7WQqnhluNmWjIdJtw.6eA.S5oh.I2S03CYXLeDm', 'profesor'),
-(51, '046730283P', '$2y$12$JUp8Ltt7potnoh2rijDHxueCjbfoCT7wtiAGn/ilYqUqsQ7Pw2BBu', 'profesor'),
-(52, '047397438M', '$2y$12$a6tAW2VeyoU2Rp8C4Pf6buGZpxNI1XtHBfkld8orfiKk.pttdlulO', 'profesor'),
-(53, '047928150S', '$2y$12$aeXBj9e0Ahs5.GyG.clyf.XntkKYVM2DvoN5FAtM.se.RdP/8DRBa', 'profesor'),
-(54, '054309783V', '$2y$12$K4Diz4PdMchU3q/RTTzM.utFXJWO4Ap7n7wBTMHeHuBqTlWdVr/y2', 'profesor'),
-(55, '055742962J', '$2y$12$w0giNAomfifP0bSkLWLKPeLZFdUpucwc6tg0Ak1jy.MsHWKWuAQEi', 'profesor'),
-(56, '059603111F', '$2y$12$FiKdegqNa.eGZg241WmHae/zrpMgJ5vmHvi1ioq.2L0MqQ/vhS/ku', 'profesor'),
-(57, '070094824B', '$2y$12$apHDYVHXC8C6o/wURr8yYOnrRVMLxLiRLHo47E.WfbsQy564.8/q6', 'profesor'),
-(58, '070374673Z', '$2y$12$XnPNnED2KDhMmT9gPLDwgu65Hk9os/PyFcPGuAfVj4gFt/1rgnABm', 'profesor'),
-(59, '070391913Z', '$2y$12$8GeQoQBS//BPs9CvQxEZXeZc3RyVI76a4qQXUOmizL6qsMIFwd/BK', 'profesor'),
-(60, '072516423B', '$2y$12$OaGaqZXPE1AM8rMisu/MG.MnnnP.RgN1oFQuH5IKwru1ZYpY1a7u2', 'profesor'),
-(61, '075035864L', '$2y$12$.3BfwOh6mnDd4YkCeRwlGuxgJGprgRSD1LLZj/z8/iaeVmx799Wwq', 'profesor'),
-(62, '075345863D', '$2y$12$OH6NXFl2HrZPKxsNaGsKWevgEAvrKBWg1PHfx/c66b6wCTdNlnr62', 'profesor'),
-(63, '076304893C', '$2y$12$acKexwgdGW7KIRScI7eThO5XpWwUXWWYOgoSlLivYjCZm8dmXCKqW', 'profesor'),
-(64, '076335803B', '$2y$12$83NchOqwfBF3PUhw..CJyu0gIo8VKnevXY5FAvK1sYLqRqqbWCYHq', 'profesor'),
-(65, '078229283W', '$2y$12$S5EK0D.xPHGxE0JtHMHPeu8gQOAZNniZO2wGFfVn9E.a2PQrW8eQu', 'profesor'),
-(66, '078308873T', '$2y$12$897nRkaRnQGe48MdSjWZdeEeSmMM1Y9D2NeT9zIOY0WXfGMm2XKbC', 'profesor'),
-(67, '078395783P', '$2y$12$3jz80c.z2oP7g89JaoI3zuddHC7fWDsmoBKU3/VnWlVBa41K0l4S2', 'profesor'),
-(68, '078399623C', '$2y$12$2JSPKsZaTbK7zIMVxJmQ0eTLJ25wjDGV.lPdA1wE3oSSaCMArUxIu', 'profesor'),
-(69, '079320803C', '$2y$12$TwOC5QfUoQYZHik6tXxUQuRxgmzTSfO5RSbjnCFSUcMkx6z5QG8FG', 'profesor'),
-(70, '079351863T', '$2y$12$iFiG3/REa8IA7kyoH7fJRupw.hUWjWmr1h2Mkj7O4yBedfBAUGOIS', 'profesor'),
-(71, 'X09610120P', '$2y$12$hFzf8D9qZAdkGZiSDE6EbeYHPzA2aLL5djc.KU/N4yz1rVodTguQy', 'profesor');
+INSERT INTO `usuarios` (`id`, `document`, `password`, `rol`, `nombre`) VALUES
+(1, '010960328X', '$2y$12$BwlO43XmzfZU9vTZbyiWpO.vpU6Y7/cAu3DUqd/b6jDt.acGrvgm2', 'admin', 'ANGEL A C'),
+(2, '010969028D', '$2y$12$C2fS1dsMj5ZQTZJH7Ji6QOE.qyDpP7uBnqyf1TEPZ6fY2SC3DOoom', 'profesor', 'FRANCISCO JAVIER F C'),
+(3, '011078949R', '$2y$12$geW3hegVHtcW/pARdkwq/uTNfN0TebU15W3Bqc4..VY4LUQZpn2wm', 'profesor', 'ANGEL R M'),
+(4, '011921608R', '$2y$12$x7.NT.TdOW.KolfE0u7l3.gwul6uGgxahWex/un/H.wbRRlLXedpC', 'profesor', 'MARCOS ANTONIO O Q'),
+(5, '011939238D', '$2y$12$ikbVsgNL89qXbjNdAMz1feqPP36pepMuSLAOonq3Gtg6CLMwJptwm', 'profesor', 'JUAN ANTONIO M B'),
+(6, '011949328W', '$2y$12$/wZfGvdQR1xuvQCPA/610e36XBP8J4kTK0UZRu4eR8JzprZclgFHi', 'profesor', 'JOSEP LLUIS B C'),
+(7, '011973418Z', '$2y$12$6.IX3/ayvDQ4RjCqRIqQhOHxAfypCzOdahLpmkGlhPVyJsmpoD/Re', 'profesor', 'GABRIEL C A'),
+(8, '012855339X', '$2y$12$2XbpYLGRhCs1MOo9gUUjPu7AiquoCU1AOmqz.wLsPynx3bV6sGAX6', 'profesor', 'ANGELES B C'),
+(9, '012905318D', '$2y$12$zs82wsiYnDzzDSf9maD1beTjSvQCc.yxQTf.Ijt9/YpsmWYk2uS1S', 'profesor', 'JOSE VICENTE G B'),
+(10, '012950628N', '$2y$12$NVpzIuzDIFzSgZTuzDnnLuWEFUjH72Y/l5vQuhZv5wMZbBxyHxiAe', 'profesor', 'PASCUAL MIGUEL P B'),
+(11, '012951758W', '$2y$12$geSo5dmoaWgkd7BzXg4GmuMuwBq.Gqr9pR9ZDd7WS7CqEMkIM9RaG', 'profesor', 'PERE F G'),
+(12, '012986535F', '$2y$12$kMDDPB3kZOBLAFTl6X9/neW5NQJliEDDRXSyJQx.kUSHKBxrgEPE.', 'profesor', 'YOLANDA G M'),
+(13, '013906018J', '$2y$12$zmye4Et6zNU7rjLg97oZLONgAqYiiq5pKJRqTQ56Ma5rvi2yOpHg6', 'profesor', 'JOSEP ENRIC E A'),
+(14, '013928518A', '$2y$12$AiAtXiSGS.6ttKhMzTWJNO8gpZZoVdaiorJhS9A9UXlSQNNkjShza', 'profesor', 'OLGA S D'),
+(15, '013931868S', '$2y$12$UhON7FOvxi8DHXT1TLagDenAvFXRqB11RCC9addCPguNhPEL7vVwi', 'profesor', 'ELOY F R'),
+(16, '013962048R', '$2y$12$xqOEn1GSwuUAtXfm0/F7M.zRE6SOjoOYFNvlTz3fvuji/a6wCwYei', 'profesor', 'VICENTA N B'),
+(17, '014919208N', '$2y$12$wne7I6TiAqWQEV3r92fhcezps3mGTnz/69GG8YcfPVmavnkXuRUC.', 'profesor', 'FRANCESC D M'),
+(18, '014985308L', '$2y$12$VrNEdTb7tUft4gNV58lVb.p0ggJW7tmCMsvDjuNBRbKm9AuouBAgG', 'profesor', 'CARME A H'),
+(19, '015965468J', '$2y$12$Ad6X91DKeS5B28zzXbXRNuanSIg3m7sUr2BsPuiRO/OW1VVWcU4ci', 'profesor', 'NURIA C S'),
+(20, '016910908H', '$2y$12$Yi.4IcNKMPlcDlRl6P97vOoURpikjnp1DeKw4uPMFE0hcnVUG0rya', 'profesor', 'JAVIER M B'),
+(21, '016946918A', '$2y$12$FIm./qZMjVWpnIUiKJuDDO/zUj1xoHri4MXzuyncaxlR0yaDCJ4dy', 'profesor', 'MARIA NIEVES M F'),
+(22, '016976848Q', '$2y$10$AOqYxmECkmnXQ/lfuwHiluyjN4s.xpUMQzm.XY0XbKS3cpMQ.Gdpq', 'profesor', 'Esther S O'),
+(23, '017050149N', '$2y$12$cwBIH7bPshvhUxgImbfvk.codih3ntt3TFQjgo4K.YuVqC2fYgKGC', 'profesor', 'MARIA JESUS C G'),
+(24, '017911348P', '$2y$12$tRdFpIEG7qrImgqPqMfGluvhDAX57GDOEcd5xac5QlpI/EvHLvw1S', 'profesor', 'QUEREMON R G'),
+(25, '017959408Z', '$2y$12$KDjSO5er5O6oLgv/lav0quMjvdGtmDqAqkancXwL4Qqh9Kyw8zq7u', 'profesor', 'MARIA DE BEGOÑA E C'),
+(26, '019080189D', '$2y$12$yMPP092JCShuKyJD7VepV.4F9rZThO7.NPNXDkYH4gWofOM8ZxuDi', 'profesor', 'MONICA G A'),
+(27, '019825419Z', '$2y$12$lDExhEfc3TrRL0bX2A5lSeDgPn86SFVtpE00cQPlXoEZ0BiA1QY8K', 'profesor', 'ASENSIO M S'),
+(28, '019900748V', '$2y$12$UDW.vQHs/vHNEvrvEPrwMuvc5BUX5VNoA1pD4jwWzxx3TvI2fatfi', 'profesor', 'JESUS A M'),
+(29, '020446640M', '$2y$12$shr1A.Y7vU/k3YhWdZg/WOfLAh1JqgAcCRDvwHuWvzMGkfM/ioyju', 'profesor', 'SILVIA MERCEDES Q I'),
+(30, '022615771H', '$2y$12$SWtFsAiJBnYlWS79IhEA1.UZ0BjksalqxECdUSH9WXovpPU4bTl7i', 'profesor', 'RUT A H'),
+(31, '023440660P', '$2y$12$EG.R7jeEJOsS25t4ArasxeMtghmF.hK5R0NyJxtv681G7xHivLMWi', 'profesor', 'JOSE V R'),
+(32, '024163252T', '$2y$12$xOfP6LyYHHwgNrFaeA3H5.xynLwNABnBWiWkPJlOaLTDn1Q.vZDsO', 'profesor', 'HECTOR ANTONIO G A'),
+(33, '024389784E', '$2y$12$APCFUPZ/DuAZB.YMkdXHreF49Adw945MO3SMuO2cx1CuDTW/L4hfq', 'profesor', 'ISABEL M R'),
+(34, '024453065H', '$2y$12$4EdXKVcrM3MvvWmcyX.PJusk8vyHNkXItHLbLxftVu3gLweNhAOH.', 'profesor', 'IGNACIO S A'),
+(35, '025347434A', '$2y$12$.2uKFFTWVlQGGbqpv/s/0OZF.ysTHPJBJ0i86Fb3kjnrm7e/10uYC', 'profesor', 'MARIA DEL CARMEN L G'),
+(36, '025470191A', '$2y$12$0hI5Se6mOg4oqlbMDY9fYOqbdHLWSfYQ/YWzZpOrkRcvjVQUxTp3a', 'profesor', 'SACRAMENTO T R'),
+(37, '026577702D', '$2y$12$QYl1gQSRRr/24TyejAjHgOzmISXoLwegJOp5w/lR7rBTehZKQFbvG', 'profesor', 'ALEJANDRO T Z'),
+(38, '026715900R', '$2y$12$jPQNhchAVi9Jpeeusv6qIuqfLejKVYBPxB7IZvzLS8iefkcPaqc5O', 'profesor', 'FRANK F. W L'),
+(39, '027246470Z', '$2y$12$Ch4it6uZr2Q59MkUw0PB0ehRKwphpZbDFcPn3e5SC7VCaYV6IuSYC', 'profesor', 'MARIA J P'),
+(40, '028203430W', '$2y$12$5xpn3tImufCZwCSVwyiWT.BUnRjCCpFTobmfV6APqLwlW5n9oBxAW', 'profesor', 'SOFIA P P'),
+(41, '028301344S', '$2y$12$z.SpmKHD0ZtfXG0ZaPChPuPk1c/rEh67tqs/qLdng023/thVLdjny', 'profesor', 'BEGOÑA F S'),
+(42, '028376971Q', '$2y$12$fskuDOBuMw1XhfTBHCe5oOOJTwrMJkJP/0XucjLzCzQ3zL22BGlXq', 'profesor', 'MIGUEL G H'),
+(43, '029218450V', '$2y$12$93LmVWzjvdw8xvxkrZ6T3.3S7kkgL9CjrEIvcYAOeqwV8Q75df78S', 'profesor', 'JORGE R M'),
+(44, '031478003M', '$2y$12$K.gAIjKE4m4au105CMonW.TtHa3o35ikgMeUMbq5.SjjVbHMGo4Lu', 'profesor', 'EVA V B'),
+(45, '033580118G', '$2y$12$/FeUbPKszjrazg.SwFG9Fu.LmVwcxwrywuQq3cDx7DkLtj8kpbGnK', 'profesor', 'AURORA E M'),
+(46, '039660939E', '$2y$12$EDqF25Mf9B/C/WQiYcugEuwi1bQwi9eO/PHf8HeTMsaj6C7fH0zGe', 'profesor', 'JAVIER A E'),
+(47, '041346258R', '$2y$12$SlPuwN98a3sSAQarnONEAOF2FBRNPdaAOWcmyMoax.nTtEEuimqB2', 'profesor', 'ANA U P'),
+(48, '045760203C', '$2y$12$vjF/g891aDvui3xQ1.v3Ae82SkYVqovA2IiR9O2om37HhioEDRp0G', 'profesor', 'NURIA P G'),
+(49, '045989240B', '$2y$12$mxjvtjo7iqrww1yDziWEkekY5PVFC2MvVlwhBh34hDlUH.MfJcni.', 'profesor', 'FERRAN JOSEP R P'),
+(50, '046417441L', '$2y$12$.YC16Da6281saS7WQqnhluNmWjIdJtw.6eA.S5oh.I2S03CYXLeDm', 'profesor', 'MARIA FRANCISCA M A'),
+(51, '046730283P', '$2y$12$JUp8Ltt7potnoh2rijDHxueCjbfoCT7wtiAGn/ilYqUqsQ7Pw2BBu', 'profesor', 'ALEIX C M'),
+(52, '047397438M', '$2y$12$a6tAW2VeyoU2Rp8C4Pf6buGZpxNI1XtHBfkld8orfiKk.pttdlulO', 'profesor', 'DANIEL M M'),
+(53, '047928150S', '$2y$12$aeXBj9e0Ahs5.GyG.clyf.XntkKYVM2DvoN5FAtM.se.RdP/8DRBa', 'profesor', 'JOSE RAMON M G'),
+(54, '054309783V', '$2y$12$K4Diz4PdMchU3q/RTTzM.utFXJWO4Ap7n7wBTMHeHuBqTlWdVr/y2', 'profesor', 'AGUSTIN G B'),
+(55, '055742962J', '$2y$12$w0giNAomfifP0bSkLWLKPeLZFdUpucwc6tg0Ak1jy.MsHWKWuAQEi', 'profesor', 'SUSANA N P'),
+(56, '059603111F', '$2y$12$FiKdegqNa.eGZg241WmHae/zrpMgJ5vmHvi1ioq.2L0MqQ/vhS/ku', 'profesor', 'JOSE ANTONIO P O'),
+(57, '070094824B', '$2y$12$apHDYVHXC8C6o/wURr8yYOnrRVMLxLiRLHo47E.WfbsQy564.8/q6', 'profesor', 'ANTONIO B P'),
+(58, '070374673Z', '$2y$12$XnPNnED2KDhMmT9gPLDwgu65Hk9os/PyFcPGuAfVj4gFt/1rgnABm', 'profesor', 'SANTIAGO M F'),
+(59, '070391913Z', '$2y$12$8GeQoQBS//BPs9CvQxEZXeZc3RyVI76a4qQXUOmizL6qsMIFwd/BK', 'profesor', 'LIDIA C R'),
+(60, '072516423B', '$2y$12$OaGaqZXPE1AM8rMisu/MG.MnnnP.RgN1oFQuH5IKwru1ZYpY1a7u2', 'profesor', 'MARIA ISABEL C O'),
+(61, '075035864L', '$2y$12$.3BfwOh6mnDd4YkCeRwlGuxgJGprgRSD1LLZj/z8/iaeVmx799Wwq', 'profesor', 'ANTONIO C S'),
+(62, '075345863D', '$2y$12$OH6NXFl2HrZPKxsNaGsKWevgEAvrKBWg1PHfx/c66b6wCTdNlnr62', 'profesor', 'ROSA MARIA P S'),
+(63, '076304893C', '$2y$12$acKexwgdGW7KIRScI7eThO5XpWwUXWWYOgoSlLivYjCZm8dmXCKqW', 'profesor', 'DIEGO A P'),
+(64, '076335803B', '$2y$12$83NchOqwfBF3PUhw..CJyu0gIo8VKnevXY5FAvK1sYLqRqqbWCYHq', 'profesor', 'JOSE MIGUEL F P'),
+(65, '078229283W', '$2y$12$S5EK0D.xPHGxE0JtHMHPeu8gQOAZNniZO2wGFfVn9E.a2PQrW8eQu', 'profesor', 'JOSE O L'),
+(66, '078308873T', '$2y$12$897nRkaRnQGe48MdSjWZdeEeSmMM1Y9D2NeT9zIOY0WXfGMm2XKbC', 'profesor', 'JOSE MANUEL L R'),
+(67, '078395783P', '$2y$12$3jz80c.z2oP7g89JaoI3zuddHC7fWDsmoBKU3/VnWlVBa41K0l4S2', 'profesor', 'M. TERESA R G'),
+(68, '078399623C', '$2y$12$2JSPKsZaTbK7zIMVxJmQ0eTLJ25wjDGV.lPdA1wE3oSSaCMArUxIu', 'profesor', 'JUAN F B'),
+(69, '079320803C', '$2y$12$TwOC5QfUoQYZHik6tXxUQuRxgmzTSfO5RSbjnCFSUcMkx6z5QG8FG', 'profesor', 'MANUEL S O'),
+(70, '079351863T', '$2y$12$iFiG3/REa8IA7kyoH7fJRupw.hUWjWmr1h2Mkj7O4yBedfBAUGOIS', 'profesor', 'MERCEDES DEL CARMEN J E'),
+(71, 'X09610120P', '$2y$12$hFzf8D9qZAdkGZiSDE6EbeYHPzA2aLL5djc.KU/N4yz1rVodTguQy', 'profesor', 'EMILIE B  ');
 
 --
 -- Índices para tablas volcadas
@@ -3310,7 +3326,8 @@ ALTER TABLE `aules`
 -- Indices de la tabla `ausencias`
 --
 ALTER TABLE `ausencias`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `fecha` (`fecha`,`document_cubierto`,`sesion`,`grupo`,`aula`,`document`);
 
 --
 -- Indices de la tabla `continguts`
@@ -3365,7 +3382,7 @@ ALTER TABLE `plantilles_horari`
 --
 ALTER TABLE `registro_guardias`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `fecha` (`fecha`,`docente_ausente`,`sesion_orden`);
+  ADD UNIQUE KEY `fecha_2` (`fecha`,`docente_ausente`,`sesion_orden`,`grupo`,`aula`);
 
 --
 -- Indices de la tabla `registro_jornada`
@@ -3393,7 +3410,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `ausencias`
 --
 ALTER TABLE `ausencias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=265;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
 
 --
 -- AUTO_INCREMENT de la tabla `horari_grup`
@@ -3411,19 +3428,19 @@ ALTER TABLE `horari_ocupacions`
 -- AUTO_INCREMENT de la tabla `mensajes`
 --
 ALTER TABLE `mensajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_guardias`
 --
 ALTER TABLE `registro_guardias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_jornada`
 --
 ALTER TABLE `registro_jornada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `sessions_horari`
