@@ -149,7 +149,11 @@ $fecha     = $_SESSION["fechaAusencia"];
     <?php else: ?>
       <div class="alert alert-info mt-4 text-center mx-auto" style="max-width: 600px;">
         Hoy no tienes sesiones asignadas.
+        
       </div>
+      <div class="mt-4 text-center">
+    <a href="registroAusencias.php" class="btn btn-secondary">⬅️ Volver</a>
+  </div>
     <?php endif; ?>
   </main>
 <!--@section footer
