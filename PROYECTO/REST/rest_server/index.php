@@ -619,8 +619,7 @@ elseif ($metodo === 'POST') {
         ";
 
         $resultadoAsignar = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
-    
-        if ($resultado === false) {
+        if ($resultadoAsignar === false) {
             echo json_encode(["error" => "Error al marcar la guardia como cubierta"]);
             exit;
         }
