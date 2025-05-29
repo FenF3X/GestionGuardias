@@ -18,7 +18,7 @@ DEFINE("SERVIDOR", "localhost");    // Dirección del servidor MySQL
 DEFINE("USER", "root");             // Usuario de acceso
 DEFINE("PASSWD", "");               // Contraseña
 DEFINE("BASE_DATOS", "guardias");   // Nombre de la base de datos
-
+DEFINE("JWT_SECRET_KEY", "AsistGuardSave25");         
 /**
  * Función que realiza una conexión a la base de datos, ejecuta una consulta SQL
  * y devuelve el resultado según el tipo de operación (SELECT, INSERT, etc.).
