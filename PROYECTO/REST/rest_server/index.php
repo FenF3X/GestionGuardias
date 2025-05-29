@@ -352,7 +352,6 @@ foreach ($tipos_filtrados as $tipo) {
 elseif ($metodo === 'POST') {
     
     $data = json_decode(file_get_contents("php://input"), true);
-    $data = filter_var_array($data, FILTER_SANITIZE_SPECIAL_CHARS);
 
     if (isset($data['accion'])) {
         $accion = filter_var($data['accion'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -372,10 +371,10 @@ elseif ($metodo === 'POST') {
     */
     if ($accion === "ficharEntrada" || $accion === "ficharSalida") {
 
-        $document = $_POST['document'] ?? null;         
+        $document = filter_input(INPUT_POST, "document", FILTER_SANITIZE_SPECIAL_CHARS);
         $fecha = date('Y-m-d');  
-        $hora_entrada = $_POST['hora_entrada'] ?? null;
-        $hora_salida = $_POST['hora_salida'] ?? null;
+        $hora_entrada = filter_input(INPUT_POST, "hora_entrada", FILTER_SANITIZE_SPECIAL_CHARS);
+        $hora_salida = filter_input(INPUT_POST, "hora_salida", FILTER_SANITIZE_SPECIAL_CHARS);
 
         if ($document) {
             if ($accion === "ficharEntrada") {
@@ -487,8 +486,8 @@ elseif ($metodo === 'POST') {
     */
 
     elseif ($accion === "verSesiones") {
-        $document = $_POST['document'];
-        $dia = $_POST['dia'];
+        $document = filter_input(INPUT_POST, "document", FILTER_SANITIZE_SPECIAL_CHARS);
+        $dia = filter_input(INPUT_POST, "dia", FILTER_SANITIZE_SPECIAL_CHARS);
 
         $sql = "SELECT 
             hg.dia_setmana,
@@ -526,14 +525,13 @@ elseif ($metodo === 'POST') {
     */
     elseif ($accion === "registrarAusencia") {
     
-        $data = json_decode(file_get_contents("php://input"), true);
-    
-        $fecha = $data['fecha'] ?? null;
-        $document = $data['document'] ?? null;
-        $justificada = $data['justificada'] ?? null;
-        $jornada_completa = $data['jornada_completa'] ?? null;
+       $data = json_decode(file_get_contents("php://input"), true);
+
+        $fecha             = isset($data['fecha']) ? filter_var($data['fecha'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $document          = isset($data['document']) ? filter_var($data['document'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $justificada       = isset($data['justificada']) ? filter_var($data['justificada'], FILTER_VALIDATE_BOOLEAN) : null;
+        $jornada_completa  = isset($data['jornada_completa']) ? filter_var($data['jornada_completa'], FILTER_VALIDATE_BOOLEAN) : null;
         $sesionesSeleccionadas = $data['sesiones'] ?? [];
-    
         $resultadoIn = true;
         $sqlNombre = "SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2) 
             AS nombreProfe 
@@ -545,8 +543,9 @@ elseif ($metodo === 'POST') {
     
         if (!empty($sesionesSeleccionadas)) {
             foreach ($sesionesSeleccionadas as $sesionJson) {
-                $sesion = json_decode($sesionJson, true);
-    
+                $sesionSinFiltro = json_decode($sesionJson, true);
+                $sesion = array_map(fn($valor) => filter_var($valor, FILTER_SANITIZE_SPECIAL_CHARS), $sesionSinFiltro);
+                error_log("Sesión procesada: " . print_r($sesion,true));
                 if (!is_array($sesion) || count($sesion) < 7) {
                     $resultadoIn = false;
                     break;
@@ -583,7 +582,7 @@ elseif ($metodo === 'POST') {
                 
                 echo json_encode(["exito" => "Entrada registrada correctamente"]);
             } else {
-                error_log("Error en la inserción");
+                error_log("Error en la inserción:" . $resultadoConsulta);
                 echo json_encode(["error" => "Error al registrar la entrada"]);
             }
         } else {

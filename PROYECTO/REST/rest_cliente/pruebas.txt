@@ -1,0 +1,16 @@
+[29-May-2025 07:44:06 Europe/Berlin] Error del servidor: Error al registrar la entrada
+[29-May-2025 07:46:31 Europe/Berlin] Error del servidor: Error al registrar la entrada
+[29-May-2025 07:49:05 Europe/Berlin] Respuesta inválida del backend: 
+<br />
+<b>Warning</b>:  Undefined variable $resultadoConsulta in <b>C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\index.php</b> on line <b>589</b><br />
+{"error":"Error al registrar la entrada"}
+[29-May-2025 08:00:26 Europe/Berlin] Respuesta inválida del backend: 
+<br />
+<b>Fatal error</b>:  Uncaught TypeError: array_map(): Argument #2 ($array) must be of type array, string given in C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\index.php:535
+Stack trace:
+#0 C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\index.php(535): array_map(Object(Closure), '[&quot;J&quot;,&quot;10:00&quot;,&quot;1...')
+#1 [internal function]: {closure}('[&quot;J&quot;,&quot;10:00&quot;,&quot;1...')
+#2 C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\index.php(534): array_map(Object(Closure), Array)
+#3 {main}
+  thrown in <b>C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\rest_server\index.php</b> on line <b>535</b><br />
+
