@@ -19,10 +19,10 @@
 
 include("config.php"); 
 
-// Asegúrate de incluir el autoload de Composer para cargar JWT
-require_once __DIR__ . '/../vendor/autoload.php'; // Ajusta la ruta si es necesario
+require_once __DIR__ . '/../vendor/autoload.php'; 
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 // Obtener el método de la petición (GET, POST, PUT, DELETE...)
 $metodo = $_SERVER['REQUEST_METHOD'];
@@ -30,6 +30,40 @@ $metodo = $_SERVER['REQUEST_METHOD'];
 // Obtener el recurso solicitado (ruta completa)
 $recurso = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
 
+$inputJSON = file_get_contents("php://input");
+$datos = json_decode($inputJSON, true) ?? [];
+
+//Recuperar todas las acciones que puedan recibirse como petición
+$accion = $_GET['accion']
+       ?? $_POST['accion']
+       ?? ($datos['accion'] ?? '');
+
+//Acciones públicas que no requieren autenticación
+$acciones_publicas = ['InicioSesion'];
+
+// Verificar si la acción es una publica o viene en una petición 
+if (!in_array($accion, $acciones_publicas)) {
+    $headers = getallheaders();
+    $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? null;
+
+    if (!$authHeader || !preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+        http_response_code(401);
+        echo json_encode(["error" => "Token no proporcionado o malformado"]);
+        exit;
+    }
+
+    $token = $matches[1];
+
+    try {
+        $datosToken = JWT::decode($token, new Key(JWT_SECRET_KEY, 'HS256'));
+
+
+    } catch (Exception $e) {
+        http_response_code(401);
+        echo json_encode(["error" => "Token inválido: " . $e->getMessage()]);
+        exit;
+    }
+}
     // =====================================
     // PETICIONES **GET**
     // =====================================
@@ -369,10 +403,10 @@ foreach ($tipos_filtrados as $tipo) {
     // =====================================
 elseif ($metodo === 'POST') {
     
-    $data = json_decode(file_get_contents("php://input"), true);
+    $datos = json_decode(file_get_contents("php://input"), true);
 
-    if (isset($data['accion'])) {
-        $accion = filter_var($data['accion'], FILTER_SANITIZE_SPECIAL_CHARS);
+    if (isset($datos['accion'])) {
+        $accion = filter_var($datos['accion'], FILTER_SANITIZE_SPECIAL_CHARS);
     } else {
         $accion = filter_input(INPUT_POST, "accion", FILTER_SANITIZE_SPECIAL_CHARS);
     }
@@ -543,13 +577,13 @@ elseif ($metodo === 'POST') {
     */
     elseif ($accion === "registrarAusencia") {
     
-       $data = json_decode(file_get_contents("php://input"), true);
+       $datos = json_decode(file_get_contents("php://input"), true);
 
-        $fecha             = isset($data['fecha']) ? filter_var($data['fecha'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-        $document          = isset($data['document']) ? filter_var($data['document'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-        $justificada       = isset($data['justificada']) ? filter_var($data['justificada'], FILTER_VALIDATE_BOOLEAN) : null;
-        $jornada_completa  = isset($data['jornada_completa']) ? filter_var($data['jornada_completa'], FILTER_VALIDATE_BOOLEAN) : null;
-        $sesionesSeleccionadas = $data['sesiones'] ?? [];
+        $fecha             = isset($datos['fecha']) ? filter_var($datos['fecha'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $document          = isset($datos['document']) ? filter_var($datos['document'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $justificada       = isset($datos['justificada']) ? filter_var($datos['justificada'], FILTER_VALIDATE_BOOLEAN) : null;
+        $jornada_completa  = isset($datos['jornada_completa']) ? filter_var($datos['jornada_completa'], FILTER_VALIDATE_BOOLEAN) : null;
+        $sesionesSeleccionadas = $datos['sesiones'] ?? [];
         $resultadoIn = true;
         $sqlNombre = "SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2) 
             AS nombreProfe 
