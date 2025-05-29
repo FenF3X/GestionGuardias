@@ -700,9 +700,9 @@ elseif ($metodo === 'POST') {
     * @return JSON             Lista de asistencias
     */
     elseif ($accion === 'consultarAsistencia') {
-        $documento = $_POST['document'] ?? null;
-        $fecha = $_POST['fecha'] ?? null;
-        $mes = $_POST['mes'] ?? null;
+        $documento = filter_input(INPUT_POST, 'document', FILTER_SANITIZE_SPECIAL_CHARS) ?? null;
+        $fecha = filter_input(INPUT_POST, 'fecha', FILTER_SANITIZE_SPECIAL_CHARS) ?? null;
+        $mes = filter_input(INPUT_POST, 'mes', FILTER_SANITIZE_SPECIAL_CHARS) ?? null;
     
         $condiciones = [];
         
@@ -747,7 +747,7 @@ elseif ($metodo === 'POST') {
     * @return JSON             Lista de conversaciones con último mensaje
     */
     elseif ($accion === "consultaProfesEscritos") {
-        $doc = $_POST['documento'];
+        $doc = filter_input(INPUT_POST, "documento", FILTER_SANITIZE_SPECIAL_CHARS);
         $sql = "SELECT DISTINCT *
             FROM (
                 SELECT DISTINCT
@@ -822,8 +822,8 @@ elseif ($metodo === 'POST') {
     * @return JSON             Lista de mensajes
     */
     elseif ($accion === "consultaMensajes") {
-        $docent_emisor   = $_POST['emisor'];
-        $docent_receptor = $_POST['receptor'];
+        $docent_emisor   = filter_input(INPUT_POST, 'emisor', FILTER_SANITIZE_SPECIAL_CHARS);
+        $docent_receptor = filter_input(INPUT_POST, 'receptor', FILTER_SANITIZE_SPECIAL_CHARS);
     
         $sql = "SELECT docent_emisor, mensaje, fecha, hora, leido
             FROM mensajes
@@ -888,11 +888,11 @@ elseif ($metodo === 'POST') {
     * @return JSON                   { success: true } o { error: string }
     */
     elseif ($accion == "enviaMensaje") {
-        $docent_emisor   = $_POST['emisor'];
-        $nombreEmisor = $_POST['nombreEmisor'];
-        $docent_receptor = $_POST['receptor'];
-        $nombreReceptor = $_POST['nombreReceptor'];
-        $mensaje         = $_POST['mensaje'];
+        $docent_emisor   = filter_input(INPUT_POST, 'emisor', FILTER_SANITIZE_SPECIAL_CHARS);
+        $nombreEmisor    = filter_input(INPUT_POST, 'nombreEmisor', FILTER_SANITIZE_SPECIAL_CHARS);
+        $docent_receptor = filter_input(INPUT_POST, 'receptor', FILTER_SANITIZE_SPECIAL_CHARS);
+        $nombreReceptor  = filter_input(INPUT_POST, 'nombreReceptor', FILTER_SANITIZE_SPECIAL_CHARS);
+        $mensaje         = filter_input(INPUT_POST, 'mensaje', FILTER_SANITIZE_SPECIAL_CHARS);
         $fecha           = date('Y-m-d');
         $hora            = date('H:i:s');  
     
@@ -918,7 +918,7 @@ elseif ($metodo === 'POST') {
     }
     elseif ($accion == "obtenerUsuario") {
 
-        $document = $_POST['document'];
+        $document = filter_input(INPUT_POST, 'document', FILTER_SANITIZE_SPECIAL_CHARS);
         $sql = "SELECT document,password,rol,nombre FROM usuarios WHERE document = '$document'";
 
         $resultado = conexion_bd(SERVIDOR, USER, PASSWD, BASE_DATOS, $sql);
@@ -937,9 +937,13 @@ elseif ($metodo === 'PUT') {
     $raw = file_get_contents('php://input');
 
     $datos = json_decode($raw, true);
+    
     if (!is_array($datos)) {
         parse_str($raw, $datos);
     }
+
+        $accion = filter_var($datos['accion'], FILTER_SANITIZE_SPECIAL_CHARS);
+    
     /**
     * Acción: EditarMensaje 
     * 
@@ -953,12 +957,12 @@ elseif ($metodo === 'PUT') {
     * 
     * @return JSON                   { exito: true } si se actualizó correctamente, false si no
     */
-    if ($datos["accion"] == "EditarMensaje") {
-        $docentEmisor       = $datos['docentEmisor']  ?? null;
-        $fecha           = $datos['fecha']         ?? null;
-        $hora            = $datos['hora']          ?? null;
-        $mensajeOriginal = $datos['mOriginal']     ?? null;
-        $mensajeEditado  = $datos['mEditado']      ?? null;
+    if ($accion == "EditarMensaje") {
+        $docentEmisor       = isset($datos['docentEmisor'])  ? filter_var($datos['docentEmisor'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $fecha              = isset($datos['fecha'])          ? filter_var($datos['fecha'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $hora               = isset($datos['hora'])           ? filter_var($datos['hora'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $mensajeOriginal    = isset($datos['mOriginal'])      ? filter_var($datos['mOriginal'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $mensajeEditado     = isset($datos['mEditado'])       ? filter_var($datos['mEditado'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
 
         $sql = "UPDATE mensajes 
             SET mensaje = '$mensajeEditado' 
@@ -976,11 +980,11 @@ elseif ($metodo === 'PUT') {
             echo json_encode(["exito" => false]);
         }
     }
-    elseif ($datos["accion"] == "actualizarDatos") {
-        $nombre = $datos['nombre'] ?? null;
-        $rol = $datos['rol'] ?? null;
-        $passwordSinCifrar = $datos['contrasena'] ?? null;
-        $documento = $datos['document'] ?? null;
+    elseif ($accion == "actualizarDatos") {
+        $nombre = isset($datos['nombre']) ? filter_var($datos['nombre'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $rol = isset($datos['rol']) ? filter_var($datos['rol'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $passwordSinCifrar = isset($datos['contrasena']) ? filter_var($datos['contrasena'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+        $documento = isset($datos['document']) ? filter_var($datos['document'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
 
         // Cifrar la contraseña
         $password = password_hash($passwordSinCifrar, PASSWORD_DEFAULT);
@@ -1006,6 +1010,7 @@ elseif ($metodo === 'DELETE') {
     if (!is_array($datos)) {
         parse_str($raw, $datos);
     }
+            $accion = filter_var($datos['accion'], FILTER_SANITIZE_SPECIAL_CHARS);
     /**
     * Acción: BorrarMensaje
     * 
@@ -1024,13 +1029,13 @@ elseif ($metodo === 'DELETE') {
     * 
     * @return JSON                   { exito: true } si se borraron, false si falló
     */
-    if ($datos["accion"] == "BorrarMensaje") {
+    if ($accion == "BorrarMensaje") {
         $wheres = [];
 
         foreach ($datos["mensajes"] as $m) {
-            $fecha   = $m['fecha'];
-            $hora    = $m['hora'];
-            $texto   = $m['mensajeOriginal'];
+            $fecha = filter_var($m['fecha'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $hora = filter_var($m['hora'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $texto = filter_var($m['mensajeOriginal'], FILTER_SANITIZE_SPECIAL_CHARS);
             $wheres[] = "(`fecha` = '$fecha' AND `hora` = '$hora' AND `mensaje` = '$texto')";
         }
         
