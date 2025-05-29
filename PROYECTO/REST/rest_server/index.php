@@ -651,9 +651,13 @@ elseif ($metodo === 'POST') {
     */
     elseif ($accion === "historialGuardias") {
 
-        $document = $_POST['document'];
-        $fecha = isset($_POST["fecha"]) ? date("Y-m-d", strtotime($_POST["fecha"])) : null;
-        $sesion = isset($_POST["hora"]) ? (int)trim($_POST["hora"]) : null;
+        $document = filter_input(INPUT_POST, "document", FILTER_SANITIZE_SPECIAL_CHARS);
+        $fecha = isset($_POST["fecha"])
+    ? filter_var(date("Y-m-d", strtotime($_POST["fecha"])), FILTER_SANITIZE_SPECIAL_CHARS)
+    : null;        
+    $sesion = isset($_POST["hora"]) 
+    ? filter_var((int)trim($_POST["hora"]), FILTER_SANITIZE_NUMBER_INT) 
+    : null;
     
         if ($fecha && $sesion) {
             $sql = "SELECT * FROM registro_guardias 
