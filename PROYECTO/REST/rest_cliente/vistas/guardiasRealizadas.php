@@ -39,7 +39,7 @@ $params = [
     'accion' => 'consultaSesiones'
 ];
     $UrlGet = URL . '?' . http_build_query($params);
-$response = curl_conexion($UrlGet,'GET');
+$response = curl_conexion($UrlGet,'GET', null, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
 $horasDisponibles = json_decode($response, TRUE);
 
 ?>

@@ -35,7 +35,7 @@ if (isset($_POST["cargar_guardias"])) {
         $params['hora'] = trim($_POST['hora']);    // Filtro por hora (sin espacios)
     }
 
-    $respuesta = curl_conexion(URL, 'POST', $params);
+    $respuesta = curl_conexion(URL, 'POST', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
     $historial = json_decode($respuesta, true);
 
     if (is_array($historial)) {

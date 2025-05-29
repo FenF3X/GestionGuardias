@@ -27,7 +27,7 @@ $params = [
 ];
 
 
-$respuesta = curl_conexion(URL, 'DELETE', $params);
+$respuesta = curl_conexion(URL, 'DELETE', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
 
 // Se decodifica la respuesta JSON
 $resp = json_decode($respuesta, true);

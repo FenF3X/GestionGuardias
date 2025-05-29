@@ -61,7 +61,7 @@ switch ($tipo) {
 // Generamos la URL con los parámetros para la petición GET
 $url = URL . '?' . http_build_query($params);
 
-$response = curl_conexion($url, 'GET');
+$response = curl_conexion($url, 'GET', null, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
 $data = json_decode($response, true);
 
 // Si hay resultados válidos, los guardamos en sesión y redirigimos a la vista de resultados

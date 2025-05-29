@@ -38,7 +38,7 @@ if ($tipoConsulta === 'fecha' && !empty($fecha)) {
     $params['mes'] = $mes;
 }
 
-$response = curl_conexion(URL, 'POST', $params);
+$response = curl_conexion(URL, 'POST', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
 $datosAsistencia = json_decode($response, true);
 
 // Guardar resultados en sesión

@@ -27,7 +27,7 @@ if (isset($_GET["cargar_guardias"])) {
    $url_get = URL . '?' . http_build_query($params_get);
 
    // Realizar la petición GET
-   $response = curl_conexion($url_get, 'GET'); // Pasamos la URL completa a curl_conexion
+   $response = curl_conexion($url_get, 'GET', null, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]); // Pasamos la URL completa a curl_conexion
 
    // Decodificar la respuesta JSON
    $guardiasPen = json_decode($response, true);
@@ -57,7 +57,8 @@ if (isset($_GET["cargar_guardias"])) {
 
     // Convertimos los datos a JSON y añadimos el header
     $response = curl_conexion(URL, 'POST', json_encode($params), [
-        'Content-Type: application/json'
+        'Content-Type: application/json',
+        "Authorization: Bearer " . ($_SESSION['token'] ?? '')
     ]);
 
     $resp = json_decode($response, true);

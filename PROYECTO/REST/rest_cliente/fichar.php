@@ -36,7 +36,7 @@ if (isset($_POST['fentrada'])) {
         'accion' => 'ficharEntrada'                // Acción diferenciada
     ];
 
-    $response = curl_conexion(URL, 'POST', $params); 
+    $response = curl_conexion(URL, 'POST', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]); 
     $resp = json_decode($response, true);  
 
     // Se guarda mensaje de éxito o error en la sesión para mostrarlo después
@@ -68,7 +68,7 @@ if (isset($_POST['fsalida'])) {
         'accion' => 'ficharSalida'
     ];
 
-    $response = curl_conexion(URL, 'POST', $params); 
+    $response = curl_conexion(URL, 'POST', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]); 
     $resp = json_decode($response, true);  
 
     // Mensaje para mostrar en la vista

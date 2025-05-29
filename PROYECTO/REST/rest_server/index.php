@@ -83,7 +83,7 @@ if ($metodo === 'GET') {
      * @return JSON            Lista de sesiones del día
      */
     elseif ($accion === "verHorario") {
-        
+
         $dia = filter_input(INPUT_GET, "dia", FILTER_SANITIZE_SPECIAL_CHARS);
         if ($dia) {
             

@@ -38,7 +38,7 @@ if (!empty($_GET['document'])) {
     'accion'   => 'obtenerUsuario',
     'document' => $_GET['document']
   ];
-  $resp = curl_conexion(URL, 'POST', $params);
+  $resp = curl_conexion(URL, 'POST', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
   $datosUsuario = json_decode($resp, true);
 }
 

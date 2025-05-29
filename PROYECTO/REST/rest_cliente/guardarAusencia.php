@@ -58,7 +58,8 @@ if (isset($_POST['sesiones']) && !empty($_POST['sesiones'])) {
     ];
 
     $response = curl_conexion(URL, 'POST', json_encode($params), [
-        "Content-Type: application/json"
+        "Content-Type: application/json",
+            "Authorization: Bearer " . $_SESSION['token']
     ]);
 
     $estado = json_decode($response, true);

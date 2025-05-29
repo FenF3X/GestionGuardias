@@ -32,7 +32,7 @@ if (!$document) {
  * @var array \$profesoresEscritos Lista de profesores con mensajes previos (id, nombre, mensaje, fecha, hora).
  */
 $params = ['accion' => 'consultaProfesEscritos', 'documento' => $document];
-$resp = curl_conexion(URL, 'POST', $params);
+$resp = curl_conexion(URL, 'POST', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
 $profesoresEscritos = json_decode($resp, true);
 
 
@@ -42,7 +42,7 @@ $profesoresEscritos = json_decode($resp, true);
  * @var array \$profesores Matriz de profesores (id, nombre).
  */
 $params = ['accion' => 'consultaProfesMensaje', 'documento' => $document];
-$resp = curl_conexion(URL, 'POST', $params);
+$resp = curl_conexion(URL, 'POST', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
 $profesores = json_decode($resp, true);
 
 /**
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['mensaje'])) {
     'nombreReceptor'  => $_POST['nombreReceptor'],
     'mensaje'         => $contenido
   ];
-  curl_conexion(URL, 'POST', $params);
+  curl_conexion(URL, 'POST', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
   header('Location: chat.php?profesor=' . urlencode($_POST['nombreReceptor']));
   exit;
 }
@@ -105,7 +105,7 @@ $params = [
   'emisor'   => $document,
   'receptor' => $profesorId
 ];
-$resp = curl_conexion(URL, 'POST', $params);
+$resp = curl_conexion(URL, 'POST', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
 $mensajes = json_decode($resp, true) ?: [];
 ?>
 

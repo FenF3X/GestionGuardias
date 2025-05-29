@@ -58,7 +58,7 @@ if (isset($_POST["fecha"]) && isset($_POST["document"])) {
     ];
 
     // Realiza la petición al servidor REST
-    $response = curl_conexion(URL, 'POST', $params); 
+    $response = curl_conexion(URL, 'POST', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]); 
     $sesiones = json_decode($response, true);
 
     // Guardar las sesiones si no hay error, si no, guardar un array vacío

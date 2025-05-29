@@ -17,6 +17,8 @@
 // URL base del servidor al que se harán las peticiones
 DEFINE("URL", "http://localhost/GestionGuardias/PROYECTO/REST/rest_server/index.php");
 
+
+
 /**
  * Función que gestiona una conexión cURL con diferentes tipos de métodos.
  * 

@@ -15,7 +15,7 @@ $params = array(
     'accion' => 'actualizarDatos',
 );
 
-$response = curl_conexion(URL, 'PUT', $params);
+$response = curl_conexion(URL, 'PUT', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
 $resp = json_decode($response, true);
 
 if(isset($resp['exito']) && $resp['exito']){

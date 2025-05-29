@@ -90,7 +90,7 @@ if (isset($_GET["validar"])) {
                 'accion' => 'verHorario',       //accion diferenciada
             ];
             $url_get = URL . '?' . http_build_query($params_get);
-            $resp_get = curl_conexion($url_get, "GET");
+            $resp_get = curl_conexion($url_get, "GET", null, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
             $sesiones = json_decode($resp_get, true);
 
             // Guardar sesiones en la sesión o mostrar alerta
@@ -103,8 +103,7 @@ if (isset($_GET["validar"])) {
 
             // Obtener lista de profesores para futuras funciones
             $paramsProf = ["accion" => "consultaProfes"];
-            $respuesta = curl_conexion(URL, "POST", $paramsProf);
-            $profesores = json_decode($respuesta, true);
+            $respuesta = curl_conexion( URL, "POST", $paramsProf, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ] );            $profesores = json_decode($respuesta, true);
             /**
              * Si el backend devuelve error, se guarda en la sesión como mensaje;
              * si no, se guarda la lista de profesores para usar en otras vistas.

@@ -31,8 +31,7 @@ $params = [
     "mOriginal" => $_POST['mensajeOriginal'],       // Contenido original
     "mEditado" => $_POST['mensajeEditado']          // Nuevo contenido editado
 ];
-
-$respuesta = curl_conexion(URL, 'PUT', $params);
+$respuesta = curl_conexion(URL, 'PUT', $params, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
 
 // Se decodifica la respuesta JSON
 $resp = json_decode($respuesta, true);

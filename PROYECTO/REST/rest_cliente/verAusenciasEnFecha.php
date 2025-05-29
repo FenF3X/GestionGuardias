@@ -12,7 +12,7 @@ if (isset($_GET["cargar_guardias_porFecha"])) {
     ];
     $url_get = URL . '?' . http_build_query($params_get);
 
-    $response = curl_conexion($url_get, 'GET');
+    $response = curl_conexion($url_get, 'GET',null,[ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
     $guardiasFecha = json_decode($response, true);
 
     $_SESSION["busquedaGuardiasRealizada"] = true; 
