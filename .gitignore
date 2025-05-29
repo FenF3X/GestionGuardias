@@ -1,10 +1,2 @@
 	# Ignorar registro de accesos
 PROYECTO/REST/rest_server/registroAccesos.txt
-
-PROYECTO/REST/vendor/composer
-PROYECTO/REST/vendor/firebase
-
-C:\xampp\htdocs\GestionGuardias\composer.json
-C:\xampp\htdocs\GestionGuardias\composer.lock
-# Ignorar directorio de vendor
-C:\xampp\htdocs\GestionGuardias\PROYECTO\REST\vendor

@@ -70,7 +70,7 @@ if (isset($_GET["validar"])) {
             $_SESSION["nombre"] = $resp["nombre"];
             $_SESSION["document"] = $resp["document"];
             $_SESSION["rol"] = $resp["rol"];
-
+            $_SESSION["token"] = $resp["token"];
             // Obtener el día actual (en formato letra)
             $dayMap = [
                 'Monday'    => 'L',

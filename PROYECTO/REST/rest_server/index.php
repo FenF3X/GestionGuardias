@@ -19,6 +19,11 @@
 
 include("config.php"); 
 
+// Asegúrate de incluir el autoload de Composer para cargar JWT
+require_once __DIR__ . '/../vendor/autoload.php'; // Ajusta la ruta si es necesario
+
+use Firebase\JWT\JWT;
+
 // Obtener el método de la petición (GET, POST, PUT, DELETE...)
 $metodo = $_SERVER['REQUEST_METHOD'];
 
@@ -316,12 +321,25 @@ foreach ($tipos_filtrados as $tipo) {
                         fclose($archivo);                     
                     } else {                         
                         error_log("Error al abrir el archivo");                     
-                    }                     
+                    }                                       
+
+                    //** TOKEN DE USUARIO**// 
+                    $payload = [
+                        'document' => $resultado[0][1],
+                        'nombre' => $nombre_profesor,
+                        'rol' => $resultado[0][3],
+                        'iat' => time(), // Fecha de emisión
+                        'exp' => time() + (60 * 60) // Expira en 1 hora
+                    ];
+
+                    $jwt = JWT::encode($payload, JWT_SECRET_KEY, 'HS256');
+                            
                     echo json_encode(["loggeado" => true, 
                                         "nombre" => $nombre_profesor, 
                                         "document" => $resultado[0][1], 
-                                        "rol" => $resultado[0][3]
-                                    ]);                 
+                                        "rol" => $resultado[0][3],
+                                        "token" => $jwt
+                                    ]);                        
                 } 
                 else {                     
                     $fechaHora = date('d-m-Y H:i:s');                     
