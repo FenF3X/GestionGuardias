@@ -148,7 +148,8 @@ $usuarioId = $_SESSION['document'];
         <button type="submit" id="cargaGuardias" 
             name="cargar_guardias" 
             class="btn btn-primary"
-            style="background:linear-gradient(135deg, #1e3a5f, #0f1f2d);border:0;">Cargar Guardias</button>
+            style=" display: none;
+            background:linear-gradient(135deg, #1e3a5f, #0f1f2d);border:0;">Cargar Guardias</button>
         </form>
     </div>
     <?php if (!empty($_SESSION["guardiasPen"]) && isset($_SESSION["guardiasPen"])): ?>

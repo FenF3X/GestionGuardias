@@ -612,10 +612,10 @@ elseif ($metodo === 'POST') {
         }
     
         // Parámetros 
-        $sesionAus       = $datos["sesion"];
-        $documentAus     = $datos["documentAus"];
-        $documentCubierto= $datos["document"];
-        $cubiertoAus     = $datos["cubierto"];
+        $sesionAus       = filter_var($datos['sesion'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $documentAus     = filter_var($datos['documentAus'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $documentCubierto= filter_var($datos['document'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $cubiertoAus     = filter_var($datos['cubierto'], FILTER_SANITIZE_SPECIAL_CHARS);
 
         $sql = "
             UPDATE ausencias
