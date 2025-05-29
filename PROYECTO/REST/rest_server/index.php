@@ -33,7 +33,7 @@ if ($metodo === 'GET') {
     // Verificación del parámetro obligatorio
     // =====================================    
     
-    $document = $_GET['document'] ?? null;
+    $document = filter_input(INPUT_GET, "document", FILTER_SANITIZE_SPECIAL_CHARS);
     if (!$document) {
         echo json_encode(["error" => "documento requerido"]);
         exit;
@@ -41,7 +41,7 @@ if ($metodo === 'GET') {
     // ==========================================
     //  acción diferenciada de la misma petición
     // ==========================================
-    $accion = $_GET['accion'] ?? null;
+    $accion = filter_input(INPUT_GET,"accion", FILTER_SANITIZE_SPECIAL_CHARS);
     /**
      * Acción: consultaSesiones
      * 
@@ -78,8 +78,9 @@ if ($metodo === 'GET') {
      * @return JSON            Lista de sesiones del día
      */
     elseif ($accion === "verHorario") {
-        if (isset($_GET['dia'])) {
-            $dia = $_GET['dia'];
+        
+        $dia = filter_input(INPUT_GET, "dia", FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($dia) {
             
             $sql = "SELECT 
                 hg.dia_setmana,
@@ -140,7 +141,7 @@ if ($metodo === 'GET') {
      * @return JSON            Lista de ausencias de ese día
      */  
     elseif ($accion === "verGuardiasPorFecha") {
-        $fecha = $_GET['fecha'] ?? null;
+        $fecha = filter_input(INPUT_GET, "fecha" , FILTER_SANITIZE_SPECIAL_CHARS) ?? null;
         if (!$fecha) {
             echo json_encode(["error" => "Fecha no proporcionada"]);
             exit;
@@ -170,11 +171,16 @@ if ($metodo === 'GET') {
      * @return JSON            Datos del informe según el tipo solicitado
      */
     elseif ($accion === "generarInforme") {
-        $tipo = $_GET['tipo'] ?? [];
+$tipos = isset($_GET['tipo']) && is_array($_GET['tipo']) ? $_GET['tipo'] : [];
 
+$tipos_filtrados = array_map(function($valor) {
+    return filter_var($valor, FILTER_SANITIZE_SPECIAL_CHARS);
+}, $tipos);
+
+foreach ($tipos_filtrados as $tipo) {
         switch ($tipo) {
             case 'dia':
-                $fecha = $_GET['fecha'];
+        $fecha = filter_input(INPUT_GET, "fecha" , FILTER_SANITIZE_SPECIAL_CHARS);
 
                 $sql = "SELECT fecha,nombreProfe,nombreProfeReempl,
                     aula, grupo, asignatura, sesion_orden,dia_semana, 
@@ -183,7 +189,7 @@ if ($metodo === 'GET') {
                 ";
             break;
             case 'semana':  
-                $diaSemana = $_GET['semana'];
+                $diaSemana = filter_input(INPUT_GET, "semana" , FILTER_SANITIZE_SPECIAL_CHARS);
                 $inicioSemana = date('Y-m-d', strtotime('monday this week', strtotime($diaSemana)));
                 $finSemana = date('Y-m-d', strtotime('sunday this week', strtotime($diaSemana)));
 
@@ -195,7 +201,7 @@ if ($metodo === 'GET') {
                 ";
             break;
             case 'mes':
-                $mes = $_GET['mes'];
+                $mes = filter_input(INPUT_GET, "mes" , FILTER_SANITIZE_SPECIAL_CHARS);
                 $sql = "SELECT fecha,nombreProfe,nombreProfeReempl, 
                     aula, grupo, asignatura, sesion_orden,dia_semana, 
                     CONCAT(hora_inicio, '--', hora_fin),total_guardias
@@ -204,8 +210,8 @@ if ($metodo === 'GET') {
                 ";
             break;
             case 'plazo':
-                $inicio = $_GET['plazoInicio'];
-                $fin = $_GET['plazoFin'];
+                $inicio = filter_input(INPUT_GET, "plazoInicio" , FILTER_SANITIZE_SPECIAL_CHARS);
+                $fin = filter_input(INPUT_GET, "plazoFin" , FILTER_SANITIZE_SPECIAL_CHARS);
 
                 $sql = "SELECT fecha,nombreProfe, nombreProfeReempl,
                 aula, grupo, asignatura, sesion_orden,dia_semana,
@@ -215,7 +221,7 @@ if ($metodo === 'GET') {
             ";
             break;
             case 'trimestre':
-                $trimestre = $_GET['trimestre'] ?? '';
+                $trimestre = filter_input(INPUT_GET, "trimestre" , FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
 
                 if ($trimestre == 1) {
                     $inicio = "2024-09-09";
@@ -236,7 +242,7 @@ if ($metodo === 'GET') {
                 ";
             break;
             case 'docent':
-                $docente = $_GET['docente'] ?? '';
+                $docente = filter_input(INPUT_GET, "docente" , FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
 
                 $sql = "SELECT fecha,nombreProfe,nombreProfeReempl,
                     aula, grupo, asignatura, sesion_orden,dia_semana,
@@ -246,7 +252,7 @@ if ($metodo === 'GET') {
                 ";
             break;
             case 'curso':
-                $ano = $_GET['ano'] ?? '';
+                $ano = filter_input(INPUT_GET, "ano" , FILTER_SANITIZE_SPECIAL_CHARS) ?? '';
                 $inicio = $ano."-09-01";
                 $fin = ($ano + 1) ."-07-1";
                 $sql = "SELECT fecha,nombreProfe,nombreProfeReempl,
@@ -268,14 +274,7 @@ if ($metodo === 'GET') {
             error_log("error en la consulta");
         }
     }
-}
-    // =====================================
-    // PETICIONES **POST**
-    // =====================================
-elseif ($metodo === 'POST') {
-    $data = json_decode(file_get_contents("php://input"), true);
-    $accion = $data['accion'] ?? ($_POST['accion'] ?? null);
-
+    }
     /**
     * Acción: InicioSesion
     * 
@@ -287,8 +286,8 @@ elseif ($metodo === 'POST') {
     * @return JSON            { loggeado: bool, nombre: string, document: string, rol: string }
     */
     if ($accion === "InicioSesion") {
-        $document = $_POST['document'] ?? null;         
-        $password = $_POST['password'] ?? null;          
+        $document = $_GET['document'] ?? null;         
+        $password = $_GET['password'] ?? null;          
 
         if ($document && $password) {             
             $sql = "SELECT * FROM usuarios WHERE document = '$document'";             
@@ -346,6 +345,21 @@ elseif ($metodo === 'POST') {
             echo json_encode(["loggeado" => false, "error" => "Faltan datos del usuario"]);         
         }
     }
+}
+    // =====================================
+    // PETICIONES **POST**
+    // =====================================
+elseif ($metodo === 'POST') {
+    
+    $data = json_decode(file_get_contents("php://input"), true);
+    $data = filter_var_array($data, FILTER_SANITIZE_SPECIAL_CHARS);
+
+    if (isset($data['accion'])) {
+        $accion = filter_var($data['accion'], FILTER_SANITIZE_SPECIAL_CHARS);
+    } else {
+        $accion = filter_input(INPUT_POST, "accion", FILTER_SANITIZE_SPECIAL_CHARS);
+    }
+    
     /**
     * Acción: ficharEntrada / ficharSalida
     * 
@@ -356,7 +370,7 @@ elseif ($metodo === 'POST') {
     * @param string hora_salida    Hora de salida (solo para salida)
     * @return JSON                 { exito: string } o { error: string }
     */
-    elseif ($accion === "ficharEntrada" || $accion === "ficharSalida") {
+    if ($accion === "ficharEntrada" || $accion === "ficharSalida") {
 
         $document = $_POST['document'] ?? null;         
         $fecha = date('Y-m-d');  

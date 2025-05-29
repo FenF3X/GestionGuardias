@@ -6,7 +6,7 @@
  * 
  * Procesa el login del usuario.
  * Valida el formato de la contraseña (usando fecha de nacimiento), la sanitiza,
- * y hace una petición POST al servidor REST para comprobar las credenciales.
+ * y hace una petición GET al servidor REST para comprobar las credenciales.
  * Si es exitoso, guarda en sesión los datos del usuario, sus sesiones del día
  * y la lista de profesores. Redirige al dashboard. Si falla, vuelve al login.
  * 
@@ -20,13 +20,11 @@
 include("curl_conexion.php");
 session_start();
 
-if (isset($_POST["validar"])) {
-    if (isset($_POST["document"]) && isset($_POST["password"])) {
-
+if (isset($_GET["validar"])) {
+    if (isset($_GET["document"]) && isset($_GET["password"])) {
         // Sanear entradas
-        $document = filter_input(INPUT_POST, "document", FILTER_SANITIZE_SPECIAL_CHARS);
-        $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
-
+        $document = filter_input(INPUT_GET, "document", FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = filter_input(INPUT_GET, "password", FILTER_SANITIZE_SPECIAL_CHARS);
         // // Limpiamos la contraseña para quedarnos solo con números
         // $limpio = preg_replace('/[^0-9]/', '', $passwordInput);
 
@@ -62,7 +60,9 @@ if (isset($_POST["validar"])) {
             'password' => $password,
             'accion' => 'InicioSesion',         //accion diferenciada
         ];
-        $response = curl_conexion(URL, "POST", $params);
+
+        $url_get = URL . '?' . http_build_query($params);
+        $response = curl_conexion($url_get, "GET");
         $resp = json_decode($response, true);
 
         // Si la validación fue exitosa

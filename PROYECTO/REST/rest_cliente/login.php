@@ -39,7 +39,7 @@ unset($_SESSION["error_login"]);
             <div class="alert alert-danger text-center"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
-        <form method="POST" action="inicioSesion.php">
+        <form method="GET" action="inicioSesion.php">
             <div class="mb-3">
                 <label for="document" class="form-label">Número de documento</label>
                 <input type="text" class="form-control" id="document" name="document" placeholder="12345678Z" required>
