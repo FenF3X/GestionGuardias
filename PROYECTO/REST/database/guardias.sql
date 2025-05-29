@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-05-2025 a las 07:59:14
+-- Tiempo de generación: 29-05-2025 a las 14:45:18
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -114,7 +114,7 @@ CREATE TABLE `ausencias` (
 --
 
 INSERT INTO `ausencias` (`id`, `hora_inicio`, `hora_fin`, `dia`, `aula`, `grupo`, `asignatura`, `sesion`, `document`, `document_cubierto`, `nombreProfe`, `justificada`, `jornada_completa`, `fecha`, `cubierto`, `NombreRemp`) VALUES
-(241, '10:00:00', '10:50:00', 'J', 'A13', '1CFMI', 'Montaje y mantenimiento de equipos', '3', '011921608R', '010960328X', 'MARCOS ANTONIO O Q', 0, 1, '2025-05-08', 1, 'ANGEL A C'),
+(241, '10:00:00', '10:50:00', 'J', 'A13', '1CFMI', 'Montaje y mantenimiento de equipos', '3', '011921608R', '010960328X', 'MARCOS ANTONIO O Q', 0, 1, '2025-05-29', 1, 'ANGEL A C'),
 (242, '11:15:00', '12:05:00', 'J', 'A13', '1CFMI', 'Montaje y mantenimiento de equipos', '4', '011921608R', '010960328X', 'MARCOS ANTONIO O Q', 0, 1, '2025-05-08', 1, 'ANGEL A C'),
 (243, '18:50:00', '19:40:00', 'J', 'A04', '2CFMV', 'Sistemas operativos en red', '11', '011921608R', '010960328X', 'MARCOS ANTONIO O Q', 0, 1, '2025-05-08', 1, 'ANGEL A C'),
 (244, '20:00:00', '20:50:00', 'J', 'A04', '2CFMV', 'Sistemas operativos en red', '12', '011921608R', '016976848Q', 'MARCOS ANTONIO O Q', 0, 1, '2025-05-08', 1, 'ESTHER S O'),
@@ -140,10 +140,22 @@ INSERT INTO `ausencias` (`id`, `hora_inicio`, `hora_fin`, `dia`, `aula`, `grupo`
 (264, '08:20:00', '09:10:00', 'M', 'B11', '1ESOC', 'Geografía e Historia', '1', '012855339X', NULL, 'ANGELES B C', 0, 2, '2025-05-13', 0, NULL),
 (265, '08:20:00', '09:10:00', 'J', 'A10', '1ESOC', 'Refuerzo instrumental Valenciano', '1', '011949328W', '010960328X', 'JOSEP LLUIS B C', 0, 2, '2025-05-15', 1, 'ANGEL A C'),
 (266, '10:00:00', '10:50:00', 'J', 'A10', '1ESOB', 'Refuerzo instrumental Valenciano', '3', '011949328W', NULL, 'JOSEP LLUIS B C', 0, 2, '2025-05-15', 0, NULL),
-(267, '11:15:00', '12:05:00', 'J', 'A10', '1ESOB', 'Refuerzo instrumental Castellano', '4', '011949328W', NULL, 'JOSEP LLUIS B C', 0, 2, '2025-05-15', 0, NULL),
+(267, '11:15:00', '12:05:00', 'J', 'A10', '1ESOB', 'Refuerzo instrumental Castellano', '4', '011949328W', '010960328X', 'JOSEP LLUIS B C', 0, 2, '2025-05-15', 1, 'ANGEL A C'),
 (268, '11:15:00', '12:05:00', 'L', 'D14', '4ESOB', 'Latín', '4', '011973418Z', '010960328X', 'GABRIEL C A', 0, 1, '2025-05-26', 1, 'ANGEL A C'),
 (269, '11:15:00', '12:05:00', 'L', 'D14', '4ESOC', 'Latín', '4', '011973418Z', '010960328X', 'GABRIEL C A', 0, 1, '2025-05-26', 1, 'ANGEL A C'),
-(270, '12:05:00', '12:55:00', 'L', 'D14', '1BAHA', 'Latín I', '5', '011973418Z', '010960328X', 'GABRIEL C A', 0, 1, '2025-05-26', 1, 'ANGEL A C');
+(270, '12:05:00', '12:55:00', 'L', 'D14', '1BAHA', 'Latín I', '5', '011973418Z', '010960328X', 'GABRIEL C A', 0, 1, '2025-05-26', 1, 'ANGEL A C'),
+(271, '10:00:00', '10:50:00', 'J', 'B11', '1ESOA', 'Geografía e Historia', '3', '010969028D', NULL, 'FRANCISCO JAVIER F C', 0, 0, '2025-05-29', 0, NULL),
+(272, '11:15:00', '12:05:00', 'J', 'B11', '1ESOA', 'Geografía e Historia', '4', '010969028D', '010960328X', 'FRANCISCO JAVIER F C', 1, 0, '2025-05-29', 1, 'ANGEL A C'),
+(273, '10:00:00', '10:50:00', 'J', 'A13', '1CFMI', 'Montaje y mantenimiento de equipos', '3', '011921608R', NULL, 'MARCOS ANTONIO O Q', 0, 1, '2025-05-29', 0, NULL),
+(274, '11:15:00', '12:05:00', 'J', 'A13', '1CFMI', 'Montaje y mantenimiento de equipos', '4', '011921608R', NULL, 'MARCOS ANTONIO O Q', 0, 1, '2025-05-29', 0, NULL),
+(275, '18:50:00', '19:40:00', 'J', 'A04', '2CFMV', 'Sistemas operativos en red', '11', '011921608R', '010960328X', 'MARCOS ANTONIO O Q', 0, 1, '2025-05-29', 1, 'ANGEL A C'),
+(276, '20:00:00', '20:50:00', 'J', 'A04', '2CFMV', 'Sistemas operativos en red', '12', '011921608R', NULL, 'MARCOS ANTONIO O Q', 0, 1, '2025-05-29', 0, NULL),
+(277, '11:15:00', '12:05:00', 'J', 'A10', '1ESOB', 'Refuerzo instrumental Castellano', '4', '011949328W', '010960328X', 'JOSEP LLUIS B C', 0, 0, '2025-05-29', 1, 'ANGEL A C'),
+(278, '10:00:00', '10:50:00', 'J', 'D14', '4ESOC', 'Latín', '3', '011973418Z', '010960328X', 'GABRIEL C A', 0, 0, '2025-05-29', 1, 'ANGEL A C'),
+(279, '12:05:00', '12:55:00', 'J', 'A15', '2BAHA', 'Griego II', '5', '011973418Z', NULL, 'GABRIEL C A', 0, 0, '2025-05-29', 0, NULL),
+(280, '08:20:00', '09:10:00', 'J', 'C11', '3PMAR', 'Ámbito Científico y Matemático', '1', '011939238D', '010960328X', 'JUAN ANTONIO M B', 0, 1, '2025-05-29', 1, 'ANGEL A C'),
+(281, '09:10:00', '10:00:00', 'J', 'A15', '2BACA', 'Ciencias de la tierra y medioambien', '2', '011939238D', NULL, 'JUAN ANTONIO M B', 0, 1, '2025-05-29', 0, NULL),
+(282, '12:05:00', '12:55:00', 'J', 'C21', '3PMAR', 'Ámbito Científico y Matemático', '5', '011939238D', NULL, 'JUAN ANTONIO M B', 0, 1, '2025-05-29', 0, NULL);
 
 --
 -- Disparadores `ausencias`
@@ -2992,6 +3004,18 @@ CREATE TABLE `mensajes` (
   `total_mensajes` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
+--
+-- Volcado de datos para la tabla `mensajes`
+--
+
+INSERT INTO `mensajes` (`id`, `docent_emisor`, `nombreEmisor`, `docent_receptor`, `nombreReceptor`, `mensaje`, `fecha`, `hora`, `leido`, `total_mensajes`) VALUES
+(120, '016976848Q', 'ESTHER S O', '010960328X', 'ANGEL A C', 'hola angel habia un problema con la asignacion de guardias pero ya a sido solucionada', '2025-05-08', '11:01:40', '2025-05-08 11:02:00', 0),
+(123, '010960328X', 'ANGEL A C', '016976848Q', 'ESTHER S O', 'perfecto', '2025-05-13', '07:05:15', '2025-05-26 07:40:41', 0),
+(127, '010960328X', 'ANGEL A C', '016976848Q', 'ESTHER S O', 'esther por que no me lees los mensaje??', '2025-05-26', '07:40:10', '2025-05-26 07:40:41', 0),
+(128, '016976848Q', 'ESTHER S O', '010960328X', 'ANGEL A C', 'perdon angel no es mi intención apenas entro aquí', '2025-05-26', '07:41:04', '2025-05-26 07:41:11', 0),
+(129, '016976848Q', 'ESTHER S O', '016976848Q', 'ESTHER S O', 'holi', '2025-05-26', '07:43:44', '2025-05-26 07:43:44', 0),
+(130, '010960328X', 'ANGEL A C', '016976848Q', 'ESTHER S O', 'pues deberias hacerlo cada dia es tu obligacion', '2025-05-27', '14:29:57', NULL, 0),
+(131, '010960328X', 'ANGEL A C', '016976848Q', 'ESTHER S O', 'voy a enviar un nuevo mensaje que acabo de editar', '2025-05-29', '10:06:15', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -3071,7 +3095,13 @@ INSERT INTO `registro_guardias` (`id`, `fecha`, `docente_ausente`, `nombreProfe`
 (186, '2025-05-15', '011949328W', 'JOSEP LLUIS B C', '010960328X', 'ANGEL A C', 'A10', '1ESOC', 'Refuerzo instrumental Valenciano', 1, 'J', '08:20:00', '09:10:00', 26),
 (191, '2025-05-26', '011973418Z', 'GABRIEL C A', '010960328X', 'ANGEL A C', 'D14', '1BAHA', 'Latín I', 5, 'L', '12:05:00', '12:55:00', 27),
 (200, '2025-05-26', '011973418Z', 'GABRIEL C A', '010960328X', 'ANGEL A C', 'D14', '4ESOB', 'Latín', 4, 'L', '11:15:00', '12:05:00', 28),
-(201, '2025-05-26', '011973418Z', 'GABRIEL C A', '010960328X', 'ANGEL A C', 'D14', '4ESOC', 'Latín', 4, 'L', '11:15:00', '12:05:00', 29);
+(201, '2025-05-26', '011973418Z', 'GABRIEL C A', '010960328X', 'ANGEL A C', 'D14', '4ESOC', 'Latín', 4, 'L', '11:15:00', '12:05:00', 29),
+(202, '2025-05-29', '010969028D', 'FRANCISCO JAVIER F C', '010960328X', 'ANGEL A C', 'B11', '1ESOA', 'Geografía e Historia', 4, 'J', '11:15:00', '12:05:00', 30),
+(203, '2025-05-29', '011973418Z', 'GABRIEL C A', '010960328X', 'ANGEL A C', 'D14', '4ESOC', 'Latín', 3, 'J', '10:00:00', '10:50:00', 31),
+(204, '2025-05-15', '011949328W', 'JOSEP LLUIS B C', '010960328X', 'ANGEL A C', 'A10', '1ESOB', 'Refuerzo instrumental Castellano', 4, 'J', '11:15:00', '12:05:00', 32),
+(205, '2025-05-29', '011949328W', 'JOSEP LLUIS B C', '010960328X', 'ANGEL A C', 'A10', '1ESOB', 'Refuerzo instrumental Castellano', 4, 'J', '11:15:00', '12:05:00', 33),
+(206, '2025-05-29', '011921608R', 'MARCOS ANTONIO O Q', '010960328X', 'ANGEL A C', 'A04', '2CFMV', 'Sistemas operativos en red', 11, 'J', '18:50:00', '19:40:00', 34),
+(207, '2025-05-29', '011939238D', 'JUAN ANTONIO M B', '010960328X', 'ANGEL A C', 'C11', '3PMAR', 'Ámbito Científico y Matemático', 1, 'J', '08:20:00', '09:10:00', 35);
 
 -- --------------------------------------------------------
 
@@ -3103,7 +3133,9 @@ INSERT INTO `registro_jornada` (`id`, `document`, `fecha`, `hora_entrada`, `hora
 (30, '016976848Q', '2025-05-08', '11:01:15', NULL, 'ESTHER S O'),
 (31, '010960328X', '2025-05-12', '12:27:13', '12:27:17', 'ANGEL A C'),
 (32, '010960328X', '2025-05-15', '14:35:26', '14:35:28', 'ANGEL A C'),
-(33, '010960328X', '2025-05-26', '07:06:56', '07:07:28', 'ANGEL A C');
+(33, '010960328X', '2025-05-26', '07:06:56', '07:07:28', 'ANGEL A C'),
+(34, '010960328X', '2025-05-28', '00:21:50', NULL, 'ANGEL A C'),
+(35, '010960328X', '2025-05-29', '13:01:28', '13:01:30', 'ANGEL A C');
 
 -- --------------------------------------------------------
 
@@ -3400,7 +3432,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `ausencias`
 --
 ALTER TABLE `ausencias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=283;
 
 --
 -- AUTO_INCREMENT de la tabla `horari_grup`
@@ -3418,19 +3450,19 @@ ALTER TABLE `horari_ocupacions`
 -- AUTO_INCREMENT de la tabla `mensajes`
 --
 ALTER TABLE `mensajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_guardias`
 --
 ALTER TABLE `registro_guardias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=208;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_jornada`
 --
 ALTER TABLE `registro_jornada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `sessions_horari`
