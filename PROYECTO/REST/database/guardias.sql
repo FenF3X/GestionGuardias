@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-05-2025 a las 14:45:18
+-- Tiempo de generación: 30-05-2025 a las 07:36:40
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -144,18 +144,24 @@ INSERT INTO `ausencias` (`id`, `hora_inicio`, `hora_fin`, `dia`, `aula`, `grupo`
 (268, '11:15:00', '12:05:00', 'L', 'D14', '4ESOB', 'Latín', '4', '011973418Z', '010960328X', 'GABRIEL C A', 0, 1, '2025-05-26', 1, 'ANGEL A C'),
 (269, '11:15:00', '12:05:00', 'L', 'D14', '4ESOC', 'Latín', '4', '011973418Z', '010960328X', 'GABRIEL C A', 0, 1, '2025-05-26', 1, 'ANGEL A C'),
 (270, '12:05:00', '12:55:00', 'L', 'D14', '1BAHA', 'Latín I', '5', '011973418Z', '010960328X', 'GABRIEL C A', 0, 1, '2025-05-26', 1, 'ANGEL A C'),
-(271, '10:00:00', '10:50:00', 'J', 'B11', '1ESOA', 'Geografía e Historia', '3', '010969028D', NULL, 'FRANCISCO JAVIER F C', 0, 0, '2025-05-29', 0, NULL),
+(271, '10:00:00', '10:50:00', 'J', 'B11', '1ESOA', 'Geografía e Historia', '3', '010969028D', '016976848Q', 'FRANCISCO JAVIER F C', 0, 0, '2025-05-29', 1, 'ESTHER S O'),
 (272, '11:15:00', '12:05:00', 'J', 'B11', '1ESOA', 'Geografía e Historia', '4', '010969028D', '010960328X', 'FRANCISCO JAVIER F C', 1, 0, '2025-05-29', 1, 'ANGEL A C'),
 (273, '10:00:00', '10:50:00', 'J', 'A13', '1CFMI', 'Montaje y mantenimiento de equipos', '3', '011921608R', NULL, 'MARCOS ANTONIO O Q', 0, 1, '2025-05-29', 0, NULL),
-(274, '11:15:00', '12:05:00', 'J', 'A13', '1CFMI', 'Montaje y mantenimiento de equipos', '4', '011921608R', NULL, 'MARCOS ANTONIO O Q', 0, 1, '2025-05-29', 0, NULL),
+(274, '11:15:00', '12:05:00', 'J', 'A13', '1CFMI', 'Montaje y mantenimiento de equipos', '4', '011921608R', '010960328X', 'MARCOS ANTONIO O Q', 0, 1, '2025-05-29', 1, 'ANGEL A C'),
 (275, '18:50:00', '19:40:00', 'J', 'A04', '2CFMV', 'Sistemas operativos en red', '11', '011921608R', '010960328X', 'MARCOS ANTONIO O Q', 0, 1, '2025-05-29', 1, 'ANGEL A C'),
-(276, '20:00:00', '20:50:00', 'J', 'A04', '2CFMV', 'Sistemas operativos en red', '12', '011921608R', NULL, 'MARCOS ANTONIO O Q', 0, 1, '2025-05-29', 0, NULL),
+(276, '20:00:00', '20:50:00', 'J', 'A04', '2CFMV', 'Sistemas operativos en red', '12', '011921608R', '016976848Q', 'MARCOS ANTONIO O Q', 0, 1, '2025-05-29', 1, 'ESTHER S O'),
 (277, '11:15:00', '12:05:00', 'J', 'A10', '1ESOB', 'Refuerzo instrumental Castellano', '4', '011949328W', '010960328X', 'JOSEP LLUIS B C', 0, 0, '2025-05-29', 1, 'ANGEL A C'),
 (278, '10:00:00', '10:50:00', 'J', 'D14', '4ESOC', 'Latín', '3', '011973418Z', '010960328X', 'GABRIEL C A', 0, 0, '2025-05-29', 1, 'ANGEL A C'),
 (279, '12:05:00', '12:55:00', 'J', 'A15', '2BAHA', 'Griego II', '5', '011973418Z', NULL, 'GABRIEL C A', 0, 0, '2025-05-29', 0, NULL),
 (280, '08:20:00', '09:10:00', 'J', 'C11', '3PMAR', 'Ámbito Científico y Matemático', '1', '011939238D', '010960328X', 'JUAN ANTONIO M B', 0, 1, '2025-05-29', 1, 'ANGEL A C'),
 (281, '09:10:00', '10:00:00', 'J', 'A15', '2BACA', 'Ciencias de la tierra y medioambien', '2', '011939238D', NULL, 'JUAN ANTONIO M B', 0, 1, '2025-05-29', 0, NULL),
-(282, '12:05:00', '12:55:00', 'J', 'C21', '3PMAR', 'Ámbito Científico y Matemático', '5', '011939238D', NULL, 'JUAN ANTONIO M B', 0, 1, '2025-05-29', 0, NULL);
+(282, '12:05:00', '12:55:00', 'J', 'C21', '3PMAR', 'Ámbito Científico y Matemático', '5', '011939238D', NULL, 'JUAN ANTONIO M B', 0, 1, '2025-05-29', 0, NULL),
+(283, '16:20:00', '17:10:00', 'J', 'A18', '2CFSI', 'Servicios de Red e Internet', '8', '012950628N', NULL, 'PASCUAL MIGUEL P B', 0, 1, '2025-05-29', 0, NULL),
+(284, '17:10:00', '18:00:00', 'J', 'A18', '2CFSI', 'Servicios de Red e Internet', '9', '012950628N', NULL, 'PASCUAL MIGUEL P B', 0, 1, '2025-05-29', 0, NULL),
+(285, '08:20:00', '09:10:00', 'J', 'B02', '1ESOB', 'Geografía e Historia', '1', '012855339X', NULL, 'ANGELES B C', 0, 0, '2025-05-29', 0, NULL),
+(286, '09:10:00', '10:00:00', 'J', 'A16', '4ESOB', 'Trabajo monográfico', '2', '012855339X', NULL, 'ANGELES B C', 0, 0, '2025-05-29', 0, NULL),
+(287, '09:10:00', '10:00:00', 'V', 'D03', '2BACA', 'Historia de España', '2', '010969028D', '010960328X', 'FRANCISCO JAVIER F C', 0, 0, '2025-05-30', 1, 'ANGEL A C'),
+(288, '11:15:00', '12:05:00', 'V', 'B14', '2ESOB', 'Ciencias Sociales Geografía e Historia', '4', '010969028D', NULL, 'FRANCISCO JAVIER F C', 0, 0, '2025-05-30', 0, NULL);
 
 --
 -- Disparadores `ausencias`
@@ -3101,7 +3107,11 @@ INSERT INTO `registro_guardias` (`id`, `fecha`, `docente_ausente`, `nombreProfe`
 (204, '2025-05-15', '011949328W', 'JOSEP LLUIS B C', '010960328X', 'ANGEL A C', 'A10', '1ESOB', 'Refuerzo instrumental Castellano', 4, 'J', '11:15:00', '12:05:00', 32),
 (205, '2025-05-29', '011949328W', 'JOSEP LLUIS B C', '010960328X', 'ANGEL A C', 'A10', '1ESOB', 'Refuerzo instrumental Castellano', 4, 'J', '11:15:00', '12:05:00', 33),
 (206, '2025-05-29', '011921608R', 'MARCOS ANTONIO O Q', '010960328X', 'ANGEL A C', 'A04', '2CFMV', 'Sistemas operativos en red', 11, 'J', '18:50:00', '19:40:00', 34),
-(207, '2025-05-29', '011939238D', 'JUAN ANTONIO M B', '010960328X', 'ANGEL A C', 'C11', '3PMAR', 'Ámbito Científico y Matemático', 1, 'J', '08:20:00', '09:10:00', 35);
+(207, '2025-05-29', '011939238D', 'JUAN ANTONIO M B', '010960328X', 'ANGEL A C', 'C11', '3PMAR', 'Ámbito Científico y Matemático', 1, 'J', '08:20:00', '09:10:00', 35),
+(208, '2025-05-29', '011921608R', 'MARCOS ANTONIO O Q', '016976848Q', 'ESTHER S O', 'A04', '2CFMV', 'Sistemas operativos en red', 12, 'J', '20:00:00', '20:50:00', 2),
+(209, '2025-05-29', '010969028D', 'FRANCISCO JAVIER F C', '016976848Q', 'ESTHER S O', 'B11', '1ESOA', 'Geografía e Historia', 3, 'J', '10:00:00', '10:50:00', 3),
+(210, '2025-05-29', '011921608R', 'MARCOS ANTONIO O Q', '010960328X', 'ANGEL A C', 'A13', '1CFMI', 'Montaje y mantenimiento de equipos', 4, 'J', '11:15:00', '12:05:00', 36),
+(211, '2025-05-30', '010969028D', 'FRANCISCO JAVIER F C', '010960328X', 'ANGEL A C', 'D03', '2BACA', 'Historia de España', 2, 'V', '09:10:00', '10:00:00', 37);
 
 -- --------------------------------------------------------
 
@@ -3135,7 +3145,8 @@ INSERT INTO `registro_jornada` (`id`, `document`, `fecha`, `hora_entrada`, `hora
 (32, '010960328X', '2025-05-15', '14:35:26', '14:35:28', 'ANGEL A C'),
 (33, '010960328X', '2025-05-26', '07:06:56', '07:07:28', 'ANGEL A C'),
 (34, '010960328X', '2025-05-28', '00:21:50', NULL, 'ANGEL A C'),
-(35, '010960328X', '2025-05-29', '13:01:28', '13:01:30', 'ANGEL A C');
+(35, '010960328X', '2025-05-29', '13:01:28', '13:01:30', 'ANGEL A C'),
+(36, '010960328X', '2025-05-30', '07:13:41', '07:13:46', 'ANGEL A C');
 
 -- --------------------------------------------------------
 
@@ -3283,7 +3294,7 @@ INSERT INTO `usuarios` (`id`, `document`, `password`, `rol`, `nombre`) VALUES
 (19, '015965468J', '$2y$12$Ad6X91DKeS5B28zzXbXRNuanSIg3m7sUr2BsPuiRO/OW1VVWcU4ci', 'profesor', 'NURIA C S'),
 (20, '016910908H', '$2y$12$Yi.4IcNKMPlcDlRl6P97vOoURpikjnp1DeKw4uPMFE0hcnVUG0rya', 'profesor', 'JAVIER M B'),
 (21, '016946918A', '$2y$12$FIm./qZMjVWpnIUiKJuDDO/zUj1xoHri4MXzuyncaxlR0yaDCJ4dy', 'profesor', 'MARIA NIEVES M F'),
-(22, '016976848Q', '$2y$10$AOqYxmECkmnXQ/lfuwHiluyjN4s.xpUMQzm.XY0XbKS3cpMQ.Gdpq', 'profesor', 'Esther S O'),
+(22, '016976848Q', '$2y$10$Z90oUegNJn/VChvR2.bsK.cuFCJCD3LnxSzdkwHvPD/hQg47pqjbq', 'admin', 'ESTHER S O'),
 (23, '017050149N', '$2y$12$cwBIH7bPshvhUxgImbfvk.codih3ntt3TFQjgo4K.YuVqC2fYgKGC', 'profesor', 'MARIA JESUS C G'),
 (24, '017911348P', '$2y$12$tRdFpIEG7qrImgqPqMfGluvhDAX57GDOEcd5xac5QlpI/EvHLvw1S', 'profesor', 'QUEREMON R G'),
 (25, '017959408Z', '$2y$12$KDjSO5er5O6oLgv/lav0quMjvdGtmDqAqkancXwL4Qqh9Kyw8zq7u', 'profesor', 'MARIA DE BEGOÑA E C'),
@@ -3432,7 +3443,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `ausencias`
 --
 ALTER TABLE `ausencias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=283;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
 
 --
 -- AUTO_INCREMENT de la tabla `horari_grup`
@@ -3450,19 +3461,19 @@ ALTER TABLE `horari_ocupacions`
 -- AUTO_INCREMENT de la tabla `mensajes`
 --
 ALTER TABLE `mensajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_guardias`
 --
 ALTER TABLE `registro_guardias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=208;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=212;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_jornada`
 --
 ALTER TABLE `registro_jornada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `sessions_horari`
