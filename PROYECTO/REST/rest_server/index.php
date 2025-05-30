@@ -210,13 +210,8 @@ if ($metodo === 'GET') {
      * @return JSON            Datos del informe según el tipo solicitado
      */
     elseif ($accion === "generarInforme") {
-$tipos = isset($_GET['tipo']) && is_array($_GET['tipo']) ? $_GET['tipo'] : [];
-
-$tipos_filtrados = array_map(function($valor) {
-    return filter_var($valor, FILTER_SANITIZE_SPECIAL_CHARS);
-}, $tipos);
-
-foreach ($tipos_filtrados as $tipo) {
+        $tipo = $_GET['tipo'] ?? [];
+        error_log($tipo);
         switch ($tipo) {
             case 'dia':
         $fecha = filter_input(INPUT_GET, "fecha" , FILTER_SANITIZE_SPECIAL_CHARS);
@@ -312,7 +307,6 @@ foreach ($tipos_filtrados as $tipo) {
         }else{
             error_log("error en la consulta");
         }
-    }
     }
     /**
     * Acción: InicioSesion
@@ -597,7 +591,6 @@ elseif ($metodo === 'POST') {
             foreach ($sesionesSeleccionadas as $sesionJson) {
                 $sesionSinFiltro = json_decode($sesionJson, true);
                 $sesion = array_map(fn($valor) => filter_var($valor, FILTER_SANITIZE_SPECIAL_CHARS), $sesionSinFiltro);
-                error_log("Sesión procesada: " . print_r($sesion,true));
                 if (!is_array($sesion) || count($sesion) < 7) {
                     $resultadoIn = false;
                     break;

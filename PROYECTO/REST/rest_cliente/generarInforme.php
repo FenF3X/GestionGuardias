@@ -50,7 +50,6 @@ switch ($tipo) {
         $params['docente'] = $_GET['docent'] ?? '';
         break;
     case 'curso':
-        error_log($_GET['anoCurso']);
         $params['ano'] = trim($_GET['anoCurso']) ?? ''; 
         break;
     default:
@@ -60,9 +59,10 @@ switch ($tipo) {
 
 // Generamos la URL con los parámetros para la petición GET
 $url = URL . '?' . http_build_query($params);
-
+error_log("voy a hacer la petición a: " . $url);
 $response = curl_conexion($url, 'GET', null, [ "Authorization: Bearer " . ($_SESSION['token'] ?? '') ]);
 $data = json_decode($response, true);
+error_log("vuelvo de la petición: " . print_r($data, true));
 
 // Si hay resultados válidos, los guardamos en sesión y redirigimos a la vista de resultados
 if (!empty($data) && is_array($data)) {
