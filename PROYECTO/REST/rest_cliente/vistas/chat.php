@@ -332,13 +332,14 @@ $mensajes = json_decode($resp, true) ?: [];
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="alertModalLabel">Atención</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar" ></button>
       </div>
       <div class="modal-body" id="alertModalBody">
         <!-- Aquí irá el mensaje dinámico -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style=" border: 2px solid; 
+   background:linear-gradient(135deg, #0f1f2d, #18362f);">Aceptar</button>
       </div>
     </div>
   </div>

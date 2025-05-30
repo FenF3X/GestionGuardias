@@ -20,7 +20,6 @@
 
 session_start();
 include("curl_conexion.php");
-ini_set("error_log", __DIR__ . "/pruebas.txt");
 
 $justificada = 0;
 
