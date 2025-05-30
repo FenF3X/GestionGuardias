@@ -573,11 +573,11 @@ elseif ($metodo === 'POST') {
     
        $datos = json_decode(file_get_contents("php://input"), true);
 
-        $fecha             = isset($datos['fecha']) ? filter_var($datos['fecha'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-        $document          = isset($datos['document']) ? filter_var($datos['document'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-        $justificada       = isset($datos['justificada']) ? filter_var($datos['justificada'], FILTER_VALIDATE_BOOLEAN) : null;
-        $jornada_completa  = isset($datos['jornada_completa']) ? filter_var($datos['jornada_completa'], FILTER_VALIDATE_BOOLEAN) : null;
-        $sesionesSeleccionadas = $datos['sesiones'] ?? [];
+       $fecha = $datos['fecha'] ?? null;
+       $document = $datos['document'] ?? null;
+       $justificada = $datos['justificada'] ?? null;
+       $jornada_completa = $datos['jornada_completa'] ?? null;
+       $sesionesSeleccionadas = $datos['sesiones'] ?? [];
         $resultadoIn = true;
         $sqlNombre = "SELECT CONCAT(nom, ' ', cognom1, ' ', cognom2) 
             AS nombreProfe 
