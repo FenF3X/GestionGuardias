@@ -8,3 +8,8 @@
 30-05-2025 10:06:35 | Éxito | DNI: 016976848Q | Profesor: Esther S O | Log In(Entrada)
 30-05-2025 10:06:45 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
 30-05-2025 10:10:23 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
+04-06-2025 11:27:30 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
+04-06-2025 13:11:30 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
+04-06-2025 14:19:45 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
+05-06-2025 08:25:12 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
+05-06-2025 08:25:37 | Éxito | DNI: 010960328X | Profesor: ANGEL A C | Log In(Entrada)
