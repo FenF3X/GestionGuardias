@@ -1,2 +1,5 @@
 	# Ignorar registro de accesos
 PROYECTO/REST/rest_server/registroAccesos.txt
+
+# Ignorar archivos .aab (Android App Bundle)
+*.aab
